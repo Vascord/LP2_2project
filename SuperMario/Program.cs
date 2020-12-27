@@ -8,6 +8,7 @@ namespace SuperMario
         static void Main(string[] args)
         {
             char[,] map;
+            Player player;
 
             Level1 level = new Level1();
             map = level.map;
@@ -16,7 +17,15 @@ namespace SuperMario
             ConsoleKey ck = Console.ReadKey().Key;
             while (ck != ConsoleKey.Escape)
             {
-                //... Code for Player Movment
+                ck = Console.ReadKey().Key;
+
+                player = new Player(map, ck);
+                player.Refresh();
+                map = player.map;
+
+                //Ot = new Output(map);
+
+                //Thread.Sleep(100);
             }
         }
     }

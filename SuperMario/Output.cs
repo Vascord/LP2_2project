@@ -18,9 +18,20 @@ namespace SuperMario
                 Console.WriteLine();
                 for(int j = 0; j < map.GetLength(1); j++)
                 {
-                    Console.Write(map[i, j]);
+                    if (map[i, j] == '-')
+                    {
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.Write(" ");
+                    }                        
+                    else
+                    {
+                        Console.ResetColor();
+                        Console.Write(map[i, j]);
+                    }
+                    
                 }
             }
+            Console.ResetColor();
         }
     }
 }

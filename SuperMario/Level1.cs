@@ -33,6 +33,7 @@ namespace SuperMario
                     }
                 }
             }
+            map[5, 1] = 'M';
             Console.WriteLine(map.GetLength(1));
         }
 
