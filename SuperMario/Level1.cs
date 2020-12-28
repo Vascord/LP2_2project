@@ -1,40 +1,81 @@
 using System;
+using System.Collections.Generic;
+using CoreGameEngine;
 namespace SuperMario
 {
     public class Level1
     {
-        public char[,] map {get;}
+        int xdim = 150, ydim = 30;
+
+        int frameLenght = 100;
+
+        private Scene gameScene;
+
 
         public Level1()
         {
-            map = new char[10, 120];
-            FillMap();
+            CreateLevel();
+        }
+        private void CreateLevel()
+        {
+            // Create scene
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape };
+            gameScene = new Scene(xdim, ydim,
+                new InputHandler(quitKeys),
+                new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
+                new CollisionHandler(xdim, ydim));
+            
+            // Create quitter object
+            GameObject quitter = new GameObject("Quitter");
+            KeyObserver quitSceneKeyListener = new KeyObserver(new ConsoleKey[]
+                { ConsoleKey.Escape });
+            quitter.AddComponent(quitSceneKeyListener);
+            quitter.AddComponent(new Quitter());
+            gameScene.AddGameObject(quitter);
+
+            // Create player object
+            char[,] playerSprite =
+            {
+                { ' ', 'M', ' '},
+                { 'M', 'M', 'M'},
+                { ' ', 'M', ' '}
+            };
+            GameObject player = new GameObject("Player");
+            KeyObserver playerKeyListener = new KeyObserver(new ConsoleKey[] {
+                ConsoleKey.RightArrow,
+                ConsoleKey.Spacebar,
+                ConsoleKey.UpArrow,
+                ConsoleKey.LeftArrow});
+            player.AddComponent(playerKeyListener);
+            Position playerPos = new Position(1f, 26f, 0f);
+            player.AddComponent(playerPos);
+            player.AddComponent(new Player());
+            player.AddComponent(new ConsoleSprite(
+                playerSprite, ConsoleColor.Red, ConsoleColor.DarkGreen));
+            gameScene.AddGameObject(player);
+
+            // Create walls
+            GameObject walls = new GameObject("Walls");
+            ConsolePixel wallPixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.White);
+            Dictionary<Vector2, ConsolePixel> wallPixels =
+                new Dictionary<Vector2, ConsolePixel>();
+            for (int x = 0; x < xdim; x++)
+                wallPixels[new Vector2(x, 0)] = wallPixel;
+            for (int x = 0; x < xdim; x++)
+                wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
+            for (int y = 0; y < ydim; y++)
+                wallPixels[new Vector2(0, y)] = wallPixel;
+            for (int y = 0; y < ydim; y++)
+                wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
+            walls.AddComponent(new ConsoleSprite(wallPixels));
+            walls.AddComponent(new Position(0, 0, 1));
+            gameScene.AddGameObject(walls);
         }
 
-        private void FillMap()
+        public void Run()
         {
-            for(int i = 0; i < map.GetLength(0); i++)
-            {
-                for(int j = 0; j < map.GetLength(1); j++)
-                {
-                    if (i == 0 || i == (map.GetLength(0) - 1) || j == 0 || j == (map.GetLength(1) - 1))
-                    {
-                        map[i, j] = '-';
-                    }
-                    else if(i == 6 || i == 7 || i == 8 )
-                    {
-                        if (j != 14 && j != 15 && j != 38 && j != 39 &&
-                            j != 60 && j != 61 && j != 90 && j != 91)
-                            map[i, j] = '-';
-                    }
-                    else
-                    {
-                        map[i, j] = ' ';
-                    }
-                }
-            }
-            map[5, 1] = 'M';
-            Console.WriteLine(map.GetLength(1));
+            gameScene.GameLoop(frameLenght);
         }
 
     }

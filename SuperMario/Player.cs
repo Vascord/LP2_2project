@@ -1,76 +1,105 @@
 using System;
 using System.Threading;
+using CoreGameEngine;
+
 namespace SuperMario
 {
-    public class Player
+    public class Player : Component
     {
-        public char[,] map {get; set;}
+       private KeyObserver keyObserver;
+       private Position position;
 
-        private int playerX;
-        private int playerY;
-        private ConsoleKey ck;
-        private Output Ot;
-        public Player(char[,] map, ConsoleKey ck)
+       private bool inAir = false;
+       private int jumpFrames = 0;
+       private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
+
+        public override void Start()
         {
-            this.map = map;
-            this.ck = ck;
-
-            for(int i = 0; i < map.GetLength(0); i++)
-            {
-                for(int j = 0; j < map.GetLength(1); j++)
-                {
-                    if (map[i, j] == 'M')
-                    {
-                        playerX = j;
-                        playerY = i;
-                    }
-                }
-            }
-            Ot = new Output(map);
-
+            keyObserver = ParentGameObject.GetComponent<KeyObserver>();
+            position = ParentGameObject.GetComponent<Position>();
         }
 
-        public void Refresh()
+        public override void Update()
         {
-            switch(ck)
+            float x = position.Pos.X;
+            float y = position.Pos.Y;
+            
+            
+            if(!inAir)
             {
-                case ConsoleKey.A:
-                    if(map[playerY, playerX - 1] != '-')
+                foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
+                {
+                    switch (key)
                     {
-                        map[playerY, playerX] = ' ';
-                        map[playerY, playerX - 1] = 'M';
+                        case ConsoleKey.RightArrow:
+                            Lastkey = ConsoleKey.RightArrow;
+                            x += 1;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            Lastkey = ConsoleKey.UpArrow;
+                            break;
+                        case ConsoleKey.LeftArrow:
+                            Lastkey = ConsoleKey.LeftArrow;
+                            x -= 1;
+                            break;
+                        case ConsoleKey.Spacebar:
+                            inAir = true;
+                            break;
                     }
-                    Ot = new Output(map);    
-                break;
-                case ConsoleKey.D:
-                    if(map[playerY, playerX + 1] != '-')
-                    {
-                        map[playerY, playerX] = ' ';
-                        map[playerY, playerX + 1] = 'M';
-                    }
-                    Ot = new Output(map);       
-                break;
-                case ConsoleKey.Spacebar:
-                    map[playerY, playerX] = ' ';
-                    map[playerY - 1, playerX + 1] = 'M';
-                    Ot = new Output(map);
-                    Thread.Sleep(100);
+                }
 
-                    map[playerY - 1, playerX + 1] = ' ';
-                    map[playerY - 2, playerX + 2] = 'M';
-                    Ot = new Output(map);
-                    Thread.Sleep(100);
+                x = Math.Clamp(x, 0, ParentScene.xdim - 3);
+                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
 
-                    map[playerY - 2, playerX + 2] = ' ';
-                    map[playerY - 1, playerX + 3] = 'M';
-                    Ot = new Output(map);
-                    Thread.Sleep(100);
-
-                    map[playerY - 1, playerX + 3] = ' ';
-                    map[playerY, playerX + 4] = 'M';
-                    Ot = new Output(map);
-                break;
+                position.Pos = new Vector3(x, y, position.Pos.Z);
             }
+
+            if(inAir)
+            {
+                
+                if(jumpFrames == 0)
+                {
+                    y -= 4;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 2;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 2;
+                    jumpFrames++;
+                }
+                else if(jumpFrames == 1)
+                {
+                    y -= 3;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 2;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 2;
+                    jumpFrames++;
+                }
+                else if (jumpFrames == 2)
+                {
+                    y += 3;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 1;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 1;
+                    jumpFrames++;
+                }
+                else if(jumpFrames == 3)
+                {
+                    y += 4;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 1;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 1;
+                    jumpFrames = 0;
+                    inAir = false;
+                }
+                x = Math.Clamp(x, 0, ParentScene.xdim - 3);
+                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
+                position.Pos = new Vector3(x, y, position.Pos.Z);
+                Thread.Sleep(100);
+            }
+            
         }
     }
 }
