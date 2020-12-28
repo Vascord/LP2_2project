@@ -19,7 +19,8 @@ namespace SuperMario
         private void CreateMenu()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape };
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape,
+                ConsoleKey.Enter };
             gameScene = new Scene(xdim, ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),

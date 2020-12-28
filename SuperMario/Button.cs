@@ -38,13 +38,13 @@ namespace SuperMario
                 {
                     if(option == 0)
                     {
+                        ParentScene.Terminate();
                         Level1 level1 = new Level1();
                         level1.Run();
-                        ParentScene.Terminate();
                     }
                     else
                     {
-                        Environment.Exit(0);
+                        ParentScene.Terminate();
                     }
                 }
             }
