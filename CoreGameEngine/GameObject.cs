@@ -39,8 +39,7 @@ namespace CoreGameEngine
         };
 
         // Helper variables for the IsRenderable property
-        private bool
-            containsRenderableComponent, containsPosition, containsCollider;
+        private bool containsRenderableComponent, containsPosition, containsCollider;
 
         // The components in this game object
         private readonly ICollection<Component> components;

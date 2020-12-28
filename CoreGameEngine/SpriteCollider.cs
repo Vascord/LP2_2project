@@ -5,7 +5,18 @@ namespace CoreGameEngine
 {
     public class SpriteCollider : AbstractCollider
     {
-        public override IEnumerable<Vector2> Occupied => null; // TODO
+        public override IEnumerable<Vector2> Occupied
+        {
+            get
+            {
+                foreach(KeyValuePair<Vector2, ConsolePixel> V in sprite.Pixels)
+                {
+                    Vector2 v = V.Key;
+                    yield return new Vector2();
+                }
+            }
+        } // TODO
+
 
         private ConsoleSprite sprite;
 
@@ -16,7 +27,7 @@ namespace CoreGameEngine
             {
                 throw new InvalidOperationException(
                     $"The {nameof(SpriteCollider)} component " +
-                    "requires a {nameof(ConsoleSprite)} component");
+                    $"requires a {nameof(ConsoleSprite)} component");
             }
         }
 

@@ -7,10 +7,10 @@ namespace SuperMario
     {
         int xdim = 150, ydim = 30;
 
-        int frameLenght = 100;
+        int frameLenght = 10;
 
         private Scene gameScene;
-
+        public List<Vector2> Occupied = new List<Vector2>();
 
         public Level1()
         {
@@ -33,6 +33,80 @@ namespace SuperMario
             quitter.AddComponent(new Quitter());
             gameScene.AddGameObject(quitter);
 
+            
+
+            // Create walls
+            GameObject walls = new GameObject("Walls");
+            ConsolePixel wallPixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.DarkGray);
+            Dictionary<Vector2, ConsolePixel> wallPixels =
+                new Dictionary<Vector2, ConsolePixel>();
+            
+            GameObject obstacle = new GameObject("Obstacle");
+            ConsolePixel obstaclePixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.Green);
+            Dictionary<Vector2, ConsolePixel> obstaclePixels =
+                new Dictionary<Vector2, ConsolePixel>();
+            for (int x = 0; x < xdim; x++)
+            {
+                if((x > 0 && x < 25) || (x > 30 && x < xdim))
+                {
+                    //wallPixels[new Vector2(x, 0)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 2)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 3)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 4)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 5)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 6)] = wallPixel;
+                    wallPixels[new Vector2(x, ydim - 7)] = wallPixel;
+                }
+                
+            }
+            for (int y = 0; y < ydim; y++)
+            {
+                wallPixels[new Vector2(0, y)] = wallPixel;
+                wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
+                
+            }
+
+            obstaclePixels[new Vector2(49, 19)] = obstaclePixel;
+            Occupied.Add(new Vector2(49, 19));
+
+            obstaclePixels[new Vector2(52, 19)] = obstaclePixel;
+            Occupied.Add(new Vector2(52, 19));
+
+            obstaclePixels[new Vector2(50, 20)] = obstaclePixel;
+            Occupied.Add(new Vector2(50, 20));
+            
+            obstaclePixels[new Vector2(50, 21)] = obstaclePixel;
+            Occupied.Add(new Vector2(50, 21));
+
+            obstaclePixels[new Vector2(50, 19)] = obstaclePixel;
+            Occupied.Add(new Vector2(50, 19));
+
+            obstaclePixels[new Vector2(50, 22)] = obstaclePixel;
+            Occupied.Add(new Vector2(50, 22));
+
+            obstaclePixels[new Vector2(51, 20)] = obstaclePixel;
+            Occupied.Add(new Vector2(51, 20));
+            
+            obstaclePixels[new Vector2(51, 21)] = obstaclePixel;
+            Occupied.Add(new Vector2(51, 21));
+
+            obstaclePixels[new Vector2(51, 19)] = obstaclePixel;
+            Occupied.Add(new Vector2(51, 19));
+
+            obstaclePixels[new Vector2(51, 22)] = obstaclePixel;
+            Occupied.Add(new Vector2(51, 22));
+                
+            walls.AddComponent(new ConsoleSprite(wallPixels));
+            walls.AddComponent(new Position(0, 0, 1));
+            gameScene.AddGameObject(walls);
+
+            obstacle.AddComponent(new ConsoleSprite(obstaclePixels));
+            obstacle.AddComponent(new Position(0, 0, 0));
+            gameScene.AddGameObject(obstacle);
+
             // Create player object
             char[,] playerSprite =
             {
@@ -47,30 +121,13 @@ namespace SuperMario
                 ConsoleKey.UpArrow,
                 ConsoleKey.LeftArrow});
             player.AddComponent(playerKeyListener);
-            Position playerPos = new Position(1f, 26f, 0f);
+            Position playerPos = new Position(1f, 20f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player());
+            player.AddComponent(new Player(Occupied));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.DarkGreen));
+            //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
-
-            // Create walls
-            GameObject walls = new GameObject("Walls");
-            ConsolePixel wallPixel = new ConsolePixel(
-                ' ', ConsoleColor.Blue, ConsoleColor.White);
-            Dictionary<Vector2, ConsolePixel> wallPixels =
-                new Dictionary<Vector2, ConsolePixel>();
-            for (int x = 0; x < xdim; x++)
-                wallPixels[new Vector2(x, 0)] = wallPixel;
-            for (int x = 0; x < xdim; x++)
-                wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
-            for (int y = 0; y < ydim; y++)
-                wallPixels[new Vector2(0, y)] = wallPixel;
-            for (int y = 0; y < ydim; y++)
-                wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
-            walls.AddComponent(new ConsoleSprite(wallPixels));
-            walls.AddComponent(new Position(0, 0, 1));
-            gameScene.AddGameObject(walls);
         }
 
         public void Run()

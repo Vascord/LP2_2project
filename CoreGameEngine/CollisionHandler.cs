@@ -47,6 +47,7 @@ namespace CoreGameEngine
 
                         // Set coordinate as occupied by the current game object
                         collisionMap[x, y] = gObj;
+                        
                     }
                 }
             }

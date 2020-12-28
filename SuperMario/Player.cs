@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Collections.Generic;
 using CoreGameEngine;
 
 namespace SuperMario
@@ -8,6 +9,7 @@ namespace SuperMario
     {
        private KeyObserver keyObserver;
        private Position position;
+       private List<Vector2> Occupied;
 
        private bool inAir = false;
        private int jumpFrames = 0;
@@ -17,14 +19,19 @@ namespace SuperMario
         {
             keyObserver = ParentGameObject.GetComponent<KeyObserver>();
             position = ParentGameObject.GetComponent<Position>();
+
+        }
+
+        public Player (List<Vector2> Occupied)
+        {
+            this.Occupied = Occupied; 
         }
 
         public override void Update()
         {
             float x = position.Pos.X;
             float y = position.Pos.Y;
-            
-            
+            bool colide = false;
             if(!inAir)
             {
                 foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
@@ -33,14 +40,27 @@ namespace SuperMario
                     {
                         case ConsoleKey.RightArrow:
                             Lastkey = ConsoleKey.RightArrow;
-                            x += 1;
+                            foreach (Vector2 v in Occupied)
+                            {
+                                if (position.Pos.X + 3 == v.X)
+                                    colide = true;
+                            }
+                            if (!colide)
+                                x += 1;
+                            //colide = false;
                             break;
                         case ConsoleKey.UpArrow:
                             Lastkey = ConsoleKey.UpArrow;
                             break;
                         case ConsoleKey.LeftArrow:
                             Lastkey = ConsoleKey.LeftArrow;
-                            x -= 1;
+                            foreach (Vector2 v in Occupied)
+                            {
+                                if (position.Pos.X - 1 == v.X)
+                                    colide = true;
+                            }
+                            if (!colide)
+                                x -= 1;
                             break;
                         case ConsoleKey.Spacebar:
                             inAir = true;
