@@ -142,6 +142,17 @@ namespace SuperMario
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
+
+            // Create game object for showing time limit
+            GameObject time = new GameObject("Time");
+            time.AddComponent(new Position(240, 0, 10));
+            time.AddComponent(new Time());
+            RenderableStringComponent visualTime = new RenderableStringComponent(
+                () => "Time: " + 200.ToString(),
+                i => new Vector2(i, 0),
+                ConsoleColor.DarkMagenta, ConsoleColor.White);
+            time.AddComponent(visualTime);
+            gameScene.AddGameObject(time);
         }
 
         public void Run()
