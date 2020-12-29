@@ -61,5 +61,10 @@ namespace CoreGameEngine
             this.bgColor = bgColor;
         }
 
+        public void SwitchString(Func<string> getStr)
+        {
+            this.getStr = getStr;
+        }
+
     }
 }
