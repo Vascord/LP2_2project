@@ -162,6 +162,11 @@ namespace SuperMario
             y = Math.Clamp(y, 0, ParentScene.ydim - 3);
             
             position.Pos = new Vector3(x, y, position.Pos.Z);
+            if (ParentScene.ydim - 3 == position.Pos.Y)
+            {
+                // Not correct
+                position.Pos = new Vector3(1f, 20f, position.Pos.Z);
+            }
         }
     }
 }
