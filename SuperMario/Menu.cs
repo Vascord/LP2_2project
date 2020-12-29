@@ -66,12 +66,26 @@ namespace SuperMario
             gameScene.AddGameObject(title);
 
             // Creates button and indicator
-            char[,] buttonSprite = 
+            char[,] buttonSprite1 = 
             {
-                {'P',' ',' ','Q'},
-                {'l',' ',' ','u'},
-                {'a',' ',' ','i'},
-                {'y',' ',' ','t'}
+                {'P'},
+                {'l'},
+                {'a'},
+                {'y'}
+            };
+            char[,] buttonSprite2 = 
+            {
+                {'H'},
+                {'e'},
+                {'l'},
+                {'p'}
+            };
+            char[,] buttonSprite3 = 
+            {
+                {'Q'},
+                {'u'},
+                {'i'},
+                {'t'}
             };
             char[,] indicatorSprite = 
             {
@@ -82,40 +96,34 @@ namespace SuperMario
                 {' '},
                 {'<'}
             };
-            KeyObserver buttonKeyListener = new KeyObserver(new ConsoleKey[]
-                { ConsoleKey.W , ConsoleKey.S, ConsoleKey.Enter });
-            GameObject button = new GameObject("Button");
+            KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
+                { ConsoleKey.UpArrow , ConsoleKey.DownArrow,ConsoleKey.Enter });
+            GameObject button1 = new GameObject("Button1");
+            GameObject button2 = new GameObject("Button2");
+            GameObject button3 = new GameObject("Button3");
             GameObject indicator = new GameObject("Indicator");
-            Position buttonPos = new Position(73f, 23f, 1f);
-            Position indicatorPos = new Position(72f, 23f, 0f);
-            button.AddComponent(buttonKeyListener);
-            button.AddComponent(buttonPos);
-            button.AddComponent(new Button());
-            button.AddComponent(new ConsoleSprite(
-                buttonSprite, ConsoleColor.Red, ConsoleColor.Blue));
+            Position buttonPos1 = new Position(73f, 20f, 1f);
+            Position buttonPos2 = new Position(73f, 23f, 1f);
+            Position buttonPos3 = new Position(73f, 26f, 1f);
+            Position indicatorPos = new Position(72f, 20f, 0f);
+            indicator.AddComponent(indicatorKeyListener);
+            indicator.AddComponent(new Indicator());
+            indicator.AddComponent(indicatorPos);
+            button1.AddComponent(buttonPos1);
+            button2.AddComponent(buttonPos2);
+            button3.AddComponent(buttonPos3);
+            button1.AddComponent(new ConsoleSprite(
+                buttonSprite1, ConsoleColor.Red, ConsoleColor.Blue));
+            button2.AddComponent(new ConsoleSprite(
+                buttonSprite2, ConsoleColor.Red, ConsoleColor.Blue));
+            button3.AddComponent(new ConsoleSprite(
+                buttonSprite3, ConsoleColor.Red, ConsoleColor.Blue));
             indicator.AddComponent(new ConsoleSprite(
                 indicatorSprite, ConsoleColor.Red, ConsoleColor.DarkBlue));
-            indicator.AddComponent(indicatorPos);
-            gameScene.AddGameObject(button);
+            gameScene.AddGameObject(button1);
+            gameScene.AddGameObject(button2);
+            gameScene.AddGameObject(button3);
             gameScene.AddGameObject(indicator);
-
-            // Create walls
-            GameObject walls = new GameObject("Walls");
-            ConsolePixel wallPixel = new ConsolePixel(
-                ' ', ConsoleColor.Blue, ConsoleColor.White);
-            Dictionary<Vector2, ConsolePixel> wallPixels =
-                new Dictionary<Vector2, ConsolePixel>();
-            for (int x = 0; x < xdim; x++)
-                wallPixels[new Vector2(x, 0)] = wallPixel;
-            for (int x = 0; x < xdim; x++)
-                wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
-            for (int y = 0; y < ydim; y++)
-                wallPixels[new Vector2(0, y)] = wallPixel;
-            for (int y = 0; y < ydim; y++)
-                wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
-            walls.AddComponent(new ConsoleSprite(wallPixels));
-            walls.AddComponent(new Position(0, 0, 1));
-            gameScene.AddGameObject(walls);
         }
 
         public void Run()
