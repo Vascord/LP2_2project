@@ -3,7 +3,7 @@ using CoreGameEngine;
 
 namespace SuperMario
 {
-    public class Button : Component
+    public class Indicator : Component
     {
         private KeyObserver keyObserver;
         private Position position;
@@ -24,15 +24,15 @@ namespace SuperMario
 
             foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
             {
-                if (key == ConsoleKey.W && option == 1)
-                {
-                    y += 3;
-                    option = 0;
-                }
-                else if (key == ConsoleKey.S && option == 0)
+                if (key == ConsoleKey.UpArrow && option != 0)
                 {
                     y -= 3;
-                    option = 1;
+                    option--;
+                }
+                else if (key == ConsoleKey.DownArrow && option != 2)
+                {
+                    y += 3;
+                    option++;
                 }
                 else if (key == ConsoleKey.Enter)
                 {
@@ -41,6 +41,12 @@ namespace SuperMario
                         ParentScene.Terminate();
                         Level1 level1 = new Level1();
                         level1.Run();
+                    }
+                    else if(option == 1)
+                    {
+                        ParentScene.Terminate();
+                        Help helpMenu = new Help();
+                        helpMenu.Run();
                     }
                     else
                     {
