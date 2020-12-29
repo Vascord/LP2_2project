@@ -14,6 +14,7 @@ namespace SuperMario
        private bool inAir = false;
        private bool ground = true;
        private int jumpFrames = 0;
+       private float x, y;
        private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
 
         public override void Start()
@@ -30,11 +31,22 @@ namespace SuperMario
 
         public override void Update()
         {
-            float x = position.Pos.X;
-            float y = position.Pos.Y;
+            x = position.Pos.X;
+            y = position.Pos.Y;
             bool colide = false;
+
+            ground = checkGround();
             
-            if(!inAir)
+            if(!inAir && !ground)
+            {
+                while(!ground)
+                {
+                    falling();
+                    ground = true;
+                }
+            }
+
+            else if(!inAir)
             {
                 foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
                 {
@@ -79,34 +91,27 @@ namespace SuperMario
                 x = Math.Clamp(x, 0, ParentScene.xdim - 3);
                 y = Math.Clamp(y, 0, ParentScene.ydim - 3);
 
-                ground = checkGround();
-                while(!ground)
-                {
-                    falling();
-                    ground = true;
-                }
-
                 //position.Pos = new Vector3(x, y, position.Pos.Z);
             }
 
-            if(inAir)
+            else if(inAir)
             {
                 if(jumpFrames == 0)
                 {
                     y -= 4;
                     if(Lastkey == ConsoleKey.RightArrow)
-                        x += 4;
+                        x += 5;
                     else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 4;
+                        x -= 5;
                     jumpFrames++;
                 }
                 else if(jumpFrames == 1)
                 {
                     y -= 3;
                     if(Lastkey == ConsoleKey.RightArrow)
-                        x += 4;
+                        x += 5;
                     else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 4;
+                        x -= 5;
                     jumpFrames = 0;
                     inAir = false;
                 }
@@ -155,8 +160,8 @@ namespace SuperMario
 
         private void falling()
         {
-            float x = position.Pos.X;
-            float y = position.Pos.Y;
+            x = position.Pos.X;
+            y = position.Pos.Y;
             y++;
             x = Math.Clamp(x, 0, ParentScene.xdim - 3);
             y = Math.Clamp(y, 0, ParentScene.ydim - 3);
