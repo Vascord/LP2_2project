@@ -80,5 +80,22 @@ namespace CoreGameEngine
                 }
             }
         }
+
+        public void SwitchSprite(char[,] pixels)
+        {
+            this.pixels = new Dictionary<Vector2, ConsolePixel>();
+            for (int x = 0; x < pixels.GetLength(0); x++)
+            {
+                for (int y = 0; y < pixels.GetLength(1); y++)
+                {
+                    char shape = pixels[x, y];
+                    if (!shape.Equals(default(char)))
+                    {
+                        this.pixels[new Vector2(x, y)] =
+                            new ConsolePixel(shape);
+                    }
+                }
+            }
+        }
     }
 }

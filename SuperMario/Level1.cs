@@ -72,7 +72,9 @@ namespace SuperMario
             for (int y = 0; y < ydim; y++)
             {
                 wallPixels[new Vector2(0, y)] = wallPixel;
+                Occupied.Add(new Vector2(0, y));
                 wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
+                Occupied.Add(new Vector2(xdim - 1, y));
                 
             }
 
@@ -117,9 +119,14 @@ namespace SuperMario
             // Create player object
             char[,] playerSprite =
             {
-                { ' ', 'M', ' '},
-                { 'M', 'M', 'M'},
-                { ' ', 'M', ' '}
+                { '─', '▄', '█' , '└'},
+                { '▄', '▀', '▄' , '▄'},
+                { '█', '█', '▐' , '▄'},
+                { '█', '▀', '▐' , '▄'},
+                { '█', '▐', '▄' , '▄'},
+                { '█', '└', '█' , '▄'},
+                { '▄', '─', '▄' , '┘'},
+                { '▄', '┐', '┘' , ' '}
             };
             GameObject player = new GameObject("Player");
             KeyObserver playerKeyListener = new KeyObserver(new ConsoleKey[] {
@@ -128,11 +135,11 @@ namespace SuperMario
                 ConsoleKey.UpArrow,
                 ConsoleKey.LeftArrow});
             player.AddComponent(playerKeyListener);
-            Position playerPos = new Position(1f, 20f, 0f);
+            Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
             player.AddComponent(new Player(Occupied));
             player.AddComponent(new ConsoleSprite(
-                playerSprite, ConsoleColor.Red, ConsoleColor.DarkGreen));
+                playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
         }
@@ -144,3 +151,61 @@ namespace SuperMario
 
     }
 }
+
+// ─ ▄ █ █ █ █ ▄ ▄
+
+// ▄ ▀ █ ▀ ▐ └ ─ ┐
+
+// █ ▄ ▐ ▌ ▄ █ ▄ ┘
+
+// └ ▄ ▄ ▄ ▄ ▄ ┘
+
+
+//_ _ _ _ ▒ ▒ ▒ ▒ ▒
+
+//— - ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒
+
+//— – ▓ ▓ ▓ ░ ░ ▓ ░
+
+//— ▓ ░ ▓ ░ ░ ░ ▓ ░ ░ ░
+
+//— ▓ ░ ▓ ▓ ░ ░ ░ ▓ ░ ░ ░
+
+//— ▓ ▓ ░ ░ ░ ░ ▓ ▓ ▓ ▓
+
+//— — ░ ░ ░ ░ ░ ░ ░ ░
+
+//— - ▓ ▓ ▒ ▓ ▓ ▓ ▒ ▓ ▓ 
+
+//– ▓ ▓ ▓ ▒ ▓ ▓ ▓ ▒ ▓ ▓ ▓
+
+//░ ░ ▓ ▒ ░ ▒ ▒ ▒ ░ ▒ ▓ ░ ░
+
+
+//— - ▒ ▒ ▒  — — ▒ ▒ ▒ 
+
+//– ▓ ▓ ▓ — — — - ▓ ▓ ▓ 
+
+//▓ ▓ ▓ ▓ — — — - ▓ ▓ ▓ ▓ 
+
+
+// ____▒▒▒▒▒
+// —-▒▒▒▒▒▒▒▒▒
+// —–▓▓▓░░▓░
+// —▓░▓░░░▓░░░
+// —▓░▓▓░░░▓░░░
+// —▓▓░░░░▓▓▓▓
+// ——░░░░░░░░
+// —-▓▓▒▓▓▓▒▓▓
+// –▓▓▓▒▓▓▓▒▓▓▓
+// ▓▓▓▓▒▒▒▒▒▓▓▓▓
+// ░░▓▒░▒▒▒░▒▓░░
+// ░░░▒▒▒▒▒▒▒░░░
+// ░░▒▒▒▒▒▒▒▒▒░░
+// —-▒▒▒ ——▒▒▒
+// –▓▓▓———-▓▓▓
+// ▓▓▓▓———-▓▓▓▓
+
+
+
+        

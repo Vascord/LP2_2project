@@ -56,14 +56,14 @@ namespace SuperMario
                             Lastkey = ConsoleKey.RightArrow;
                             foreach (Vector2 v in Occupied)
                             {
-                                if (position.Pos.X + 3 == v.X && position.Pos.Y == v.Y)
+                                if (position.Pos.X + 7 == v.X && position.Pos.Y == v.Y)
                                     colide = true;
                             }
                             if (!colide)
                                 x += 1;
                             position.Pos = new Vector3(x, y, position.Pos.Z);
                             
-                            
+                            turnSprite(true);
                             //colide = false;
                             break;
                         case ConsoleKey.UpArrow:
@@ -80,6 +80,7 @@ namespace SuperMario
                             if (!colide)
                                 x -= 1;
                             position.Pos = new Vector3(x, y, position.Pos.Z);
+                            turnSprite(false);
                             break;
                         case ConsoleKey.Spacebar:
                             inAir = true;
@@ -88,7 +89,7 @@ namespace SuperMario
                     }
                 }
 
-                x = Math.Clamp(x, 0, ParentScene.xdim - 3);
+                x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                 y = Math.Clamp(y, 0, ParentScene.ydim - 3);
 
                 //position.Pos = new Vector3(x, y, position.Pos.Z);
@@ -98,46 +99,45 @@ namespace SuperMario
             {
                 if(jumpFrames == 0)
                 {
-                    y -= 4;
+                    y -= 2;
                     if(Lastkey == ConsoleKey.RightArrow)
-                        x += 5;
+                        x += 3;
                     else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 5;
+                        x -= 3;
                     jumpFrames++;
                 }
                 else if(jumpFrames == 1)
                 {
-                    y -= 3;
+                    y -= 2;
                     if(Lastkey == ConsoleKey.RightArrow)
-                        x += 5;
+                        x += 3;
                     else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 5;
+                        x -= 3;
+                    jumpFrames++;
+                }
+                else if (jumpFrames == 2)
+                {
+                    y -= 2;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 3;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 3;
+                    jumpFrames++;
+                }
+                else if(jumpFrames == 3)
+                {
+                    y -= 2;
+                    if(Lastkey == ConsoleKey.RightArrow)
+                        x += 3;
+                    else if (Lastkey == ConsoleKey.LeftArrow)
+                        x -= 3;
                     jumpFrames = 0;
                     inAir = false;
                 }
-                // else if (jumpFrames == 2)
-                // {
-                //     y += 3;
-                //     if(Lastkey == ConsoleKey.RightArrow)
-                //         x += 1;
-                //     else if (Lastkey == ConsoleKey.LeftArrow)
-                //         x -= 1;
-                //     jumpFrames++;
-                // }
-                // else if(jumpFrames == 3)
-                // {
-                //     y += 4;
-                //     if(Lastkey == ConsoleKey.RightArrow)
-                //         x += 1;
-                //     else if (Lastkey == ConsoleKey.LeftArrow)
-                //         x -= 1;
-                //     jumpFrames = 0;
-                //     inAir = false;
-                //}
-                x = Math.Clamp(x, 0, ParentScene.xdim - 3);
+                x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                 y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                 position.Pos = new Vector3(x, y, position.Pos.Z);
-                Thread.Sleep(100);
+                Thread.Sleep(80);
             }
             
         }
@@ -148,7 +148,7 @@ namespace SuperMario
             // check if there is ground beneth the player 
             foreach (Vector2 v in Occupied)
             {
-                if (position.Pos.X + 1 == v.X && position.Pos.Y + 3 == v.Y)
+                if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
                 {
                     ground = true;
                 } 
@@ -163,15 +163,48 @@ namespace SuperMario
             x = position.Pos.X;
             y = position.Pos.Y;
             y++;
-            x = Math.Clamp(x, 0, ParentScene.xdim - 3);
+            x = Math.Clamp(x, 0, ParentScene.xdim - 8);
             y = Math.Clamp(y, 0, ParentScene.ydim - 3);
             
             position.Pos = new Vector3(x, y, position.Pos.Z);
-            if (ParentScene.ydim - 3 == position.Pos.Y)
+            Thread.Sleep(50);
+            if (ParentScene.ydim - 4 == position.Pos.Y)
             {
                 // Not correct
-                position.Pos = new Vector3(1f, 20f, position.Pos.Z);
+                position.Pos = new Vector3(1f, 19f, position.Pos.Z);
             }
+        }
+
+        private void turnSprite(bool right)
+        {
+            char[,] playerSprite =
+            {
+                { '─', '▄', '█' , '└'},
+                { '▄', '▀', '▄' , '▄'},
+                { '█', '█', '▐' , '▄'},
+                { '█', '▀', '▐' , '▄'},
+                { '█', '▐', '▄' , '▄'},
+                { '█', '└', '█' , '▄'},
+                { '▄', '─', '▄' , '┘'},
+                { '▄', '┐', '┘' , ' '}
+            };
+            char[,] playerSpriteT =
+            {
+                { '▄', '┌', '└' , ' '},
+                { '▄', '─', '▄' , '└'},
+                { '█', '┘', '█' , '▄'},
+                { '█', '▌', '▄' , '▄'},
+                { '█', '▀', '▌' , '▄'},
+                { '█', '█', '▌' , '▄'},
+                { '▄', '▀', '▄' , '▄'},
+                { '─', '▄', '█' , '┘'}
+            };
+
+            if(right == false)
+                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSpriteT);
+            else
+                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSprite);
+
         }
     }
 }
