@@ -5,7 +5,7 @@ namespace SuperMario
 {
     public class Level1
     {
-        int xdim = 150, ydim = 30;
+        int xdim = 250, ydim = 30;
 
         int frameLenght = 10;
 
