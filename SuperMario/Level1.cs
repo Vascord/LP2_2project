@@ -53,12 +53,19 @@ namespace SuperMario
                 {
                     //wallPixels[new Vector2(x, 0)] = wallPixel;
                     wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 1));
                     wallPixels[new Vector2(x, ydim - 2)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 2));
                     wallPixels[new Vector2(x, ydim - 3)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 3));
                     wallPixels[new Vector2(x, ydim - 4)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 4));
                     wallPixels[new Vector2(x, ydim - 5)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 5));
                     wallPixels[new Vector2(x, ydim - 6)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 6));
                     wallPixels[new Vector2(x, ydim - 7)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 7));
                 }
                 
             }
