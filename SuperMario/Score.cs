@@ -16,17 +16,19 @@ namespace SuperMario
 
         public override void Update()
         {
-            framesForTime++;
+            //framesForTime++;
 
-            if(framesForTime == 100)
-            {
-                score -= 10;
-
-                framesForTime = 0;
-
-                ParentGameObject.GetComponent<RenderableStringComponent>().
+            ParentGameObject.GetComponent<RenderableStringComponent>().
                     SwitchString(() => "Score: " + score.ToString());
-            }
+            // if(framesForTime == 100)
+            // {
+            //     score -= 10;
+
+            //     framesForTime = 0;
+
+            //     ParentGameObject.GetComponent<RenderableStringComponent>().
+            //         SwitchString(() => "Score: " + score.ToString());
+            // }
         }
     }
 }

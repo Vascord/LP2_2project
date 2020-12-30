@@ -41,7 +41,7 @@ namespace SuperMario
             bool colide = false;
 
             ground = checkGround();
-            coinScore = checkCoin();
+            
             
             if(!inAir && !ground)
             {
@@ -51,12 +51,6 @@ namespace SuperMario
                     ground = true;
                 }
             }
-
-            else if(coinScore)
-            {
-
-            }
-
             else if(!inAir)
             {
                 foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
@@ -105,7 +99,6 @@ namespace SuperMario
 
                 //position.Pos = new Vector3(x, y, position.Pos.Z);
             }
-
             else if(inAir)
             {
                 if(jumpFrames == 0)
@@ -150,6 +143,13 @@ namespace SuperMario
                 position.Pos = new Vector3(x, y, position.Pos.Z);
                 Thread.Sleep(80);
             }
+
+            coinScore = checkCoin();
+            if(coinScore)
+            {
+                actualScore.score += 1000;
+                coinScore = false;
+            }
             
         }
 
@@ -172,15 +172,18 @@ namespace SuperMario
         private bool checkCoin()
         {
             coinScore = false;
-            // check if there is ground beneth the player 
+            // check if there is ground beneth the player
+            
             foreach (Vector2 v in Coin)
             {
-                if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
+                if ((position.Pos.X  == v.X && position.Pos.Y == v.Y) )
                 {
                     coinScore = true;
+                    
                 } 
             }
-            if(!ground)
+            //Coin.Clear();
+            if(!coinScore)
                 return false;
             return true;
         }

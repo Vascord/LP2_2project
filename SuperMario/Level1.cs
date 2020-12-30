@@ -121,19 +121,7 @@ namespace SuperMario
             obstacle.AddComponent(new Position(0, 0, 0));
             gameScene.AddGameObject(obstacle);
 
-            ConsolePixel coinPixel = new ConsolePixel(
-                ' ', ConsoleColor.Blue, ConsoleColor.Green);
-            Dictionary<Vector2, ConsolePixel> coinPixels =
-                new Dictionary<Vector2, ConsolePixel>();
-
-            coinPixels[new Vector2(80, 13)] = coinPixel;
-            Coin.Add(new Vector2(80, 13));
-            coinPixels[new Vector2(80, 14)] = coinPixel;
-            Coin.Add(new Vector2(80, 14));
-            coinPixels[new Vector2(81, 13)] = coinPixel;
-            Coin.Add(new Vector2(81, 13));
-            coinPixels[new Vector2(81, 14)] = coinPixel;
-            Coin.Add(new Vector2(81, 14));
+            
 
             // Create game object for showing score
             GameObject score = new GameObject("Score");
@@ -145,6 +133,27 @@ namespace SuperMario
                 ConsoleColor.DarkMagenta, ConsoleColor.White);
             score.AddComponent(visualScore);
             gameScene.AddGameObject(score);
+            
+            // Create Coin
+            ConsolePixel coinPixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.Green);
+            Dictionary<Vector2, ConsolePixel> coinPixels =
+                new Dictionary<Vector2, ConsolePixel>();
+
+            coinPixels[new Vector2(80, 19)] = coinPixel;
+            Coin.Add(new Vector2(80, 19));
+            coinPixels[new Vector2(80, 18)] = coinPixel;
+            Coin.Add(new Vector2(80, 18));
+            coinPixels[new Vector2(81, 19)] = coinPixel;
+            Coin.Add(new Vector2(81, 19));
+            coinPixels[new Vector2(81, 18)] = coinPixel;
+            Coin.Add(new Vector2(81, 18));
+
+            GameObject coins = new GameObject("Coin");
+            coins.AddComponent(new ConsoleSprite(coinPixels));
+            coins.AddComponent(new Position(0, 0, 1f));
+            coins.AddComponent(new Coin(score.GetComponent<Score>()));
+            gameScene.AddGameObject(coins);
 
             // Create player object
             char[,] playerSprite =
@@ -201,18 +210,7 @@ namespace SuperMario
             time.AddComponent(visualTime);
             gameScene.AddGameObject(time);
 
-            // Create Coin
-            char[,] coinSprite=
-            {
-                { '█', '█'},
-                { '█', '█'},        
-            };
-            GameObject coin = new GameObject("Coin");
-            coin.AddComponent(new ConsoleSprite(coinSprite, ConsoleColor.Yellow, 
-                ConsoleColor.DarkGray));
-            coin.AddComponent(new Position(80, 13, 0f));
-            coin.AddComponent(new Coin(score.GetComponent<Score>()));
-            gameScene.AddGameObject(coin);
+            
 
         }
 
