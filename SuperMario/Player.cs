@@ -11,6 +11,7 @@ namespace SuperMario
        private Position position;
        private List<Vector2> Occupied;
        private List<Vector2> Coin;
+       private GameObject coins;
 
        private Score actualScore;
 
@@ -27,10 +28,11 @@ namespace SuperMario
             position = ParentGameObject.GetComponent<Position>();
         }
 
-        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score)
+        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score, GameObject coins)
         {
             this.Occupied = Occupied; 
             this.Coin = Coin; 
+            this.coins = coins;
             actualScore = score;
         }
 
@@ -172,6 +174,7 @@ namespace SuperMario
         private bool checkCoin()
         {
             coinScore = false;
+            Vector2 vector = new Vector2(0,0);
             // check if there is ground beneth the player
             
             foreach (Vector2 v in Coin)
@@ -179,12 +182,17 @@ namespace SuperMario
                 if ((position.Pos.X  == v.X && position.Pos.Y == v.Y) )
                 {
                     coinScore = true;
-                    
+                    vector = v;
                 } 
             }
-            //Coin.Clear();
             if(!coinScore)
                 return false;
+            Coin.Remove(new Vector2(vector.X, vector.Y));
+            char[,] noMoreCoinSprite =
+            {
+                {' '}
+            };
+            coins.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
             return true;
         }
 
