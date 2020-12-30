@@ -52,6 +52,13 @@ namespace CoreGameEngine
             gameObjects.Add(gameObject.Name, gameObject);
         }
 
+        // Remove a game object to this scene
+        public void RemoveGameObject(GameObject gameObject)
+        {
+            gameObject.ParentScene = null;
+            gameObjects.Remove(gameObject.Name);
+        }
+
         // Find a game object by name in this scene
         public GameObject FindGameObjectByName(string name)
         {

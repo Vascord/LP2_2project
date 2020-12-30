@@ -10,9 +10,13 @@ namespace SuperMario
        private KeyObserver keyObserver;
        private Position position;
        private List<Vector2> Occupied;
+       private List<Vector2> Coin;
+
+       private Score actualScore;
 
        private bool inAir = false;
        private bool ground = true;
+       private bool coinScore = false;
        private int jumpFrames = 0;
        private float x, y;
        private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
@@ -21,12 +25,13 @@ namespace SuperMario
         {
             keyObserver = ParentGameObject.GetComponent<KeyObserver>();
             position = ParentGameObject.GetComponent<Position>();
-
         }
 
-        public Player (List<Vector2> Occupied)
+        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score)
         {
             this.Occupied = Occupied; 
+            this.Coin = Coin; 
+            actualScore = score;
         }
 
         public override void Update()
@@ -36,6 +41,7 @@ namespace SuperMario
             bool colide = false;
 
             ground = checkGround();
+            coinScore = checkCoin();
             
             if(!inAir && !ground)
             {
@@ -44,6 +50,11 @@ namespace SuperMario
                     falling();
                     ground = true;
                 }
+            }
+
+            else if(coinScore)
+            {
+
             }
 
             else if(!inAir)
@@ -151,6 +162,22 @@ namespace SuperMario
                 if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
                 {
                     ground = true;
+                } 
+            }
+            if(!ground)
+                return false;
+            return true;
+        }
+
+        private bool checkCoin()
+        {
+            coinScore = false;
+            // check if there is ground beneth the player 
+            foreach (Vector2 v in Coin)
+            {
+                if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
+                {
+                    coinScore = true;
                 } 
             }
             if(!ground)

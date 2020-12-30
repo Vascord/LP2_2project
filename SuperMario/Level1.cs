@@ -11,6 +11,7 @@ namespace SuperMario
 
         private Scene gameScene;
         public List<Vector2> Occupied = new List<Vector2>();
+        public List<Vector2> Coin = new List<Vector2>();
 
 
         public Level1()
@@ -120,6 +121,31 @@ namespace SuperMario
             obstacle.AddComponent(new Position(0, 0, 0));
             gameScene.AddGameObject(obstacle);
 
+            ConsolePixel coinPixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.Green);
+            Dictionary<Vector2, ConsolePixel> coinPixels =
+                new Dictionary<Vector2, ConsolePixel>();
+
+            coinPixels[new Vector2(80, 13)] = coinPixel;
+            Coin.Add(new Vector2(80, 13));
+            coinPixels[new Vector2(80, 14)] = coinPixel;
+            Coin.Add(new Vector2(80, 14));
+            coinPixels[new Vector2(81, 13)] = coinPixel;
+            Coin.Add(new Vector2(81, 13));
+            coinPixels[new Vector2(81, 14)] = coinPixel;
+            Coin.Add(new Vector2(81, 14));
+
+            // Create game object for showing score
+            GameObject score = new GameObject("Score");
+            score.AddComponent(new Position(1, 0, 10));
+            score.AddComponent(new Score());
+            RenderableStringComponent visualScore = new RenderableStringComponent(
+                () => "Score: " + 3000.ToString(),
+                i => new Vector2(i, 0),
+                ConsoleColor.DarkMagenta, ConsoleColor.White);
+            score.AddComponent(visualScore);
+            gameScene.AddGameObject(score);
+
             // Create player object
             char[,] playerSprite =
             {
@@ -141,27 +167,27 @@ namespace SuperMario
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player(Occupied));
+            player.AddComponent(new Player(Occupied, Coin,score.GetComponent<Score>()));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
 
-            // Creat Box 
-            char[,] BoxSprite=
+            // Create Box 
+            char[,] boxSprite=
             {
                 { '█', '█', '█' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
-                { '█', '█', '█' , '█'}
-                
+                { '█', '█', '█' , '█'}  
             };
-            GameObject Box = new GameObject("Box");
-            Box.AddComponent(new ConsoleSprite(BoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray));
-            Box.AddComponent(new Position(100, 8, 0f));
-            gameScene.AddGameObject(Box);
+            GameObject box = new GameObject("Box");
+            box.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
+                ConsoleColor.DarkGray));
+            box.AddComponent(new Position(100, 8, 0f));
+            gameScene.AddGameObject(box);
 
 
             // Create game object for showing time limit
@@ -174,6 +200,20 @@ namespace SuperMario
                 ConsoleColor.DarkMagenta, ConsoleColor.White);
             time.AddComponent(visualTime);
             gameScene.AddGameObject(time);
+
+            // Create Coin
+            char[,] coinSprite=
+            {
+                { '█', '█'},
+                { '█', '█'},        
+            };
+            GameObject coin = new GameObject("Coin");
+            coin.AddComponent(new ConsoleSprite(coinSprite, ConsoleColor.Yellow, 
+                ConsoleColor.DarkGray));
+            coin.AddComponent(new Position(80, 13, 0f));
+            coin.AddComponent(new Coin(score.GetComponent<Score>()));
+            gameScene.AddGameObject(coin);
+
         }
 
         public void Run()
