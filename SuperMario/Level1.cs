@@ -150,7 +150,6 @@ namespace SuperMario
             GameObject coins = new GameObject("Coin");
             coins.AddComponent(new ConsoleSprite(coinPixels));
             coins.AddComponent(new Position(0, 0, 0f));
-            coins.AddComponent(new Coin(score.GetComponent<Score>()));
 
             gameScene.AddGameObject(coins);
 
@@ -168,6 +167,7 @@ namespace SuperMario
             box.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
                 ConsoleColor.DarkGray));
             box.AddComponent(new Position(100, 8, 0f));
+            box.AddComponent(new BoxConfirmation());
             gameScene.AddGameObject(box);
 
             // Create player object

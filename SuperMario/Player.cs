@@ -161,10 +161,10 @@ namespace SuperMario
         {
             boxHit = false;
             // check if there is ground beneth the player
-            if ((position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 && position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7) )
+            if ((position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 && position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7) && box.GetComponent<BoxConfirmation>().boxUsed == 0)
             {
                 boxHit = true;
-                //box = new GameObject("Empty");
+                box.GetComponent<BoxConfirmation>().boxUsed = 1;
                 actualScore.score += 1000;
             } 
             if(!boxHit)
@@ -180,7 +180,6 @@ namespace SuperMario
                 { '█', '█', '█' , '█'} 
             };
             box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
-            //box = new GameObject(null);
             return true;
         }
 
