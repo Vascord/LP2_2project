@@ -14,6 +14,7 @@ namespace SuperMario
 
         public Level1()
         {
+            Console.BackgroundColor = ConsoleColor.Gray;
             CreateLevel();
         }
         private void CreateLevel()

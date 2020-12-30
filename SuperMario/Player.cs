@@ -201,9 +201,9 @@ namespace SuperMario
             };
 
             if(right == false)
-                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSpriteT);
+                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSpriteT, ConsoleColor.Red, ConsoleColor.Gray);
             else
-                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSprite);
+                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSprite, ConsoleColor.Red, ConsoleColor.Gray);
 
         }
     }

@@ -81,7 +81,7 @@ namespace CoreGameEngine
             }
         }
 
-        public void SwitchSprite(char[,] pixels)
+        public void SwitchSprite(char[,] pixels, ConsoleColor fgColor, ConsoleColor bgColor)
         {
             this.pixels = new Dictionary<Vector2, ConsolePixel>();
             for (int x = 0; x < pixels.GetLength(0); x++)
@@ -92,7 +92,7 @@ namespace CoreGameEngine
                     if (!shape.Equals(default(char)))
                     {
                         this.pixels[new Vector2(x, y)] =
-                            new ConsolePixel(shape);
+                            new ConsolePixel(shape, fgColor, bgColor);
                     }
                 }
             }
