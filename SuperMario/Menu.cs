@@ -13,6 +13,7 @@ namespace SuperMario
 
         public Menu()
         {
+            Console.BackgroundColor = ConsoleColor.Gray;
             CreateMenu();
         }
 

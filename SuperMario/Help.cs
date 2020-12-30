@@ -14,6 +14,7 @@ namespace SuperMario
 
         public Help()
         {
+            Console.BackgroundColor = ConsoleColor.Gray;
             CreateHelp();
         }
 

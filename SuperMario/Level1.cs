@@ -12,6 +12,7 @@ namespace SuperMario
         private Scene gameScene;
         public List<Vector2> Occupied = new List<Vector2>();
 
+
         public Level1()
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -33,6 +34,8 @@ namespace SuperMario
             quitter.AddComponent(quitSceneKeyListener);
             quitter.AddComponent(new Quitter());
             gameScene.AddGameObject(quitter);
+
+            
 
             
 
@@ -143,6 +146,23 @@ namespace SuperMario
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
+
+            // Creat Box 
+            char[,] BoxSprite=
+            {
+                { '█', '█', '█' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '█', '█' , '█'}
+                
+            };
+            GameObject Box = new GameObject("Box");
+            Box.AddComponent(new ConsoleSprite(BoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray));
+            Box.AddComponent(new Position(100, 8, 0f));
+            gameScene.AddGameObject(Box);
+
 
             // Create game object for showing time limit
             GameObject time = new GameObject("Time");
