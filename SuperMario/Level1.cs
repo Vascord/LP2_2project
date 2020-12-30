@@ -133,7 +133,7 @@ namespace SuperMario
                 ConsoleColor.DarkMagenta, ConsoleColor.White);
             score.AddComponent(visualScore);
             gameScene.AddGameObject(score);
-            
+
             // Create Coin
             ConsolePixel coinPixel = new ConsolePixel(
                 ' ', ConsoleColor.Blue, ConsoleColor.Green);
@@ -153,6 +153,22 @@ namespace SuperMario
             coins.AddComponent(new Coin(score.GetComponent<Score>()));
 
             gameScene.AddGameObject(coins);
+
+            // Create Box 
+            char[,] boxSprite=
+            {
+                { '█', '█', '█' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '?', '?' , '█'},
+                { '█', '█', '█' , '█'}  
+            };
+            GameObject box = new GameObject("Box");
+            box.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
+                ConsoleColor.DarkGray));
+            box.AddComponent(new Position(100, 8, 0f));
+            gameScene.AddGameObject(box);
 
             // Create player object
             char[,] playerSprite =
@@ -175,27 +191,13 @@ namespace SuperMario
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player(Occupied, Coin,score.GetComponent<Score>(), coins));
+            player.AddComponent(new Player(Occupied, Coin,score.GetComponent<Score>(), coins, box));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
             gameScene.AddGameObject(player);
 
-            // Create Box 
-            char[,] boxSprite=
-            {
-                { '█', '█', '█' , '█'},
-                { '█', '?', '?' , '█'},
-                { '█', '?', '?' , '█'},
-                { '█', '?', '?' , '█'},
-                { '█', '?', '?' , '█'},
-                { '█', '█', '█' , '█'}  
-            };
-            GameObject box = new GameObject("Box");
-            box.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
-                ConsoleColor.DarkGray));
-            box.AddComponent(new Position(100, 8, 0f));
-            gameScene.AddGameObject(box);
+            
 
 
             // Create game object for showing time limit

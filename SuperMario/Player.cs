@@ -12,12 +12,14 @@ namespace SuperMario
        private List<Vector2> Occupied;
        private List<Vector2> Coin;
        private GameObject coins;
+       private GameObject box;
 
        private Score actualScore;
 
        private bool inAir = false;
        private bool ground = true;
        private bool coinScore = false;
+       private bool boxHit = false;
        private int jumpFrames = 0;
        private float x, y;
        private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
@@ -28,11 +30,12 @@ namespace SuperMario
             position = ParentGameObject.GetComponent<Position>();
         }
 
-        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score, GameObject coins)
+        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score, GameObject coins, GameObject box)
         {
             this.Occupied = Occupied; 
             this.Coin = Coin; 
             this.coins = coins;
+            this.box = box;
             actualScore = score;
         }
 
@@ -154,6 +157,32 @@ namespace SuperMario
             }
             
         }
+        private bool checkBox()
+        {
+            boxHit = false;
+            // check if there is ground beneth the player
+            if ((position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 && position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7) )
+            {
+                boxHit = true;
+                //box = new GameObject("Empty");
+                actualScore.score += 1000;
+            } 
+            if(!boxHit)
+                return false;
+            
+            char[,] emptyBoxSprite =
+            {
+                { '█', '█', '█' , '█'},
+                { '█', ' ', ' ' , '█'},
+                { '█', ' ', ' ' , '█'},
+                { '█', ' ', ' ' , '█'},
+                { '█', ' ', ' ' , '█'},
+                { '█', '█', '█' , '█'} 
+            };
+            box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
+            //box = new GameObject(null);
+            return true;
+        }
 
         private bool checkGround()
         {
@@ -198,6 +227,13 @@ namespace SuperMario
 
         private void falling()
         {
+            if (box != null)
+                boxHit = checkBox();
+            if(boxHit)
+            {
+                actualScore.score += 1000;
+                boxHit = false;
+            }
             x = position.Pos.X;
             y = position.Pos.Y;
             y++;
