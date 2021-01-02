@@ -12,6 +12,7 @@ namespace SuperMario
        private List<Vector2> Occupied;
        private List<GameObject> coins;
        private List<GameObject> boxes;
+       private GameObject dead;
 
        private Score actualScore;
 
@@ -19,6 +20,7 @@ namespace SuperMario
        private bool ground = true;
        private bool coinScore = false;
        private bool boxHit = false;
+       private bool gameover = false;
        private int jumpFrames = 0;
        private float x, y;
        private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
@@ -29,11 +31,12 @@ namespace SuperMario
             position = ParentGameObject.GetComponent<Position>();
         }
 
-        public Player (List<Vector2> Occupied, Score score, List<GameObject> boxes, List<GameObject> coins)
+        public Player (List<Vector2> Occupied, Score score, List<GameObject> boxes, List<GameObject> coins, GameObject dead)
         {
             this.Occupied = Occupied; 
             this.coins = coins;
             this.boxes = boxes;
+            this.dead = dead;
             actualScore = score;
         }
 
@@ -43,116 +46,133 @@ namespace SuperMario
             y = position.Pos.Y;
             bool colide = false;
 
-            ground = checkGround();
-            
-            
-            if(!inAir && !ground)
+            if(gameover)
             {
-                while(!ground)
+                dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
+                foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                 {
-                    falling();
-                    ground = true;
-                }
-            }
-            else if(!inAir)
-            {
-                foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
-                {
-                    switch (key)
+                    if (key == ConsoleKey.Enter)
                     {
-                        case ConsoleKey.RightArrow:
-                            Lastkey = ConsoleKey.RightArrow;
-                            foreach (Vector2 v in Occupied)
-                            {
-                                if (position.Pos.X + 7 == v.X && position.Pos.Y == v.Y)
-                                    colide = true;
-                            }
-                            if (!colide)
-                                x += 1;
-                            position.Pos = new Vector3(x, y, position.Pos.Z);
-                            
-                            turnSprite(true);
-                            //colide = false;
-                            break;
-                        case ConsoleKey.UpArrow:
-                            Lastkey = ConsoleKey.UpArrow;
-                            position.Pos = new Vector3(x, y, position.Pos.Z);
-                            break;
-                        case ConsoleKey.LeftArrow:
-                            Lastkey = ConsoleKey.LeftArrow;
-                            foreach (Vector2 v in Occupied)
-                            {
-                                if (position.Pos.X - 1 == v.X && position.Pos.Y == v.Y)
-                                    colide = true;
-                            }
-                            if (!colide)
-                                x -= 1;
-                            position.Pos = new Vector3(x, y, position.Pos.Z);
-                            turnSprite(false);
-                            break;
-                        case ConsoleKey.Spacebar:
-                            inAir = true;
-                            position.Pos = new Vector3(x, y, position.Pos.Z);
-                            break;
+                        ParentScene.Terminate();
+                        Level1 level = new Level1();
+                        level.Run();
                     }
                 }
-
-                x = Math.Clamp(x, 0, ParentScene.xdim - 8);
-                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-
-                //position.Pos = new Vector3(x, y, position.Pos.Z);
-            }
-            else if(inAir)
-            {
-                if(jumpFrames == 0)
-                {
-                    y -= 2;
-                    if(Lastkey == ConsoleKey.RightArrow)
-                        x += 3;
-                    else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 3;
-                    jumpFrames++;
-                }
-                else if(jumpFrames == 1)
-                {
-                    y -= 2;
-                    if(Lastkey == ConsoleKey.RightArrow)
-                        x += 3;
-                    else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 3;
-                    jumpFrames++;
-                }
-                else if (jumpFrames == 2)
-                {
-                    y -= 2;
-                    if(Lastkey == ConsoleKey.RightArrow)
-                        x += 3;
-                    else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 3;
-                    jumpFrames++;
-                }
-                else if(jumpFrames == 3)
-                {
-                    y -= 2;
-                    if(Lastkey == ConsoleKey.RightArrow)
-                        x += 3;
-                    else if (Lastkey == ConsoleKey.LeftArrow)
-                        x -= 3;
-                    jumpFrames = 0;
-                    inAir = false;
-                }
-                x = Math.Clamp(x, 0, ParentScene.xdim - 8);
-                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-                position.Pos = new Vector3(x, y, position.Pos.Z);
-                Thread.Sleep(80);
             }
 
-            if (coins != null)
-                coinScore = checkCoin();
-            if(coinScore)
+            else
             {
-                actualScore.score += 1000;
-                coinScore = false;
+                ground = checkGround();
+                
+                
+                if(!inAir && !ground)
+                {
+                    while(!ground)
+                    {
+                        falling();
+                        ground = true;
+                    }
+                }
+                else if(!inAir)
+                {
+                    foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
+                    {
+                        switch (key)
+                        {
+                            case ConsoleKey.RightArrow:
+                                Lastkey = ConsoleKey.RightArrow;
+                                foreach (Vector2 v in Occupied)
+                                {
+                                    if (position.Pos.X + 7 == v.X && position.Pos.Y == v.Y)
+                                        colide = true;
+                                }
+                                if (!colide)
+                                    x += 1;
+                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                
+                                turnSprite(true);
+                                //colide = false;
+                                break;
+                            case ConsoleKey.UpArrow:
+                                Lastkey = ConsoleKey.UpArrow;
+                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                break;
+                            case ConsoleKey.LeftArrow:
+                                Lastkey = ConsoleKey.LeftArrow;
+                                foreach (Vector2 v in Occupied)
+                                {
+                                    if (position.Pos.X - 1 == v.X && position.Pos.Y == v.Y)
+                                        colide = true;
+                                }
+                                if (!colide)
+                                    x -= 1;
+                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                turnSprite(false);
+                                break;
+                            case ConsoleKey.Spacebar:
+                                inAir = true;
+                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                break;
+                        }
+                    }
+
+                    x = Math.Clamp(x, 0, ParentScene.xdim - 8);
+                    y = Math.Clamp(y, 0, ParentScene.ydim - 3);
+
+                    //position.Pos = new Vector3(x, y, position.Pos.Z);
+                }
+                else if(inAir)
+                {
+                    if(jumpFrames == 0)
+                    {
+                        y -= 2;
+                        if(Lastkey == ConsoleKey.RightArrow)
+                            x += 3;
+                        else if (Lastkey == ConsoleKey.LeftArrow)
+                            x -= 3;
+                        jumpFrames++;
+                    }
+                    else if(jumpFrames == 1)
+                    {
+                        y -= 2;
+                        if(Lastkey == ConsoleKey.RightArrow)
+                            x += 3;
+                        else if (Lastkey == ConsoleKey.LeftArrow)
+                            x -= 3;
+                        jumpFrames++;
+                    }
+                    else if (jumpFrames == 2)
+                    {
+                        y -= 2;
+                        if(Lastkey == ConsoleKey.RightArrow)
+                            x += 3;
+                        else if (Lastkey == ConsoleKey.LeftArrow)
+                            x -= 3;
+                        jumpFrames++;
+                    }
+                    else if(jumpFrames == 3)
+                    {
+                        y -= 2;
+                        if(Lastkey == ConsoleKey.RightArrow)
+                            x += 3;
+                        else if (Lastkey == ConsoleKey.LeftArrow)
+                            x -= 3;
+                        jumpFrames = 0;
+                        inAir = false;
+                    }
+                    x = Math.Clamp(x, 0, ParentScene.xdim - 8);
+                    y = Math.Clamp(y, 0, ParentScene.ydim - 3);
+                    position.Pos = new Vector3(x, y, position.Pos.Z);
+                    Thread.Sleep(80);
+                }
+
+                if (coins != null)
+                    coinScore = checkCoin();
+                if(coinScore)
+                {
+                    actualScore.score += 1000;
+                    coinScore = false;
+                }
             }
             
         }
@@ -196,6 +216,11 @@ namespace SuperMario
                 {
                     ground = true;
                 } 
+            }
+            if (ParentScene.ydim - 4 == position.Pos.Y)
+            {
+                ground = true;
+                gameover = true;
             }
             if(!ground)
                 return false;
@@ -244,12 +269,6 @@ namespace SuperMario
             
             position.Pos = new Vector3(x, y, position.Pos.Z);
             Thread.Sleep(50);
-            if (ParentScene.ydim - 4 == position.Pos.Y)
-            {
-                ParentScene.Terminate();
-                Level1 level1 = new Level1();
-                level1.Run();
-            }
         }
 
         private void turnSprite(bool right)
