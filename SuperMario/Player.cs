@@ -21,6 +21,7 @@ namespace SuperMario
        private bool coinScore = false;
        private bool boxHit = false;
        private bool gameover = false;
+       private bool doesNotHaveKeyObserver = false;
        private int jumpFrames = 0;
        private float x, y;
        private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
@@ -48,6 +49,14 @@ namespace SuperMario
 
             if(gameover)
             {
+                //ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
+                ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
+                ConsoleKey.Enter};
+                ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
+                ConsoleKey.Enter,
+                ConsoleKey.Escape};
+                ParentScene.inputHandler.RegisterObserver(ParentGameObject.GetComponent<KeyObserver>().keysToObserve, ParentGameObject.GetComponent<KeyObserver>());
+
                 dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
                 foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                 {
@@ -59,7 +68,6 @@ namespace SuperMario
                     }
                 }
             }
-
             else
             {
                 ground = checkGround();
@@ -70,11 +78,29 @@ namespace SuperMario
                     while(!ground)
                     {
                         falling();
+                        // ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
+                        //     ConsoleKey.Enter};
+                        ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
+                        doesNotHaveKeyObserver = true;
                         ground = true;
                     }
                 }
                 else if(!inAir)
                 {
+                    // ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
+                    //         ConsoleKey.RightArrow,
+                    //         ConsoleKey.Spacebar,
+                    //         ConsoleKey.UpArrow,
+                    //         ConsoleKey.LeftArrow,
+                    //         ConsoleKey.Enter};
+                    if(doesNotHaveKeyObserver)
+                    {
+                        ParentScene.inputHandler.AddObserver(ParentGameObject.GetComponent<KeyObserver>());
+                        doesNotHaveKeyObserver = false;
+                    }
+                        
+                   
+                    
                     foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         switch (key)
@@ -159,6 +185,7 @@ namespace SuperMario
                             x -= 3;
                         jumpFrames = 0;
                         inAir = false;
+                        
                     }
                     x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);

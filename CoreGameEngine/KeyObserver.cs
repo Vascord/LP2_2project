@@ -15,7 +15,7 @@ namespace CoreGameEngine
     public class KeyObserver : Component, IObserver<ConsoleKey>
     {
 
-        private IEnumerable<ConsoleKey> keysToObserve;
+        public IEnumerable<ConsoleKey> keysToObserve;
         private Queue<ConsoleKey> observedKeys;
         private object queueLock;
 

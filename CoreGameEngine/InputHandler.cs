@@ -23,7 +23,7 @@ namespace CoreGameEngine
         private Thread inputThread;
 
         // A list of keys which cause the input handler to terminate
-        private IEnumerable<ConsoleKey> quitKeys;
+        public IEnumerable<ConsoleKey> quitKeys;
 
         // Create a new input handler
         public InputHandler(IEnumerable<ConsoleKey> quitKeys)
@@ -99,6 +99,14 @@ namespace CoreGameEngine
                         in observers.Values)
             {
                 theseObservers.Remove(observer);
+            }
+        }
+        public void AddObserver(IObserver<ConsoleKey> observer)
+        {
+            foreach (ICollection<IObserver<ConsoleKey>> theseObservers
+                        in observers.Values)
+            {
+                theseObservers.Add(observer);
             }
         }
     }

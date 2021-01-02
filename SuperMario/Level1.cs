@@ -24,7 +24,7 @@ namespace SuperMario
         private void CreateLevel()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape, ConsoleKey.Enter };
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape};
             gameScene = new Scene(xdim, ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
@@ -224,8 +224,7 @@ namespace SuperMario
                 ConsoleKey.RightArrow,
                 ConsoleKey.Spacebar,
                 ConsoleKey.UpArrow,
-                ConsoleKey.LeftArrow,
-                ConsoleKey.Enter});
+                ConsoleKey.LeftArrow});
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
