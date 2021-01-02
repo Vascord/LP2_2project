@@ -10,9 +10,8 @@ namespace SuperMario
        private KeyObserver keyObserver;
        private Position position;
        private List<Vector2> Occupied;
-       private List<Vector2> Coin;
-       private GameObject coins;
-       private GameObject box;
+       private List<GameObject> coins;
+       private List<GameObject> boxes;
 
        private Score actualScore;
 
@@ -30,12 +29,11 @@ namespace SuperMario
             position = ParentGameObject.GetComponent<Position>();
         }
 
-        public Player (List<Vector2> Occupied, List<Vector2> Coin, Score score, GameObject coins, GameObject box)
+        public Player (List<Vector2> Occupied, Score score, List<GameObject> boxes, List<GameObject> coins)
         {
             this.Occupied = Occupied; 
-            this.Coin = Coin; 
             this.coins = coins;
-            this.box = box;
+            this.boxes = boxes;
             actualScore = score;
         }
 
@@ -149,7 +147,8 @@ namespace SuperMario
                 Thread.Sleep(80);
             }
 
-            coinScore = checkCoin();
+            if (coins != null)
+                coinScore = checkCoin();
             if(coinScore)
             {
                 actualScore.score += 1000;
@@ -159,27 +158,31 @@ namespace SuperMario
         }
         private bool checkBox()
         {
+            char[,] emptyBoxSprite =
+                {
+                    { '█', '█', '█' , '█'},
+                    { '█', ' ', ' ' , '█'},
+                    { '█', ' ', ' ' , '█'},
+                    { '█', ' ', ' ' , '█'},
+                    { '█', ' ', ' ' , '█'},
+                    { '█', '█', '█' , '█'} 
+                };
             boxHit = false;
-            // check if there is ground beneth the player
-            if ((position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 && position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7) && box.GetComponent<BoxConfirmation>().boxUsed == 0)
+            foreach(GameObject Box in boxes)
             {
-                boxHit = true;
-                box.GetComponent<BoxConfirmation>().boxUsed = 1;
-                actualScore.score += 1000;
-            } 
+                if ((position.Pos.X  >= Box.GetComponent<Position>().Pos.X && position.Pos.X <= Box.GetComponent<Position>().Pos.X + 4 &&
+                    position.Pos.Y == Box.GetComponent<Position>().Pos.Y + 7) && Box.GetComponent<BoxConfirmation>().boxUsed == 0)
+                {
+                    boxHit = true;
+                    Box.GetComponent<BoxConfirmation>().boxUsed = 1;
+                    actualScore.score += 1000;
+                    Box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
+                } 
+                
+            }
             if(!boxHit)
                 return false;
             
-            char[,] emptyBoxSprite =
-            {
-                { '█', '█', '█' , '█'},
-                { '█', ' ', ' ' , '█'},
-                { '█', ' ', ' ' , '█'},
-                { '█', ' ', ' ' , '█'},
-                { '█', ' ', ' ' , '█'},
-                { '█', '█', '█' , '█'} 
-            };
-            box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
             return true;
         }
 
@@ -202,31 +205,31 @@ namespace SuperMario
         private bool checkCoin()
         {
             coinScore = false;
-            Vector2 vector = new Vector2(0,0);
-            // check if there is ground beneth the player
-            
-            foreach (Vector2 v in Coin)
-            {
-                if ((position.Pos.X  == v.X && position.Pos.Y == v.Y) )
-                {
-                    coinScore = true;
-                    vector = v;
-                } 
-            }
-            if(!coinScore)
-                return false;
-            Coin.Remove(new Vector2(vector.X, vector.Y));
             char[,] noMoreCoinSprite =
             {
                 {' '}
             };
-            coins.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
+            // check if there is ground beneth the player
+            
+            foreach (GameObject coin in coins)
+            {
+                if ((position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y) && 
+                    coin.GetComponent<CoinConfirmation>().coinUsed == 0)
+                {
+                    coinScore = true;
+                    coin.GetComponent<CoinConfirmation>().coinUsed = 1;
+                    coin.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
+                } 
+            }
+            if(!coinScore)
+                return false;
+                
             return true;
         }
 
         private void falling()
         {
-            if (box != null)
+            if (boxes != null)
                 boxHit = checkBox();
             if(boxHit)
             {
@@ -243,8 +246,9 @@ namespace SuperMario
             Thread.Sleep(50);
             if (ParentScene.ydim - 4 == position.Pos.Y)
             {
-                // Not correct
-                position.Pos = new Vector3(1f, 19f, position.Pos.Z);
+                ParentScene.Terminate();
+                Level1 level1 = new Level1();
+                level1.Run();
             }
         }
 

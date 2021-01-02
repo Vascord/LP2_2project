@@ -5,13 +5,15 @@ namespace SuperMario
 {
     public class Level1
     {
-        int xdim = 250, ydim = 30;
+        int xdim = 200, ydim = 30;
 
         int frameLenght = 10;
 
         private Scene gameScene;
         public List<Vector2> Occupied = new List<Vector2>();
-        public List<Vector2> Coin = new List<Vector2>();
+        public List<GameObject> coins = new List<GameObject>();
+        public List<GameObject> boxes = new List<GameObject>();
+
 
 
         public Level1()
@@ -22,7 +24,7 @@ namespace SuperMario
         private void CreateLevel()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape };
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape, ConsoleKey.Enter };
             gameScene = new Scene(xdim, ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
@@ -54,6 +56,7 @@ namespace SuperMario
                 new Dictionary<Vector2, ConsolePixel>();
             for (int x = 0; x < xdim; x++)
             {
+                //Ground and walls
                 if((x > 0 && x < 25) || (x > 30 && x < xdim))
                 {
                     //wallPixels[new Vector2(x, 0)] = wallPixel;
@@ -71,6 +74,14 @@ namespace SuperMario
                     Occupied.Add(new Vector2(x, ydim - 6));
                     wallPixels[new Vector2(x, ydim - 7)] = wallPixel;
                     Occupied.Add(new Vector2(x, ydim - 7));
+
+                }
+
+                // Plataform
+                if(x > 30 && x < 45)
+                {
+                    wallPixels[new Vector2(x, ydim - 18)] = wallPixel;
+                    Occupied.Add(new Vector2(x, ydim - 18));
                 }
                 
             }
@@ -134,24 +145,27 @@ namespace SuperMario
             score.AddComponent(visualScore);
             gameScene.AddGameObject(score);
 
-            // Create Coin
-            ConsolePixel coinPixel = new ConsolePixel(
-                ' ', ConsoleColor.Blue, ConsoleColor.Green);
-            Dictionary<Vector2, ConsolePixel> coinPixels =
-                new Dictionary<Vector2, ConsolePixel>();
-
-            coinPixels[new Vector2(80, 19)] = coinPixel;
-            Coin.Add(new Vector2(80, 19));
-
+            // Create Coin Sprite
             char[,] coinSprite =
             {
                 {'█'}
             };
-            GameObject coins = new GameObject("Coin");
-            coins.AddComponent(new ConsoleSprite(coinPixels));
-            coins.AddComponent(new Position(0, 0, 0f));
 
-            gameScene.AddGameObject(coins);
+            //COin 1
+            GameObject coin1 = new GameObject("Coin1");
+            coin1.AddComponent(new ConsoleSprite(coinSprite));
+            coin1.AddComponent(new Position(80, 19, 0f));
+            coin1.AddComponent(new CoinConfirmation());
+            gameScene.AddGameObject(coin1);
+            coins.Add(coin1);
+
+            //Coin 2
+            GameObject coin2 = new GameObject("Coin2");
+            coin2.AddComponent(new ConsoleSprite(coinSprite));
+            coin2.AddComponent(new Position(35, 8, 0f));
+            coin2.AddComponent(new CoinConfirmation());
+            gameScene.AddGameObject(coin2);
+            coins.Add(coin2);
 
             // Create Box 
             char[,] boxSprite=
@@ -169,8 +183,22 @@ namespace SuperMario
             box.AddComponent(new Position(100, 8, 0f));
             box.AddComponent(new BoxConfirmation());
             gameScene.AddGameObject(box);
+            boxes.Add(box);
+
+            // Create Box2
+            GameObject box2 = new GameObject("Box2");
+            box2.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
+                ConsoleColor.DarkGray));
+            box2.AddComponent(new Position(150, 8, 0f));
+            box2.AddComponent(new BoxConfirmation());
+            gameScene.AddGameObject(box2);
+            boxes.Add(box2);
 
             // Create player object
+            // ─▄████▄▄
+            // ▄▀█▀▐└─┐
+            // █▄▐▌▄█▄┘
+            // └▄▄▄▄▄┘
             char[,] playerSprite =
             {
                 { '─', '▄', '█' , '└'},
@@ -191,7 +219,7 @@ namespace SuperMario
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player(Occupied, Coin,score.GetComponent<Score>(), coins, box));
+            player.AddComponent(new Player(Occupied, score.GetComponent<Score>(), boxes, coins));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             //player.AddComponent(new SpriteCollider());
@@ -202,7 +230,7 @@ namespace SuperMario
 
             // Create game object for showing time limit
             GameObject time = new GameObject("Time");
-            time.AddComponent(new Position(240, 0, 10));
+            time.AddComponent(new Position(190, 0, 10));
             time.AddComponent(new Time());
             RenderableStringComponent visualTime = new RenderableStringComponent(
                 () => "Time: " + 200.ToString(),
@@ -223,59 +251,7 @@ namespace SuperMario
     }
 }
 
-// ─ ▄ █ █ █ █ ▄ ▄
 
-// ▄ ▀ █ ▀ ▐ └ ─ ┐
-
-// █ ▄ ▐ ▌ ▄ █ ▄ ┘
-
-// └ ▄ ▄ ▄ ▄ ▄ ┘
-
-
-//_ _ _ _ ▒ ▒ ▒ ▒ ▒
-
-//— - ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒ ▒
-
-//— – ▓ ▓ ▓ ░ ░ ▓ ░
-
-//— ▓ ░ ▓ ░ ░ ░ ▓ ░ ░ ░
-
-//— ▓ ░ ▓ ▓ ░ ░ ░ ▓ ░ ░ ░
-
-//— ▓ ▓ ░ ░ ░ ░ ▓ ▓ ▓ ▓
-
-//— — ░ ░ ░ ░ ░ ░ ░ ░
-
-//— - ▓ ▓ ▒ ▓ ▓ ▓ ▒ ▓ ▓ 
-
-//– ▓ ▓ ▓ ▒ ▓ ▓ ▓ ▒ ▓ ▓ ▓
-
-//░ ░ ▓ ▒ ░ ▒ ▒ ▒ ░ ▒ ▓ ░ ░
-
-
-//— - ▒ ▒ ▒  — — ▒ ▒ ▒ 
-
-//– ▓ ▓ ▓ — — — - ▓ ▓ ▓ 
-
-//▓ ▓ ▓ ▓ — — — - ▓ ▓ ▓ ▓ 
-
-
-// ____▒▒▒▒▒
-// —-▒▒▒▒▒▒▒▒▒
-// —–▓▓▓░░▓░
-// —▓░▓░░░▓░░░
-// —▓░▓▓░░░▓░░░
-// —▓▓░░░░▓▓▓▓
-// ——░░░░░░░░
-// —-▓▓▒▓▓▓▒▓▓
-// –▓▓▓▒▓▓▓▒▓▓▓
-// ▓▓▓▓▒▒▒▒▒▓▓▓▓
-// ░░▓▒░▒▒▒░▒▓░░
-// ░░░▒▒▒▒▒▒▒░░░
-// ░░▒▒▒▒▒▒▒▒▒░░
-// —-▒▒▒ ——▒▒▒
-// –▓▓▓———-▓▓▓
-// ▓▓▓▓———-▓▓▓▓
 
 
 

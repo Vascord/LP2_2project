@@ -21,7 +21,7 @@ namespace SuperMario
         {
             // Create scene
             ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape,
-                ConsoleKey.Enter };
+                ConsoleKey.Enter};
             gameScene = new Scene(xdim, ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
