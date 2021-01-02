@@ -63,8 +63,9 @@ namespace SuperMario
                     if (key == ConsoleKey.Enter)
                     {
                         ParentScene.Terminate();
-                        Level1 level = new Level1();
-                        level.Run();
+                        Level1 level1 = new Level1();
+                        level1.Run();
+                        break;
                     }
                 }
             }
@@ -149,6 +150,7 @@ namespace SuperMario
                 }
                 else if(inAir)
                 {
+                    ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
                     if(jumpFrames == 0)
                     {
                         y -= 2;
