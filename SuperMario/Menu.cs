@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using CoreGameEngine;
 namespace SuperMario
 {
+    /// <summary>
+    /// This.
+    /// </summary>
     public class Menu
     {
-        int xdim = 150, ydim = 30;
-
-        int frameLenght = 10;
+        private readonly int xdim = 150;
+        private readonly int ydim = 30;
+        private readonly int frameLenght = 10;
 
         private Scene gameScene;
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public Menu()
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -20,9 +26,12 @@ namespace SuperMario
         private void CreateMenu()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape,
-                ConsoleKey.Enter};
-            gameScene = new Scene(xdim, ydim,
+            ConsoleKey[] quitKeys = new ConsoleKey[] { 
+                ConsoleKey.Escape,
+                ConsoleKey.Enter, };
+            gameScene = new Scene(
+                xdim, 
+                ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
@@ -38,25 +47,25 @@ namespace SuperMario
             // Creates title
             char[,] titleSprite = 
             {
-                {'█','█','█',' ','█',' ','█','█','█','█','█'},
-                {'█',' ','█',' ','█',' ',' ','█',' ',' ',' '},
-                {'█',' ','█','█','█',' ','█','█','█','█','█'},
-                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                {'█','█','█','█','█',' ','█','█','█','█','█'},
-                {' ',' ',' ',' ','█',' ','█',' ','█',' ',' '},
-                {'█','█','█','█','█',' ','█','█','█','█','█'},
-                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                {'█','█','█','█','█',' ','█','█','█','█','█'},
-                {'█',' ','█',' ',' ',' ','█',' ','█','█',' '},
-                {'█','█','█',' ',' ',' ','█','█','█',' ','█'},
-                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                {'█','█','█','█','█',' ','█',' ',' ',' ','█'},
-                {'█',' ','█',' ','█',' ','█','█','█','█','█'},
-                {'█',' ','█',' ','█',' ','█',' ',' ',' ','█'},
-                {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-                {'█','█','█','█','█',' ','█','█','█','█','█'},
-                {'█',' ','█','█',' ',' ','█',' ',' ',' ','█'},
-                {'█','█','█',' ','█',' ','█','█','█','█','█'}
+                { '█', '█', '█', ' ', '█', ' ', '█', '█', '█', '█', '█' },
+                { '█', ' ', '█', ' ', '█', ' ', ' ', '█', ' ', ' ', ' ' },
+                { '█', ' ', '█', '█', '█', ' ', '█', '█', '█', '█', '█' },
+                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                { '█', '█', '█', '█', '█', ' ', '█', '█', '█', '█', '█' },
+                { ' ', ' ', ' ', ' ', '█', ' ', '█', ' ', '█', ' ', ' ' },
+                { '█', '█', '█', '█', '█', ' ', '█', '█', '█', '█', '█' },
+                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                { '█', '█', '█', '█', '█', ' ', '█', '█', '█', '█', '█' },
+                { '█', ' ', '█', ' ', ' ', ' ', '█', ' ', '█', '█', ' ' },
+                { '█', '█', '█', ' ', ' ', ' ', '█', '█', '█', ' ', '█' },
+                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                { '█', '█', '█', '█', '█', ' ', '█', ' ', ' ', ' ', '█' },
+                { '█', ' ', '█', ' ', '█', ' ', '█', '█', '█', '█', '█' },
+                { '█', ' ', '█', ' ', '█', ' ', '█', ' ', ' ', ' ', '█' },
+                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                { '█', '█', '█', '█', '█', ' ', '█', '█', '█', '█', '█' },
+                { '█', ' ', '█', '█', ' ', ' ', '█', ' ', ' ', ' ', '█' },
+                { '█', '█', '█', ' ', '█', ' ', '█', '█', '█', '█', '█' },
             };
             GameObject title = new GameObject("Title");
             Position titlePos = new Position(65f, 3f, 0f);
@@ -69,51 +78,51 @@ namespace SuperMario
             // Creates button and indicator
             char[,] buttonSprite1 = 
             {
-                {'L'},
-                {'e'},
-                {'v'},
-                {'e'},
-                {'l'},
-                {'1'}
+                { 'L' },
+                { 'e' },
+                { 'v' },
+                { 'e' },
+                { 'l' },
+                { '1' },
             };
             char[,] buttonSprite2 = 
             {
-                {'L'},
-                {'e'},
-                {'v'},
-                {'e'},
-                {'l'},
-                {'2'}
+                { 'L' },
+                { 'e' },
+                { 'v' },
+                { 'e' },
+                { 'l' },
+                { '2' },
             };
             char[,] buttonSprite3 = 
             {
-                {'H'},
-                {'e'},
-                {'l'},
-                {'p'}
+                { 'H' },
+                { 'e' },
+                { 'l' },
+                { 'p' },
             };
             char[,] buttonSprite4 = 
             {
-                {'Q'},
-                {'u'},
-                {'i'},
-                {'t'}
+                { 'Q' },
+                { 'u' },
+                { 'i' },
+                { 't' },
             };
             char[,] indicatorSprite = 
             {
-                {'>'},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {'<'}
+                { '>' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { '<' },
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
-                { ConsoleKey.UpArrow , ConsoleKey.DownArrow,ConsoleKey.Enter });
+                { ConsoleKey.UpArrow, ConsoleKey.DownArrow, ConsoleKey.Enter });
             GameObject button1 = new GameObject("Button1");
             GameObject button2 = new GameObject("Button2");
             GameObject button3 = new GameObject("Button3");
@@ -148,6 +157,9 @@ namespace SuperMario
             gameScene.AddGameObject(indicator);
         }
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public void Run()
         {
             gameScene.GameLoop(frameLenght);

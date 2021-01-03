@@ -201,7 +201,7 @@ namespace SuperMario
             GameObject dead = new GameObject("Dead");
             dead.AddComponent(new Position(70, 10, 10));
             RenderableStringComponent deadString = new RenderableStringComponent(
-                () => "",
+                () => string.Empty,
                 i => new Vector2(i, 0),
                 ConsoleColor.Red, 
                 ConsoleColor.Gray);
