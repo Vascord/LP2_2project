@@ -36,14 +36,6 @@ namespace SuperMario
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
 
-            // Create quitter object
-            GameObject quitter = new GameObject("Quitter");
-            KeyObserver quitSceneKeyListener = new KeyObserver(new ConsoleKey[]
-                { ConsoleKey.Escape });
-            quitter.AddComponent(quitSceneKeyListener);
-            quitter.AddComponent(new Quitter());
-            gameScene.AddGameObject(quitter);
-
             // Create walls
             GameObject walls = new GameObject("Walls");
             ConsolePixel wallPixel = new ConsolePixel(
