@@ -47,6 +47,10 @@ namespace SuperMario
             y = position.Pos.Y;
             bool colide = false;
 
+            if(ParentScene.xdim - 10 == position.Pos.X && gameover == false)
+            {
+                gameover = true;
+            }
             if(gameover)
             {
                 //ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
@@ -57,15 +61,32 @@ namespace SuperMario
                 ConsoleKey.Escape};
                 ParentScene.inputHandler.RegisterObserver(ParentGameObject.GetComponent<KeyObserver>().keysToObserve, ParentGameObject.GetComponent<KeyObserver>());
 
-                dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
-                foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
+                if(ParentScene.ydim - 4 == position.Pos.Y)
                 {
-                    if (key == ConsoleKey.Enter)
+                    dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
+                    foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
-                        ParentScene.Terminate();
-                        Level1 level1 = new Level1();
-                        level1.Run();
-                        break;
+                        if (key == ConsoleKey.Enter)
+                        {
+                            ParentScene.Terminate();
+                            Level1 level1 = new Level1();
+                            level1.Run();
+                            break;
+                        }
+                    }
+                }
+                else if(ParentScene.xdim - 10 == position.Pos.X)
+                {
+                    dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to go to the next level");
+                    foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
+                    {
+                        if (key == ConsoleKey.Enter)
+                        {
+                            ParentScene.Terminate();
+                            Menu level2 = new Menu();
+                            level2.Run();
+                            break;
+                        }
                     }
                 }
             }
