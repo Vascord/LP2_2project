@@ -4,6 +4,118 @@
         <name>SuperMario</name>
     </assembly>
     <members>
+        <member name="T:SuperMario.BoxConfirmation">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.BoxConfirmation.BoxUsed">
+            <summary>
+            Gets or sets.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.BoxConfirmation.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.CoinConfirmation">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.CoinConfirmation.CoinUsed">
+            <summary>
+            Gets or sets.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.CoinConfirmation.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Help">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Help.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Help.Run">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Indicator">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Indicator.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Indicator.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Level1">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level1.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level1.Run">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Level2">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level2.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level2.Run">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level2.BuildObstacles">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Menu">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Menu.#ctor">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Menu.Run">
+            <summary>
+            This.
+            </summary>
+        </member>
         <member name="T:SuperMario.Player">
             <summary>
             This.
@@ -15,7 +127,7 @@
             </summary>
             <value>Name of the file.</value>
         </member>
-        <member name="M:SuperMario.Player.#ctor(System.Collections.Generic.List{CoreGameEngine.Vector2},SuperMario.Score,System.Collections.Generic.List{CoreGameEngine.GameObject},System.Collections.Generic.List{CoreGameEngine.GameObject},CoreGameEngine.GameObject)">
+        <member name="M:SuperMario.Player.#ctor(System.Collections.Generic.List{CoreGameEngine.Vector2},SuperMario.Score,System.Collections.Generic.List{CoreGameEngine.GameObject},System.Collections.Generic.List{CoreGameEngine.GameObject},CoreGameEngine.GameObject,System.Int32)">
             <summary>
             This.
             </summary>
@@ -24,6 +136,7 @@
             <param name="boxes">I.</param>
             <param name="coins">O.</param>
             <param name="dead">U.</param>
+            <param name="level">Bababoi.</param>
         </member>
         <member name="M:SuperMario.Player.Start">
             <summary>
