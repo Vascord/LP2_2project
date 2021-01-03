@@ -4,5 +4,41 @@
         <name>SuperMario</name>
     </assembly>
     <members>
+        <member name="T:SuperMario.Time">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.Time.Timing">
+            <summary>
+            Gets.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.Time.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Time.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Title">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Title.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Title.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
     </members>
 </doc>

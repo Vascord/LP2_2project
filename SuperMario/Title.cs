@@ -3,18 +3,28 @@ using CoreGameEngine;
 
 namespace SuperMario
 {
+    /// <summary>
+    /// This.
+    /// </summary>
     public class Title : Component
     {
         private Position position;
         private int animation = 0;
-        private float x, y;
+        private float x;
+        private float y;
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public override void Start()
         {
             position = ParentGameObject.GetComponent<Position>();
             x = position.Pos.X;
         }
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public override void Update()
         {
             y = position.Pos.Y;
