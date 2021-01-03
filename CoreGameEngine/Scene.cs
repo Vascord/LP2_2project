@@ -68,6 +68,8 @@ namespace CoreGameEngine
         // Terminate scene
         public void Terminate()
         {
+            Console.Clear();
+            Console.ResetColor();
             terminate = true;
         }
 
