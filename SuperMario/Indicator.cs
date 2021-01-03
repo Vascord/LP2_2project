@@ -4,7 +4,8 @@ using CoreGameEngine;
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Public class which permites to "press" the button in the menu and
+    /// change scene.
     /// </summary>
     public class Indicator : Component
     {
@@ -15,7 +16,7 @@ namespace SuperMario
         private int option;
 
         /// <summary>
-        /// This.
+        /// Public override method which initiates at the first frame.
         /// </summary>
         public override void Start()
         {
@@ -26,12 +27,15 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Public override method which is launched at each frame.
         /// </summary>
         public override void Update()
         {
+            // Gets the position in Y of the indicator
             y = position.Pos.Y;
 
+            /* Sees what key is pressed and depending of the keys pressed
+            the indicator can go up and down or initiate another scene*/
             foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
             {
                 if (key == ConsoleKey.UpArrow && option != 0)
@@ -72,9 +76,7 @@ namespace SuperMario
                 }
             }
 
-            x = Math.Clamp(x, 0, ParentScene.xdim - 3);
-            y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-
+            // The position of the gameobject actualizes with the new values
             position.Pos = new Vector3(x, y, position.Pos.Z);
         }
     }

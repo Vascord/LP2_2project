@@ -6,64 +6,73 @@
     <members>
         <member name="T:SuperMario.BoxConfirmation">
             <summary>
-            This.
+            Public class used to see if a box has been used or not.
             </summary>
         </member>
         <member name="P:SuperMario.BoxConfirmation.BoxUsed">
             <summary>
-            Gets or sets.
+            Gets or sets the used state of the box.
             </summary>
-            <value>Name of the file.</value>
+            <value>If the box is used (1) or not (0).</value>
         </member>
         <member name="M:SuperMario.BoxConfirmation.#ctor">
             <summary>
-            This.
+            Public constructor that as the default box as non-used.
             </summary>
         </member>
         <member name="T:SuperMario.CoinConfirmation">
             <summary>
-            This.
+            Public class used to see if a coin has been used or not.
             </summary>
         </member>
         <member name="P:SuperMario.CoinConfirmation.CoinUsed">
             <summary>
-            Gets or sets.
+            Gets or sets the used state of the coin.
             </summary>
-            <value>Name of the file.</value>
+            <value>If the coin is used (1) or not (0).</value>
         </member>
         <member name="M:SuperMario.CoinConfirmation.#ctor">
             <summary>
-            This.
+            Public constructor that as the default coin as non-used.
             </summary>
         </member>
         <member name="T:SuperMario.Help">
             <summary>
-            This.
+            Class which generates the scene help with the inputs and game objects 
+            of the help menu.
             </summary>
         </member>
         <member name="M:SuperMario.Help.#ctor">
             <summary>
-            This.
+            Public constructor of the help menu.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Help.CreateHelp">
+            <summary>
+            Private method which makes the scene and put the following
+            game objects on it for the help menu.
             </summary>
         </member>
         <member name="M:SuperMario.Help.Run">
             <summary>
-            This.
+            Public method that makes the scene run with the predefined
+            frame length.
             </summary>
         </member>
         <member name="T:SuperMario.Indicator">
             <summary>
-            This.
+            Public class which permites to "press" the button in the menu and
+            change scene.
             </summary>
         </member>
         <member name="M:SuperMario.Indicator.Start">
             <summary>
-            This.
+            Public override method which initiates at the first frame.
             </summary>
         </member>
         <member name="M:SuperMario.Indicator.Update">
             <summary>
-            This.
+            Public override method which is launched at each frame.
             </summary>
         </member>
         <member name="T:SuperMario.Level1">
@@ -103,17 +112,25 @@
         </member>
         <member name="T:SuperMario.Menu">
             <summary>
-            This.
+            Class which generates the scene menu with the inputs and game objects
+            of the menu.
             </summary>
         </member>
         <member name="M:SuperMario.Menu.#ctor">
             <summary>
-            This.
+            Public constructor of the menu.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Menu.CreateMenu">
+            <summary>
+            Private method which makes the scene and put the following
+            game objects on it for the menu.
             </summary>
         </member>
         <member name="M:SuperMario.Menu.Run">
             <summary>
-            This.
+            Public method that makes the scene run with the predefined
+            frame length.
             </summary>
         </member>
         <member name="T:SuperMario.Player">
@@ -160,74 +177,75 @@
         </member>
         <member name="T:SuperMario.ReturnMenu">
             <summary>
-            This.
+            Public class which permites to "press" the button in the help menu and
+            return the main menu scene.
             </summary>
         </member>
         <member name="M:SuperMario.ReturnMenu.Start">
             <summary>
-            This.
+            Public override method which initiates at the first frame.
             </summary>
         </member>
         <member name="M:SuperMario.ReturnMenu.Update">
             <summary>
-            This.
+            Public override method which is launched at each frame.
             </summary>
         </member>
         <member name="T:SuperMario.Score">
             <summary>
-            This.
+            Public class that provides the score of the player at each level.
             </summary>
         </member>
         <member name="P:SuperMario.Score.Scoring">
             <summary>
-            Gets or sets.
+            Gets or sets the score during the game.
             </summary>
-            <value>Name of the file.</value>
+            <value>The int score of current level.</value>
         </member>
         <member name="M:SuperMario.Score.Start">
             <summary>
-            This.
+            Public override method which initiates at the first frame.
             </summary>
         </member>
         <member name="M:SuperMario.Score.Update">
             <summary>
-            This.
+            Public override method which is launched at each frame.
             </summary>
         </member>
         <member name="T:SuperMario.Time">
             <summary>
-            This.
+            Public class with the remaining time for the player to finish the level.
             </summary>
         </member>
         <member name="P:SuperMario.Time.Timing">
             <summary>
-            Gets.
+            Gets the actual time of the level.
             </summary>
-            <value>Name of the file.</value>
+            <value>The int time of the current level.</value>
         </member>
         <member name="M:SuperMario.Time.Start">
             <summary>
-            This.
+            Public override method which initiates at the first frame.
             </summary>
         </member>
         <member name="M:SuperMario.Time.Update">
             <summary>
-            This.
+            Public override method which is launched at each frame.
             </summary>
         </member>
         <member name="T:SuperMario.Title">
             <summary>
-            This.
+            Public class to do the title animation.
             </summary>
         </member>
         <member name="M:SuperMario.Title.Start">
             <summary>
-            This.
+            Public override method which initiates at the first frame.
             </summary>
         </member>
         <member name="M:SuperMario.Title.Update">
             <summary>
-            This.
+            Public override method which is launched at each frame.
             </summary>
         </member>
     </members>

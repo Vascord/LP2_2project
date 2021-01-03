@@ -1,17 +1,16 @@
-using System;
 using CoreGameEngine;
 
 namespace SuperMario
 {
     /// <summary>
-    /// This public class is used to see if a box has been used or not.
+    /// Public class used to see if a box has been used or not.
     /// </summary>
     public class BoxConfirmation : Component
     {
         /// <summary>
         /// Gets or sets the used state of the box.
         /// </summary>
-        /// <value>Name of the file.</value>
+        /// <value>If the box is used (1) or not (0).</value>
         public int BoxUsed { get; set; }
 
         /// <summary>
