@@ -68,37 +68,49 @@
         </member>
         <member name="T:SuperMario.Level1">
             <summary>
-            This.
+            Responsible for creating the first level of the game and starting the
+            game loop.
             </summary>
         </member>
         <member name="M:SuperMario.Level1.#ctor">
             <summary>
-            This.
+            Class Constructor.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level1.CreateLevel">
+            <summary>
+            Creates the first Level GameObjects.
             </summary>
         </member>
         <member name="M:SuperMario.Level1.Run">
             <summary>
-            This.
+            Starts the game Loop.
             </summary>
         </member>
         <member name="T:SuperMario.Level2">
             <summary>
-            This.
+            Responsible for creating the Second level of the game and starting the
+            game loop.
             </summary>
         </member>
         <member name="M:SuperMario.Level2.#ctor">
             <summary>
-            This.
+            Class Constructor.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Level2.CreateLevel">
+            <summary>
+            Creates the second Level GameObjects.
             </summary>
         </member>
         <member name="M:SuperMario.Level2.Run">
             <summary>
-            This.
+            Starts the game loop.
             </summary>
         </member>
         <member name="M:SuperMario.Level2.BuildObstacles">
             <summary>
-            This.
+            Creates obstacles game  Objects.
             </summary>
         </member>
         <member name="T:SuperMario.Menu">
@@ -222,7 +234,7 @@
         </member>
         <member name="M:SuperMario.Title.Start">
             <summary>
-            This.
+            Runs the code only once at the start.
             </summary>
         </member>
         <member name="M:SuperMario.Title.Update">

@@ -14,7 +14,7 @@ namespace SuperMario
         private float y;
 
         /// <summary>
-        /// This.
+        /// Runs the code only once at the start.
         /// </summary>
         public override void Start()
         {
