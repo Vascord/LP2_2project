@@ -25,11 +25,11 @@ namespace SuperMario
         {
             foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
             {
-                if (key == ConsoleKey.Escape)
-                {
-                    Console.WriteLine("Bye :(");
-                    ParentScene.Terminate();
-                }
+                // if (key == ConsoleKey.Escape)
+                // {
+                //     Console.WriteLine("Bye :(");
+                //     ParentScene.Terminate();
+                // }
             }
         }
     }

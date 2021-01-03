@@ -118,6 +118,14 @@ namespace SuperMario
                                 break;
                             }
                         }
+
+                        if (key == ConsoleKey.Escape)
+                        {
+                            ParentScene.Terminate();
+                            Menu menu = new Menu();
+                            menu.Run();
+                            break;
+                        }
                     }
                 }
                 else if (ParentScene.xdim - 10 == position.Pos.X)
@@ -211,6 +219,11 @@ namespace SuperMario
                             case ConsoleKey.Spacebar:
                                 inAir = true;
                                 position.Pos = new Vector3(x, y, position.Pos.Z);
+                                break;
+                            case ConsoleKey.Escape:
+                                ParentScene.Terminate();
+                                Menu menu = new Menu();
+                                menu.Run();
                                 break;
                         }
                     }

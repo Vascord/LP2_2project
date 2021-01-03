@@ -228,7 +228,8 @@ namespace SuperMario
                 ConsoleKey.RightArrow,
                 ConsoleKey.Spacebar,
                 ConsoleKey.UpArrow,
-                ConsoleKey.LeftArrow, });
+                ConsoleKey.LeftArrow,
+                ConsoleKey.Escape, });
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);

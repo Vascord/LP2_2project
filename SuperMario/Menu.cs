@@ -27,7 +27,6 @@ namespace SuperMario
         {
             // Create scene
             ConsoleKey[] quitKeys = new ConsoleKey[] { 
-                ConsoleKey.Escape,
                 ConsoleKey.Enter, };
             gameScene = new Scene(
                 xdim, 
@@ -35,14 +34,6 @@ namespace SuperMario
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
-            
-            // Create quitter object
-            GameObject quitter = new GameObject("Quitter");
-            KeyObserver quitSceneKeyListener = new KeyObserver(new ConsoleKey[]
-                { ConsoleKey.Escape });
-            quitter.AddComponent(quitSceneKeyListener);
-            quitter.AddComponent(new Quitter());
-            gameScene.AddGameObject(quitter);
 
             // Creates title
             char[,] titleSprite = 
