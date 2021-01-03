@@ -20,7 +20,7 @@ namespace SuperMario
        private bool ground = true;
        private bool coinScore = false;
        private bool boxHit = false;
-       private bool gameover = false;
+       public bool gameover { get; private set;} = false;
        private bool doesNotHaveKeyObserver = false;
        private int jumpFrames = 0;
        private float x, y;

@@ -26,12 +26,12 @@ namespace SuperMario
             {
                 if (key == ConsoleKey.UpArrow && option != 0)
                 {
-                    y -= 3;
+                    y -= 2;
                     option--;
                 }
-                else if (key == ConsoleKey.DownArrow && option != 2)
+                else if (key == ConsoleKey.DownArrow && option != 3)
                 {
-                    y += 3;
+                    y += 2;
                     option++;
                 }
                 else if (key == ConsoleKey.Enter)
@@ -42,7 +42,13 @@ namespace SuperMario
                         Level1 level1 = new Level1();
                         level1.Run();
                     }
-                    else if(option == 1)
+                    if(option == 1)
+                    {
+                        ParentScene.Terminate();
+                        Level1 level2 = new Level1();
+                        level2.Run();
+                    }
+                    else if(option == 2)
                     {
                         ParentScene.Terminate();
                         Help helpMenu = new Help();
