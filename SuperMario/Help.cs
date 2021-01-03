@@ -22,8 +22,10 @@ namespace SuperMario
         {
             // Create scene
             ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape,
-                ConsoleKey.Enter };
-            gameScene = new Scene(xdim, ydim,
+                ConsoleKey.Enter,
+            };
+            gameScene = new Scene(xdim, 
+                ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
@@ -71,7 +73,7 @@ namespace SuperMario
                 {'h',' ','r',' ','p',' ',' '},
                 {'t',' ','o',' ','a',' ',' '},
                 {' ',' ','w',' ','c',' ',' '},
-                {' ',' ',' ',' ','e',' ',' '}
+                {' ',' ',' ',' ','e',' ',' '},
             };
             GameObject instructions = new GameObject("Instructions");
             Position instructionsPos = new Position(60f, 10f, 0f);
@@ -86,7 +88,7 @@ namespace SuperMario
                 {'B'},
                 {'a'},
                 {'c'},
-                {'k'}
+                {'k'},
             };
             char[,] indicatorSprite = 
             {
@@ -95,7 +97,7 @@ namespace SuperMario
                 {' '},
                 {' '},
                 {' '},
-                {'<'}
+                {'<'},
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
                 { ConsoleKey.W , ConsoleKey.S, ConsoleKey.Enter });

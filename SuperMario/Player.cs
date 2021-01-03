@@ -47,11 +47,11 @@ namespace SuperMario
             y = position.Pos.Y;
             bool colide = false;
 
-            if(ParentScene.xdim - 10 == position.Pos.X && gameover == false)
+            if (ParentScene.xdim - 10 == position.Pos.X && gameover == false)
             {
                 gameover = true;
             }
-            if(gameover)
+            if (gameover)
             {
                 ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
                 ConsoleKey.Enter};
@@ -60,7 +60,7 @@ namespace SuperMario
                 ConsoleKey.Escape};
                 ParentScene.inputHandler.RegisterObserver(ParentGameObject.GetComponent<KeyObserver>().keysToObserve, ParentGameObject.GetComponent<KeyObserver>());
 
-                if(ParentScene.ydim - 4 == position.Pos.Y)
+                if (ParentScene.ydim - 4 == position.Pos.Y)
                 {
                     dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
@@ -74,7 +74,7 @@ namespace SuperMario
                         }
                     }
                 }
-                else if(ParentScene.xdim - 10 == position.Pos.X)
+                else if (ParentScene.xdim - 10 == position.Pos.X)
                 {
                     dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to go to the next level");
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
@@ -94,9 +94,9 @@ namespace SuperMario
                 ground = checkGround();
                 
                 
-                if(!inAir && !ground)
+                if (!inAir && !ground)
                 {
-                    while(!ground)
+                    while (!ground)
                     {
                         falling();
                         ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
@@ -104,9 +104,9 @@ namespace SuperMario
                         ground = true;
                     }
                 }
-                else if(!inAir)
+                else if (!inAir)
                 {
-                    if(doesNotHaveKeyObserver)
+                    if (doesNotHaveKeyObserver)
                     {
                         ParentScene.inputHandler.AddObserver(ParentGameObject.GetComponent<KeyObserver>());
                         doesNotHaveKeyObserver = false;
@@ -114,7 +114,7 @@ namespace SuperMario
                         
                    
                     
-                    foreach(ConsoleKey key in keyObserver.GetCurrentKeys())
+                    foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         switch (key)
                         {
@@ -158,23 +158,23 @@ namespace SuperMario
                     x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                 }
-                else if(inAir)
+                else if (inAir)
                 {
                     actualScore.score -= 5;
                     ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
-                    if(jumpFrames == 0)
+                    if (jumpFrames == 0)
                     {
                         y -= 2;
-                        if(Lastkey == ConsoleKey.RightArrow)
+                        if (Lastkey == ConsoleKey.RightArrow)
                             x += 3;
                         else if (Lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
                         jumpFrames++;
                     }
-                    else if(jumpFrames == 1)
+                    else if (jumpFrames == 1)
                     {
                         y -= 2;
-                        if(Lastkey == ConsoleKey.RightArrow)
+                        if (Lastkey == ConsoleKey.RightArrow)
                             x += 3;
                         else if (Lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
@@ -183,16 +183,16 @@ namespace SuperMario
                     else if (jumpFrames == 2)
                     {
                         y -= 2;
-                        if(Lastkey == ConsoleKey.RightArrow)
+                        if (Lastkey == ConsoleKey.RightArrow)
                             x += 3;
                         else if (Lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
                         jumpFrames++;
                     }
-                    else if(jumpFrames == 3)
+                    else if (jumpFrames == 3)
                     {
                         y -= 2;
-                        if(Lastkey == ConsoleKey.RightArrow)
+                        if (Lastkey == ConsoleKey.RightArrow)
                             x += 3;
                         else if (Lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
@@ -208,7 +208,7 @@ namespace SuperMario
 
                 if (coins != null)
                     coinScore = checkCoin();
-                if(coinScore)
+                if (coinScore)
                 {
                     actualScore.score += 1000;
                     coinScore = false;
@@ -228,7 +228,7 @@ namespace SuperMario
                     { '█', '█', '█' , '█'} 
                 };
             boxHit = false;
-            foreach(GameObject Box in boxes)
+            foreach (GameObject Box in boxes)
             {
                 if ((position.Pos.X  >= Box.GetComponent<Position>().Pos.X && position.Pos.X <= Box.GetComponent<Position>().Pos.X + 4 &&
                     position.Pos.Y == Box.GetComponent<Position>().Pos.Y + 7) && Box.GetComponent<BoxConfirmation>().boxUsed == 0)
@@ -240,7 +240,7 @@ namespace SuperMario
                 } 
                 
             }
-            if(!boxHit)
+            if (!boxHit)
                 return false;
             
             return true;
@@ -262,7 +262,7 @@ namespace SuperMario
                 ground = true;
                 gameover = true;
             }
-            if(!ground)
+            if (!ground)
                 return false;
             return true;
         }
@@ -286,7 +286,7 @@ namespace SuperMario
                     coin.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
                 } 
             }
-            if(!coinScore)
+            if (!coinScore)
                 return false;
                 
             return true;
@@ -297,7 +297,7 @@ namespace SuperMario
             
             if (boxes != null)
                 boxHit = checkBox();
-            if(boxHit)
+            if (boxHit)
             {
                 boxHit = false;
             }
@@ -336,7 +336,7 @@ namespace SuperMario
                 { '─', '▄', '█' , '┘'}
             };
 
-            if(right == false)
+            if (right == false)
                 ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSpriteT, ConsoleColor.Red, ConsoleColor.Gray);
             else
                 ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSprite, ConsoleColor.Red, ConsoleColor.Gray);
