@@ -5,64 +5,96 @@ using CoreGameEngine;
 
 namespace SuperMario
 {
+    /// <summary>
+    /// This.
+    /// </summary>
     public class Player : Component
     {
-       private KeyObserver keyObserver;
-       private Position position;
-       private List<Vector2> Occupied;
-       private List<GameObject> coins;
-       private List<GameObject> boxes;
-       private GameObject dead;
+        private readonly List<Vector2> occupied;
+        private readonly List<GameObject> coins;
+        private readonly List<GameObject> boxes;
+        private readonly GameObject dead;
+        private readonly Score actualScore;
+        private KeyObserver keyObserver;
+        private Position position;
+        private bool inAir = false;
+        private bool coinScore = false;
+        private bool boxHit = false;
 
-       private Score actualScore;
+        /// <summary>
+        /// Gets or sets a value indicating whether.
+        /// </summary>
+        /// <value>Name of the file.</value>
+        public bool Gameover { get; set; } = false;
+        private bool doesNotHaveKeyObserver = false;
+        private int jumpFrames = 0;
+        private float x;
+        private float y;
+        private ConsoleKey lastkey = ConsoleKey.LeftArrow;
 
-       private bool inAir = false;
-       private bool ground = true;
-       private bool coinScore = false;
-       private bool boxHit = false;
-       public bool gameover { get; private set;} = false;
-       private bool doesNotHaveKeyObserver = false;
-       private int jumpFrames = 0;
-       private float x, y;
-       private ConsoleKey Lastkey = ConsoleKey.LeftArrow;
-
-        public override void Start()
+        /// <summary>
+        /// This.
+        /// </summary>
+        /// <param name="occupied">A.</param>
+        /// <param name="score">E.</param>
+        /// <param name="boxes">I.</param>
+        /// <param name="coins">O.</param>
+        /// <param name="dead">U.</param>
+        public Player (
+            List<Vector2> occupied,
+            Score score,
+            List<GameObject> boxes,
+            List<GameObject> coins,
+            GameObject dead )
         {
-            keyObserver = ParentGameObject.GetComponent<KeyObserver>();
-            position = ParentGameObject.GetComponent<Position>();
-        }
-
-        public Player (List<Vector2> Occupied, Score score, List<GameObject> boxes, List<GameObject> coins, GameObject dead)
-        {
-            this.Occupied = Occupied; 
+            this.occupied = occupied;
             this.coins = coins;
             this.boxes = boxes;
             this.dead = dead;
             actualScore = score;
         }
 
+        /// <summary>
+        /// This.
+        /// </summary>
+        public override void Start()
+        {
+            keyObserver = ParentGameObject.GetComponent<KeyObserver>();
+            position = ParentGameObject.GetComponent<Position>();
+        }
+
+        /// <summary>
+        /// This.
+        /// </summary>
         public override void Update()
         {
+            bool ground;
             x = position.Pos.X;
             y = position.Pos.Y;
             bool colide = false;
 
-            if (ParentScene.xdim - 10 == position.Pos.X && gameover == false)
+            if (ParentScene.xdim - 10 == position.Pos.X && !Gameover)
             {
-                gameover = true;
+                Gameover = true;
             }
-            if (gameover)
+
+            if (Gameover)
             {
-                ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
-                ConsoleKey.Enter};
+                ParentGameObject.GetComponent<KeyObserver>().keysToObserve =
+                new ConsoleKey[] { ConsoleKey.Enter };
                 ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
                 ConsoleKey.Enter,
-                ConsoleKey.Escape};
-                ParentScene.inputHandler.RegisterObserver(ParentGameObject.GetComponent<KeyObserver>().keysToObserve, ParentGameObject.GetComponent<KeyObserver>());
+                ConsoleKey.Escape, };
+                ParentScene.inputHandler.RegisterObserver(
+                    ParentGameObject
+                    .GetComponent<KeyObserver>()
+                    .keysToObserve, ParentGameObject
+                    .GetComponent<KeyObserver>());
 
                 if (ParentScene.ydim - 4 == position.Pos.Y)
                 {
-                    dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to restart");
+                    dead.GetComponent<RenderableStringComponent>()
+                    .SwitchString(() => "Press Enter to restart");
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
@@ -76,7 +108,8 @@ namespace SuperMario
                 }
                 else if (ParentScene.xdim - 10 == position.Pos.X)
                 {
-                    dead.GetComponent<RenderableStringComponent>().SwitchString(() => "Press Enter to go to the next level");
+                    dead.GetComponent<RenderableStringComponent>()
+                    .SwitchString(() => "Press Enter to go to the next level");
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
@@ -91,15 +124,15 @@ namespace SuperMario
             }
             else
             {
-                ground = checkGround();
-                
-                
+                ground = CheckGround();
                 if (!inAir && !ground)
                 {
                     while (!ground)
                     {
-                        falling();
-                        ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
+                        Falling();
+                        ParentScene.inputHandler
+                            .RemoveObserver(ParentGameObject
+                            .GetComponent<KeyObserver>());
                         doesNotHaveKeyObserver = true;
                         ground = true;
                     }
@@ -108,45 +141,48 @@ namespace SuperMario
                 {
                     if (doesNotHaveKeyObserver)
                     {
-                        ParentScene.inputHandler.AddObserver(ParentGameObject.GetComponent<KeyObserver>());
+                        ParentScene.inputHandler
+                            .AddObserver(ParentGameObject
+                            .GetComponent<KeyObserver>());
                         doesNotHaveKeyObserver = false;
                     }
-                        
-                   
-                    
+
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         switch (key)
                         {
                             case ConsoleKey.RightArrow:
-                                Lastkey = ConsoleKey.RightArrow;
-                                foreach (Vector2 v in Occupied)
+                                lastkey = ConsoleKey.RightArrow;
+                                foreach (Vector2 v in occupied)
                                 {
-                                    if (position.Pos.X + 7 == v.X && position.Pos.Y == v.Y)
+                                    if (position.Pos.X + 7 == v.X &&
+                                        position.Pos.Y == v.Y)
+                                    {
                                         colide = true;
+                                    }
                                 }
+
                                 if (!colide)
-                                    x += 1;
+                                    x++;
                                 position.Pos = new Vector3(x, y, position.Pos.Z);
-                                
-                                turnSprite(true);
-                                //colide = false;
+                                TurnSprite(true);
                                 break;
                             case ConsoleKey.UpArrow:
-                                Lastkey = ConsoleKey.UpArrow;
+                                lastkey = ConsoleKey.UpArrow;
                                 position.Pos = new Vector3(x, y, position.Pos.Z);
                                 break;
                             case ConsoleKey.LeftArrow:
-                                Lastkey = ConsoleKey.LeftArrow;
-                                foreach (Vector2 v in Occupied)
+                                lastkey = ConsoleKey.LeftArrow;
+                                foreach (Vector2 v in occupied)
                                 {
                                     if (position.Pos.X - 1 == v.X && position.Pos.Y == v.Y)
                                         colide = true;
                                 }
+
                                 if (!colide)
                                     x -= 1;
                                 position.Pos = new Vector3(x, y, position.Pos.Z);
-                                turnSprite(false);
+                                TurnSprite(false);
                                 break;
                             case ConsoleKey.Spacebar:
                                 inAir = true;
@@ -160,46 +196,28 @@ namespace SuperMario
                 }
                 else if (inAir)
                 {
-                    actualScore.score -= 5;
+                    actualScore.Scoring -= 5;
                     ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
-                    if (jumpFrames == 0)
+                    if (jumpFrames <= 2)
                     {
                         y -= 2;
-                        if (Lastkey == ConsoleKey.RightArrow)
+                        if (lastkey == ConsoleKey.RightArrow)
                             x += 3;
-                        else if (Lastkey == ConsoleKey.LeftArrow)
-                            x -= 3;
-                        jumpFrames++;
-                    }
-                    else if (jumpFrames == 1)
-                    {
-                        y -= 2;
-                        if (Lastkey == ConsoleKey.RightArrow)
-                            x += 3;
-                        else if (Lastkey == ConsoleKey.LeftArrow)
-                            x -= 3;
-                        jumpFrames++;
-                    }
-                    else if (jumpFrames == 2)
-                    {
-                        y -= 2;
-                        if (Lastkey == ConsoleKey.RightArrow)
-                            x += 3;
-                        else if (Lastkey == ConsoleKey.LeftArrow)
+                        else if (lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
                         jumpFrames++;
                     }
                     else if (jumpFrames == 3)
                     {
                         y -= 2;
-                        if (Lastkey == ConsoleKey.RightArrow)
+                        if (lastkey == ConsoleKey.RightArrow)
                             x += 3;
-                        else if (Lastkey == ConsoleKey.LeftArrow)
+                        else if (lastkey == ConsoleKey.LeftArrow)
                             x -= 3;
                         jumpFrames = 0;
                         inAir = false;
-                        
                     }
+
                     x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                     position.Pos = new Vector3(x, y, position.Pos.Z);
@@ -207,75 +225,80 @@ namespace SuperMario
                 }
 
                 if (coins != null)
-                    coinScore = checkCoin();
+                    coinScore = CheckCoin();
                 if (coinScore)
                 {
-                    actualScore.score += 1000;
+                    actualScore.Scoring += 1000;
                     coinScore = false;
                 }
             }
-            
         }
-        private bool checkBox()
+
+        private bool CheckBox()
         {
             char[,] emptyBoxSprite =
                 {
-                    { '█', '█', '█' , '█'},
-                    { '█', ' ', ' ' , '█'},
-                    { '█', ' ', ' ' , '█'},
-                    { '█', ' ', ' ' , '█'},
-                    { '█', ' ', ' ' , '█'},
-                    { '█', '█', '█' , '█'} 
+                    { '█', '█', '█', '█' },
+                    { '█', ' ', ' ', '█' },
+                    { '█', ' ', ' ', '█' },
+                    { '█', ' ', ' ', '█' },
+                    { '█', ' ', ' ', '█' },
+                    { '█', '█', '█', '█' },
                 };
             boxHit = false;
-            foreach (GameObject Box in boxes)
+            foreach (GameObject box in boxes)
             {
-                if ((position.Pos.X  >= Box.GetComponent<Position>().Pos.X && position.Pos.X <= Box.GetComponent<Position>().Pos.X + 4 &&
-                    position.Pos.Y == Box.GetComponent<Position>().Pos.Y + 7) && Box.GetComponent<BoxConfirmation>().boxUsed == 0)
+                if (position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
+                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 && box.GetComponent<BoxConfirmation>().boxUsed == 0)
                 {
                     boxHit = true;
-                    Box.GetComponent<BoxConfirmation>().boxUsed = 1;
-                    actualScore.score += 1000;
-                    Box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
-                } 
-                
+                    box.GetComponent<BoxConfirmation>().boxUsed = 1;
+                    actualScore.Scoring += 1000;
+                    box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
+                }
             }
+
             if (!boxHit)
                 return false;
-            
             return true;
         }
 
-        private bool checkGround()
+        private bool CheckGround()
         {
             bool ground = false;
+
             // check if there is ground beneth the player 
-            foreach (Vector2 v in Occupied)
+            foreach (Vector2 v in occupied)
             {
                 if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
                 {
                     ground = true;
-                } 
+                }
             }
+
             if (ParentScene.ydim - 4 == position.Pos.Y)
             {
                 ground = true;
-                gameover = true;
+                Gameover = true;
             }
+
             if (!ground)
+            {
                 return false;
+            }
+
             return true;
         }
 
-        private bool checkCoin()
+        private bool CheckCoin()
         {
             coinScore = false;
             char[,] noMoreCoinSprite =
             {
-                {' '}
+                { ' ' },
             };
+
             // check if there is ground beneth the player
-            
             foreach (GameObject coin in coins)
             {
                 if ((position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y) && 
@@ -284,63 +307,76 @@ namespace SuperMario
                     coinScore = true;
                     coin.GetComponent<CoinConfirmation>().coinUsed = 1;
                     coin.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
-                } 
+                }
             }
+
             if (!coinScore)
                 return false;
                 
             return true;
         }
 
-        private void falling()
+        private void Falling()
         {
-            
             if (boxes != null)
-                boxHit = checkBox();
+                boxHit = CheckBox();
             if (boxHit)
             {
                 boxHit = false;
             }
+
             x = position.Pos.X;
             y = position.Pos.Y;
             y++;
             x = Math.Clamp(x, 0, ParentScene.xdim - 8);
             y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-            
             position.Pos = new Vector3(x, y, position.Pos.Z);
             Thread.Sleep(50);
         }
 
-        private void turnSprite(bool right)
+        private void TurnSprite(bool right)
         {
             char[,] playerSprite =
             {
-                { '─', '▄', '█' , '└'},
-                { '▄', '▀', '▄' , '▄'},
-                { '█', '█', '▐' , '▄'},
-                { '█', '▀', '▐' , '▄'},
-                { '█', '▐', '▄' , '▄'},
-                { '█', '└', '█' , '▄'},
-                { '▄', '─', '▄' , '┘'},
-                { '▄', '┐', '┘' , ' '}
+                { '─', '▄', '█', '└' },
+                { '▄', '▀', '▄', '▄' },
+                { '█', '█', '▐', '▄' },
+                { '█', '▀', '▐', '▄' },
+                { '█', '▐', '▄', '▄' },
+                { '█', '└', '█', '▄' },
+                { '▄', '─', '▄', '┘' },
+                { '▄', '┐', '┘', ' ' },
             };
             char[,] playerSpriteT =
             {
-                { '▄', '┌', '└' , ' '},
-                { '▄', '─', '▄' , '└'},
-                { '█', '┘', '█' , '▄'},
-                { '█', '▌', '▄' , '▄'},
-                { '█', '▀', '▌' , '▄'},
-                { '█', '█', '▌' , '▄'},
-                { '▄', '▀', '▄' , '▄'},
-                { '─', '▄', '█' , '┘'}
+                { '▄', '┌', '└', ' ' },
+                { '▄', '─', '▄', '└' },
+                { '█', '┘', '█', '▄' },
+                { '█', '▌', '▄', '▄' },
+                { '█', '▀', '▌', '▄' },
+                { '█', '█', '▌', '▄' },
+                { '▄', '▀', '▄', '▄' },
+                { '─', '▄', '█', '┘' },
             };
 
-            if (right == false)
-                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSpriteT, ConsoleColor.Red, ConsoleColor.Gray);
+            if (!right)
+            {
+                ParentGameObject
+                .GetComponent<ConsoleSprite>()
+                .SwitchSprite(
+                    playerSpriteT, 
+                    ConsoleColor.Red, 
+                    ConsoleColor.Gray);
+            }
             else
-                ParentGameObject.GetComponent<ConsoleSprite>().SwitchSprite(playerSprite, ConsoleColor.Red, ConsoleColor.Gray);
-
+            {
+                ParentGameObject
+                .GetComponent<ConsoleSprite>()
+                .SwitchSprite(
+                    playerSprite, 
+                    ConsoleColor.Red, 
+                    ConsoleColor.Gray);
+            }
         }
     }
 }

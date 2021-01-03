@@ -9,10 +9,10 @@ namespace SuperMario
     public class Score : Component
     {
         /// <summary>
-        /// Gets.
+        /// Gets or sets.
         /// </summary>
         /// <value>Name of the file.</value>
-        public int Scoring { get; private set; }
+        public int Scoring { get; set; }
         private int framesForTime;
         private Player player;
 
@@ -31,7 +31,7 @@ namespace SuperMario
         /// </summary>
         public override void Update()
         {
-            if (!player.gameover)
+            if (!player.Gameover)
             {
                 framesForTime++;
 

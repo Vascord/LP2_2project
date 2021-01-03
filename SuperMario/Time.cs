@@ -31,7 +31,7 @@ namespace SuperMario
         /// </summary>
         public override void Update()
         {
-            if (!player.gameover)
+            if (!player.Gameover)
             {
                 framesForTime++;
 

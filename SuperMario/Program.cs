@@ -1,9 +1,14 @@
-﻿
-namespace SuperMario
+﻿namespace SuperMario
 {
-    class Program
+    /// <summary>
+    /// This.
+    /// </summary>
+    public static class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// This.
+        /// </summary>
+        public static void Main()
         {
             Menu menu = new Menu();
             menu.Run();
