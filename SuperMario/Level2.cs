@@ -9,14 +9,13 @@ namespace SuperMario
     /// </summary>
     public class Level2
     {
+        private readonly List<Vector2> occupied = new List<Vector2>();
+        private readonly List<GameObject> coins = new List<GameObject>();
+        private readonly List<GameObject> boxes = new List<GameObject>();
         private readonly int xdim = 200;
         private readonly int ydim = 30;
         private readonly int frameLenght = 10;
-
         private Scene gameScene;
-        public List<Vector2> Occupied = new List<Vector2>();
-        public List<GameObject> coins = new List<GameObject>();
-        public List<GameObject> boxes = new List<GameObject>();
 
         /// <summary>
         /// This.
@@ -59,63 +58,63 @@ namespace SuperMario
                 if ((x > 0 && x < 38) || (x > 54 && x < 57) || (x > 84 && x < 87)  || (x > 135 && x < 150) || (x > 160 && x < xdim))
                 {
                     wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 1));
+                    occupied.Add(new Vector2(x, ydim - 1));
                     wallPixels[new Vector2(x, ydim - 2)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 2));
+                    occupied.Add(new Vector2(x, ydim - 2));
                     wallPixels[new Vector2(x, ydim - 3)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 3));
+                    occupied.Add(new Vector2(x, ydim - 3));
                     wallPixels[new Vector2(x, ydim - 4)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 4));
+                    occupied.Add(new Vector2(x, ydim - 4));
                     wallPixels[new Vector2(x, ydim - 5)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 5));
+                    occupied.Add(new Vector2(x, ydim - 5));
                     wallPixels[new Vector2(x, ydim - 6)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 6));
+                    occupied.Add(new Vector2(x, ydim - 6));
                     wallPixels[new Vector2(x, ydim - 7)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 7));
+                    occupied.Add(new Vector2(x, ydim - 7));
                 }
 
                 // Plataform 1
                 if (x > 30 && x < 45)
                 {
                     wallPixels[new Vector2(x, ydim - 18)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 18));
+                    occupied.Add(new Vector2(x, ydim - 18));
                 }
 
                 // Plataform 2
                 if (x > 65 && x < 80)
                 {
                     wallPixels[new Vector2(x, ydim - 18)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 18));
+                    occupied.Add(new Vector2(x, ydim - 18));
                 }
 
                 // Plataform 3
                 if (x > 5 && x < 20)
                 {
                     wallPixels[new Vector2(x, ydim - 22)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 22));
+                    occupied.Add(new Vector2(x, ydim - 22));
                 }
 
                 // Plataform 4
                 if (x > 90 && x < 140)
                 {
                     wallPixels[new Vector2(x, ydim - 22)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 22));
+                    occupied.Add(new Vector2(x, ydim - 22));
                 }
 
                 // Plataform 5
                 if (x > 90 && x < 120)
                 {
                     wallPixels[new Vector2(x, ydim - 5)] = wallPixel;
-                    Occupied.Add(new Vector2(x, ydim - 5));
+                    occupied.Add(new Vector2(x, ydim - 5));
                 }
             }
 
             for (int y = 0; y < ydim; y++)
             {
                 wallPixels[new Vector2(0, y)] = wallPixel;
-                Occupied.Add(new Vector2(0, y));
+                occupied.Add(new Vector2(0, y));
                 wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
-                Occupied.Add(new Vector2(xdim - 1, y));
+                occupied.Add(new Vector2(xdim - 1, y));
             }
 
             BuildObstacles();
@@ -214,7 +213,7 @@ namespace SuperMario
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player(Occupied, score.GetComponent<Score>(), boxes, coins, dead));
+            player.AddComponent(new Player(occupied, score.GetComponent<Score>(), boxes, coins, dead, 2));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             gameScene.AddGameObject(player);
@@ -253,96 +252,96 @@ namespace SuperMario
 
             // Obstacle GreenTube 1
             obstaclePixels[new Vector2(34, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(34, 19));
+            occupied.Add(new Vector2(34, 19));
 
             obstaclePixels[new Vector2(37, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(37, 19));
+            occupied.Add(new Vector2(37, 19));
 
             obstaclePixels[new Vector2(35, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(35, 20));
+            occupied.Add(new Vector2(35, 20));
 
             obstaclePixels[new Vector2(35, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(35, 21));
+            occupied.Add(new Vector2(35, 21));
 
             obstaclePixels[new Vector2(35, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(35, 19));
+            occupied.Add(new Vector2(35, 19));
 
             obstaclePixels[new Vector2(35, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(35, 22));
+            occupied.Add(new Vector2(35, 22));
 
             obstaclePixels[new Vector2(36, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(36, 20));
+            occupied.Add(new Vector2(36, 20));
 
             obstaclePixels[new Vector2(36, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(36, 21));
+            occupied.Add(new Vector2(36, 21));
 
             obstaclePixels[new Vector2(36, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(36, 19));
+            occupied.Add(new Vector2(36, 19));
 
             obstaclePixels[new Vector2(36, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(36, 22));
+            occupied.Add(new Vector2(36, 22));
 
             // Obstacle GreenTube 2
             obstaclePixels[new Vector2(54, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(54, 19));
+            occupied.Add(new Vector2(54, 19));
 
             obstaclePixels[new Vector2(57, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(57, 19));
+            occupied.Add(new Vector2(57, 19));
 
             obstaclePixels[new Vector2(55, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(55, 20));
+            occupied.Add(new Vector2(55, 20));
             
             obstaclePixels[new Vector2(55, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(55, 21));
+            occupied.Add(new Vector2(55, 21));
 
             obstaclePixels[new Vector2(55, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(55, 19));
+            occupied.Add(new Vector2(55, 19));
 
             obstaclePixels[new Vector2(55, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(55, 22));
+            occupied.Add(new Vector2(55, 22));
 
             obstaclePixels[new Vector2(56, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(56, 20));
+            occupied.Add(new Vector2(56, 20));
             
             obstaclePixels[new Vector2(56, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(56, 21));
+            occupied.Add(new Vector2(56, 21));
 
             obstaclePixels[new Vector2(56, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(56, 19));
+            occupied.Add(new Vector2(56, 19));
 
             obstaclePixels[new Vector2(56, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(56, 22));
+            occupied.Add(new Vector2(56, 22));
 
             // Obstacle GreenTube 3
             obstaclePixels[new Vector2(84, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(84, 19));
+            occupied.Add(new Vector2(84, 19));
 
             obstaclePixels[new Vector2(87, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(87, 19));
+            occupied.Add(new Vector2(87, 19));
 
             obstaclePixels[new Vector2(85, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(85, 20));
+            occupied.Add(new Vector2(85, 20));
 
             obstaclePixels[new Vector2(85, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(85, 21));
+            occupied.Add(new Vector2(85, 21));
 
             obstaclePixels[new Vector2(85, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(85, 19));
+            occupied.Add(new Vector2(85, 19));
 
             obstaclePixels[new Vector2(85, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(85, 22));
+            occupied.Add(new Vector2(85, 22));
 
             obstaclePixels[new Vector2(86, 20)] = obstaclePixel;
-            Occupied.Add(new Vector2(86, 20));
+            occupied.Add(new Vector2(86, 20));
 
             obstaclePixels[new Vector2(86, 21)] = obstaclePixel;
-            Occupied.Add(new Vector2(86, 21));
+            occupied.Add(new Vector2(86, 21));
 
             obstaclePixels[new Vector2(86, 19)] = obstaclePixel;
-            Occupied.Add(new Vector2(86, 19));
+            occupied.Add(new Vector2(86, 19));
 
             obstaclePixels[new Vector2(86, 22)] = obstaclePixel;
-            Occupied.Add(new Vector2(86, 22));
+            occupied.Add(new Vector2(86, 22));
 
             obstacle.AddComponent(new ConsoleSprite(obstaclePixels));
             obstacle.AddComponent(new Position(0, 0, 0));

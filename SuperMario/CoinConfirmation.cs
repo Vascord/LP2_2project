@@ -6,14 +6,18 @@ namespace SuperMario
     /// </summary>
     public class CoinConfirmation : Component
     {
-        public int coinUsed { get; set; }
+        /// <summary>
+        /// Gets or sets.
+        /// </summary>
+        /// <value>Name of the file.</value>
+        public int CoinUsed { get; set; }
 
         /// <summary>
         /// This.
         /// </summary>
         public CoinConfirmation()
         {
-            coinUsed = 0;
+            CoinUsed = 0;
         }
     }
 }

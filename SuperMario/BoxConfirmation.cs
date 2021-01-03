@@ -8,14 +8,18 @@ namespace SuperMario
     /// </summary>
     public class BoxConfirmation : Component
     {
-        public int boxUsed { get; set; }
+        /// <summary>
+        /// Gets or sets.
+        /// </summary>
+        /// <value>Name of the file.</value>
+        public int BoxUsed { get; set; }
 
         /// <summary>
         /// This.
         /// </summary>
         public BoxConfirmation()
         {
-            boxUsed = 0;
+            BoxUsed = 0;
         }
     }
 }

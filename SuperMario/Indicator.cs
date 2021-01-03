@@ -56,7 +56,7 @@ namespace SuperMario
                     if (option == 1)
                     {
                         ParentScene.Terminate();
-                        Level1 level2 = new Level1();
+                        Level2 level2 = new Level2();
                         level2.Run();
                     }
                     else if (option == 2)

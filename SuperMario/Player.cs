@@ -15,6 +15,7 @@ namespace SuperMario
         private readonly List<GameObject> boxes;
         private readonly GameObject dead;
         private readonly Score actualScore;
+        private readonly int level;
         private KeyObserver keyObserver;
         private Position position;
         private bool inAir = false;
@@ -40,17 +41,20 @@ namespace SuperMario
         /// <param name="boxes">I.</param>
         /// <param name="coins">O.</param>
         /// <param name="dead">U.</param>
+        /// <param name="level">Bababoi.</param>
         public Player (
             List<Vector2> occupied,
             Score score,
             List<GameObject> boxes,
             List<GameObject> coins,
-            GameObject dead )
+            GameObject dead,
+            int level )
         {
             this.occupied = occupied;
             this.coins = coins;
             this.boxes = boxes;
             this.dead = dead;
+            this.level = level;
             actualScore = score;
         }
 
@@ -99,25 +103,45 @@ namespace SuperMario
                     {
                         if (key == ConsoleKey.Enter)
                         {
-                            ParentScene.Terminate();
-                            Level1 level1 = new Level1();
-                            level1.Run();
-                            break;
+                            if (level == 1)
+                            {
+                                ParentScene.Terminate();
+                                Level1 level1 = new Level1();
+                                level1.Run();
+                                break;
+                            }
+                            else
+                            {
+                                ParentScene.Terminate();
+                                Level2 level2 = new Level2();
+                                level2.Run();
+                                break;
+                            }
                         }
                     }
                 }
                 else if (ParentScene.xdim - 10 == position.Pos.X)
                 {
                     dead.GetComponent<RenderableStringComponent>()
-                    .SwitchString(() => "Press Enter to go to the next level");
+                    .SwitchString(() => $"Press Enter to go to the next level, your score is : {actualScore.Scoring}");
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
                         {
-                            ParentScene.Terminate();
-                            Menu level2 = new Menu();
-                            level2.Run();
-                            break;
+                            if (level == 1)
+                            {
+                                ParentScene.Terminate();
+                                Level2 level2 = new Level2();
+                                level2.Run();
+                                break;
+                            }
+                            else
+                            {
+                                ParentScene.Terminate();
+                                Menu menu = new Menu();
+                                menu.Run();
+                                break;
+                            }
                         }
                     }
                 }
@@ -249,10 +273,10 @@ namespace SuperMario
             foreach (GameObject box in boxes)
             {
                 if (position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
-                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 && box.GetComponent<BoxConfirmation>().boxUsed == 0)
+                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 && box.GetComponent<BoxConfirmation>().BoxUsed == 0)
                 {
                     boxHit = true;
-                    box.GetComponent<BoxConfirmation>().boxUsed = 1;
+                    box.GetComponent<BoxConfirmation>().BoxUsed = 1;
                     actualScore.Scoring += 1000;
                     box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
                 }
@@ -302,10 +326,10 @@ namespace SuperMario
             foreach (GameObject coin in coins)
             {
                 if ((position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y) && 
-                    coin.GetComponent<CoinConfirmation>().coinUsed == 0)
+                    coin.GetComponent<CoinConfirmation>().CoinUsed == 0)
                 {
                     coinScore = true;
-                    coin.GetComponent<CoinConfirmation>().coinUsed = 1;
+                    coin.GetComponent<CoinConfirmation>().CoinUsed = 1;
                     coin.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
                 }
             }
