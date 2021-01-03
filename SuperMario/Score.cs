@@ -18,12 +18,12 @@ namespace SuperMario
 
         public override void Update()
         {
-            if(player.gameover == true){}
+            if (player.gameover == true){}
             else
             {
                 framesForTime++;
 
-                if(framesForTime == 20)
+                if (framesForTime == 20)
                 {
                     score -= 10;
 
