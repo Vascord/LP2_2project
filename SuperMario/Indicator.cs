@@ -3,13 +3,20 @@ using CoreGameEngine;
 
 namespace SuperMario
 {
+    /// <summary>
+    /// This.
+    /// </summary>
     public class Indicator : Component
     {
         private KeyObserver keyObserver;
         private Position position;
-        private float x, y;
+        private float x;
+        private float y;
         private int option;
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public override void Start()
         {
             keyObserver = ParentGameObject.GetComponent<KeyObserver>();
@@ -18,6 +25,9 @@ namespace SuperMario
             option = 0;
         }
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public override void Update()
         {
             y = position.Pos.Y;
@@ -36,19 +46,20 @@ namespace SuperMario
                 }
                 else if (key == ConsoleKey.Enter)
                 {
-                    if(option == 0)
+                    if (option == 0)
                     {
                         ParentScene.Terminate();
                         Level1 level1 = new Level1();
                         level1.Run();
                     }
-                    if(option == 1)
+
+                    if (option == 1)
                     {
                         ParentScene.Terminate();
                         Level1 level2 = new Level1();
                         level2.Run();
                     }
-                    else if(option == 2)
+                    else if (option == 2)
                     {
                         ParentScene.Terminate();
                         Help helpMenu = new Help();
