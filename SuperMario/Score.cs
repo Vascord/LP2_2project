@@ -18,7 +18,7 @@ namespace SuperMario
         {
             framesForTime++;
 
-            if(framesForTime == 100)
+            if(framesForTime == 20)
             {
                 score -= 10;
 

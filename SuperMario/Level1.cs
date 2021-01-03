@@ -57,7 +57,7 @@ namespace SuperMario
             for (int x = 0; x < xdim; x++)
             {
                 //Ground and walls
-                if((x > 0 && x < 25) || (x > 30 && x < xdim))
+                if((x > 0 && x < 25) || (x > 30 && x < 127) || (x > 135 && x < xdim))
                 {
                     //wallPixels[new Vector2(x, 0)] = wallPixel;
                     wallPixels[new Vector2(x, ydim - 1)] = wallPixel;

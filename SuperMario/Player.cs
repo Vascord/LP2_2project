@@ -49,7 +49,6 @@ namespace SuperMario
 
             if(gameover)
             {
-                //ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
                 ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
                 ConsoleKey.Enter};
                 ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
@@ -79,8 +78,6 @@ namespace SuperMario
                     while(!ground)
                     {
                         falling();
-                        // ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
-                        //     ConsoleKey.Enter};
                         ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
                         doesNotHaveKeyObserver = true;
                         ground = true;
@@ -88,12 +85,6 @@ namespace SuperMario
                 }
                 else if(!inAir)
                 {
-                    // ParentGameObject.GetComponent<KeyObserver>().keysToObserve = new ConsoleKey[] {
-                    //         ConsoleKey.RightArrow,
-                    //         ConsoleKey.Spacebar,
-                    //         ConsoleKey.UpArrow,
-                    //         ConsoleKey.LeftArrow,
-                    //         ConsoleKey.Enter};
                     if(doesNotHaveKeyObserver)
                     {
                         ParentScene.inputHandler.AddObserver(ParentGameObject.GetComponent<KeyObserver>());
@@ -145,11 +136,10 @@ namespace SuperMario
 
                     x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-
-                    //position.Pos = new Vector3(x, y, position.Pos.Z);
                 }
                 else if(inAir)
                 {
+                    actualScore.score -= 5;
                     ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
                     if(jumpFrames == 0)
                     {
@@ -283,11 +273,11 @@ namespace SuperMario
 
         private void falling()
         {
+            
             if (boxes != null)
                 boxHit = checkBox();
             if(boxHit)
             {
-                actualScore.score += 1000;
                 boxHit = false;
             }
             x = position.Pos.X;
