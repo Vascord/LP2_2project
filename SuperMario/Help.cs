@@ -4,14 +4,21 @@ using CoreGameEngine;
 
 namespace SuperMario
 {
+    /// <summary>
+    /// This.
+    /// </summary>
     public class Help
     {
-        int xdim = 150, ydim = 30;
+        private readonly int  xdim = 150;
+        private readonly int ydim = 30;
 
-        int frameLenght = 10;
+        private readonly int frameLenght = 10;
 
         private Scene gameScene;
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public Help()
         {
             Console.BackgroundColor = ConsoleColor.Gray;
@@ -24,7 +31,8 @@ namespace SuperMario
             ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape,
                 ConsoleKey.Enter,
             };
-            gameScene = new Scene(xdim, 
+            gameScene = new Scene(
+                xdim,
                 ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
@@ -41,39 +49,39 @@ namespace SuperMario
             // Creates help instruction
             char[,] instructionsSprite = 
             {
-                {'M',' ','J',' ','S',' ','E'},
-                {'o',' ','u',' ','t',' ','x'},
-                {'v',' ','m',' ','r',' ','i'},
-                {'e',' ','p',' ','a',' ','t'},
-                {'m',' ',':',' ','i',' ',' '},
-                {'e',' ',' ',' ','g',' ','G'},
-                {'n',' ','S',' ','t',' ','a'},
-                {'t',' ','p',' ',' ',' ','m'},
-                {':',' ','a',' ','J',' ','e'},
-                {' ',' ','c',' ','u',' ',':'},
-                {'A',' ','e',' ','m',' ',' '},
-                {'r',' ',' ',' ','p',' ','E'},
-                {'r',' ','+',' ',':',' ','s'},
-                {'o',' ',' ',' ',' ',' ','c'},
-                {'w',' ','L',' ','A',' ','a'},
-                {'s',' ','a',' ','r',' ','p'},
-                {' ',' ','s',' ','r',' ','e'},
-                {'L',' ','t',' ','o',' ',' '},
-                {'e',' ',' ',' ','w',' ',' '},
-                {'f',' ','p',' ',' ',' ',' '},
-                {'t',' ','r',' ','U',' ',' '},
-                {' ',' ','e',' ','p',' ',' '},
-                {'a',' ','s',' ',' ',' ',' '},
-                {'n',' ','s',' ','t',' ',' '},
-                {'d',' ','e',' ','h',' ',' '},
-                {' ',' ','d',' ','e',' ',' '},
-                {'R',' ',' ',' ','n',' ',' '},
-                {'i',' ','A',' ',' ',' ',' '},
-                {'g',' ','r',' ','S',' ',' '},
-                {'h',' ','r',' ','p',' ',' '},
-                {'t',' ','o',' ','a',' ',' '},
-                {' ',' ','w',' ','c',' ',' '},
-                {' ',' ',' ',' ','e',' ',' '},
+                { 'M', ' ', 'J', ' ', 'S', ' ', 'E' },
+                { 'o', ' ', 'u', ' ', 't', ' ', 'x' },
+                { 'v', ' ', 'm', ' ', 'r', ' ', 'i' },
+                { 'e', ' ', 'p', ' ', 'a', ' ', 't' },
+                { 'm', ' ', ':', ' ', 'i', ' ', ' ' },
+                { 'e', ' ', ' ', ' ', 'g', ' ', 'G' },
+                { 'n', ' ', 'S', ' ', 't', ' ', 'a' },
+                { 't', ' ', 'p', ' ', ' ', ' ', 'm' },
+                { ':', ' ', 'a', ' ', 'J', ' ', 'e' },
+                { ' ', ' ', 'c', ' ', 'u', ' ', ':' },
+                { 'A', ' ', 'e', ' ', 'm', ' ', ' ' },
+                { 'r', ' ', ' ', ' ', 'p', ' ', 'E' },
+                { 'r', ' ', '+', ' ', ':', ' ', 's' },
+                { 'o', ' ', ' ', ' ', ' ', ' ', 'c' },
+                { 'w', ' ', 'L', ' ', 'A', ' ', 'a' },
+                { 's', ' ', 'a', ' ', 'r', ' ', 'p' },
+                { ' ', ' ', 's', ' ', 'r', ' ', 'e' },
+                { 'L', ' ', 't', ' ', 'o', ' ', ' ' },
+                { 'e', ' ', ' ', ' ', 'w', ' ', ' ' },
+                { 'f', ' ', 'p', ' ', ' ', ' ', ' ' },
+                { 't', ' ', 'r', ' ', 'U', ' ', ' ' },
+                { ' ', ' ', 'e', ' ', 'p', ' ', ' ' },
+                { 'a', ' ', 's', ' ', ' ', ' ', ' ' },
+                { 'n', ' ', 's', ' ', 't', ' ', ' ' },
+                { 'd', ' ', 'e', ' ', 'h', ' ', ' ' },
+                { ' ', ' ', 'd', ' ', 'e', ' ', ' ' },
+                { 'R', ' ', ' ', ' ', 'n', ' ', ' ' },
+                { 'i', ' ', 'A', ' ', ' ', ' ', ' ' },
+                { 'g', ' ', 'r', ' ', 'S', ' ', ' ' },
+                { 'h', ' ', 'r', ' ', 'p', ' ', ' ' },
+                { 't', ' ', 'o', ' ', 'a', ' ', ' ' },
+                { ' ', ' ', 'w', ' ', 'c', ' ', ' ' },
+                { ' ', ' ', ' ', ' ', 'e', ' ', ' ' },
             };
             GameObject instructions = new GameObject("Instructions");
             Position instructionsPos = new Position(60f, 10f, 0f);
@@ -85,22 +93,22 @@ namespace SuperMario
             // Creates button and indicator
             char[,] buttonSprite =
             {
-                {'B'},
-                {'a'},
-                {'c'},
-                {'k'},
+                { 'B' },
+                { 'a' },
+                { 'c' },
+                { 'k' },
             };
             char[,] indicatorSprite = 
             {
-                {'>'},
-                {' '},
-                {' '},
-                {' '},
-                {' '},
-                {'<'},
+                { '>' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { ' ' },
+                { '<' },
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
-                { ConsoleKey.W , ConsoleKey.S, ConsoleKey.Enter });
+                { ConsoleKey.W, ConsoleKey.S, ConsoleKey.Enter });
             GameObject button = new GameObject("Button");
             GameObject indicator = new GameObject("Indicator");
             Position buttonPos = new Position(73f, 23f, 1f);
@@ -117,6 +125,9 @@ namespace SuperMario
             gameScene.AddGameObject(indicator);
         }
 
+        /// <summary>
+        /// This.
+        /// </summary>
         public void Run()
         {
             gameScene.GameLoop(frameLenght);
