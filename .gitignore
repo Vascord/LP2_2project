@@ -36,6 +36,9 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
+# XML of the errors and warnings
+LP2_Project2.xml
+
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
