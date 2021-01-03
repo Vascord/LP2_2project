@@ -7,31 +7,37 @@ namespace SuperMario
     {
         public int time {get; private set;}
         private int framesForTime;
+        private Player player;
 
         public override void Start()
         {
             time = 200;
             framesForTime = 0;
+             player = ParentScene.FindGameObjectByName("Player").GetComponent<Player>();
         }
 
         public override void Update()
         {
-            framesForTime++;
-
-            if(framesForTime == 100)
+            if(player.gameover == true){}
+            else
             {
-                time--;
+                framesForTime++;
 
-                framesForTime = 0;
+                if(framesForTime == 100)
+                {
+                    time--;
 
-                ParentGameObject.GetComponent<RenderableStringComponent>().
-                    SwitchString(() => "Time: " + time.ToString());
-            }
-            if(time == 0)
-            {
-                ParentScene.Terminate();
-                Menu menu = new Menu();
-                menu.Run();
+                    framesForTime = 0;
+
+                    ParentGameObject.GetComponent<RenderableStringComponent>().
+                        SwitchString(() => "Time: " + time.ToString());
+                }
+                if(time == 0)
+                {
+                    ParentScene.Terminate();
+                    Menu menu = new Menu();
+                    menu.Run();
+                }
             }
         }
     }

@@ -69,19 +69,30 @@ namespace SuperMario
             // Creates button and indicator
             char[,] buttonSprite1 = 
             {
-                {'P'},
+                {'L'},
+                {'e'},
+                {'v'},
+                {'e'},
                 {'l'},
-                {'a'},
-                {'y'}
+                {'1'}
             };
             char[,] buttonSprite2 = 
+            {
+                {'L'},
+                {'e'},
+                {'v'},
+                {'e'},
+                {'l'},
+                {'2'}
+            };
+            char[,] buttonSprite3 = 
             {
                 {'H'},
                 {'e'},
                 {'l'},
                 {'p'}
             };
-            char[,] buttonSprite3 = 
+            char[,] buttonSprite4 = 
             {
                 {'Q'},
                 {'u'},
@@ -95,6 +106,10 @@ namespace SuperMario
                 {' '},
                 {' '},
                 {' '},
+                {' '},
+                {' '},
+                {' '},
+                {' '},
                 {'<'}
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
@@ -102,28 +117,34 @@ namespace SuperMario
             GameObject button1 = new GameObject("Button1");
             GameObject button2 = new GameObject("Button2");
             GameObject button3 = new GameObject("Button3");
+            GameObject button4 = new GameObject("Button4");
             GameObject indicator = new GameObject("Indicator");
-            Position buttonPos1 = new Position(73f, 20f, 1f);
-            Position buttonPos2 = new Position(73f, 23f, 1f);
-            Position buttonPos3 = new Position(73f, 26f, 1f);
-            Position indicatorPos = new Position(72f, 20f, 0f);
+            Position buttonPos1 = new Position(72f, 19f, 1f);
+            Position buttonPos2 = new Position(72f, 21f, 1f);
+            Position buttonPos3 = new Position(73f, 23f, 1f);
+            Position buttonPos4 = new Position(73f, 25f, 1f);
+            Position indicatorPos = new Position(70f, 19f, 0f);
             indicator.AddComponent(indicatorKeyListener);
             indicator.AddComponent(new Indicator());
             indicator.AddComponent(indicatorPos);
             button1.AddComponent(buttonPos1);
             button2.AddComponent(buttonPos2);
             button3.AddComponent(buttonPos3);
+            button4.AddComponent(buttonPos4);
             button1.AddComponent(new ConsoleSprite(
                 buttonSprite1, ConsoleColor.Red, ConsoleColor.Blue));
             button2.AddComponent(new ConsoleSprite(
                 buttonSprite2, ConsoleColor.Red, ConsoleColor.Blue));
             button3.AddComponent(new ConsoleSprite(
                 buttonSprite3, ConsoleColor.Red, ConsoleColor.Blue));
+            button4.AddComponent(new ConsoleSprite(
+                buttonSprite4, ConsoleColor.Red, ConsoleColor.Blue));
             indicator.AddComponent(new ConsoleSprite(
                 indicatorSprite, ConsoleColor.Red, ConsoleColor.DarkBlue));
             gameScene.AddGameObject(button1);
             gameScene.AddGameObject(button2);
             gameScene.AddGameObject(button3);
+            gameScene.AddGameObject(button4);
             gameScene.AddGameObject(indicator);
         }
 
