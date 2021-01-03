@@ -4,7 +4,8 @@ using CoreGameEngine;
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Responsible for creating the first level of the game and starting the
+    /// game loop.
     /// </summary>
     public class Level1
     {
@@ -17,7 +18,7 @@ namespace SuperMario
         private Scene gameScene;
 
         /// <summary>
-        /// This.
+        /// Class Constructor.
         /// </summary>
         public Level1()
         {
@@ -25,12 +26,15 @@ namespace SuperMario
             CreateLevel();
         }
 
+        /// <summary>
+        /// Creates the first Level GameObjects.
+        /// </summary>
         private void CreateLevel()
         {
             // Create scene
             ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape };
             gameScene = new Scene(
-                xdim, 
+                xdim,
                 ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
@@ -43,11 +47,6 @@ namespace SuperMario
             Dictionary<Vector2, ConsolePixel> wallPixels =
                 new Dictionary<Vector2, ConsolePixel>();
 
-            GameObject obstacle = new GameObject("Obstacle");
-            ConsolePixel obstaclePixel = new ConsolePixel(
-                ' ', ConsoleColor.Blue, ConsoleColor.Green);
-            Dictionary<Vector2, ConsolePixel> obstaclePixels =
-                new Dictionary<Vector2, ConsolePixel>();
             for (int x = 0; x < xdim; x++)
             {
                 // Ground and walls
@@ -85,6 +84,12 @@ namespace SuperMario
                 occupied.Add(new Vector2(xdim - 1, y));
             }
 
+            // Create obstacles
+            GameObject obstacle = new GameObject("Obstacle");
+            ConsolePixel obstaclePixel = new ConsolePixel(
+                ' ', ConsoleColor.Blue, ConsoleColor.Green);
+            Dictionary<Vector2, ConsolePixel> obstaclePixels =
+                new Dictionary<Vector2, ConsolePixel>();
             obstaclePixels[new Vector2(49, 19)] = obstaclePixel;
             occupied.Add(new Vector2(49, 19));
 
@@ -157,7 +162,7 @@ namespace SuperMario
             gameScene.AddGameObject(coin2);
             coins.Add(coin2);
 
-            // Create Box 
+            // Box sprite. 
             char[,] boxSprite =
             {
                 { '█', '█', '█', '█' },
@@ -167,6 +172,8 @@ namespace SuperMario
                 { '█', '?', '?', '█' },
                 { '█', '█', '█', '█' },
             };
+
+            // Create Box1
             GameObject box = new GameObject("Box");
             box.AddComponent(new ConsoleSprite(
                 boxSprite, 
@@ -188,6 +195,7 @@ namespace SuperMario
             gameScene.AddGameObject(box2);
             boxes.Add(box2);
 
+            // Create dead text 
             GameObject dead = new GameObject("Dead");
             dead.AddComponent(new Position(70, 10, 10));
             RenderableStringComponent deadString = new RenderableStringComponent(
@@ -214,6 +222,8 @@ namespace SuperMario
                 { '▄', '─', '▄', '┘' },
                 { '▄', '┐', '┘', ' ' },
             };
+
+            // Create player
             GameObject player = new GameObject("Player");
             KeyObserver playerKeyListener = new KeyObserver(
                 new ConsoleKey[] {
@@ -228,7 +238,6 @@ namespace SuperMario
             player.AddComponent(new Player(occupied, score.GetComponent<Score>(), boxes, coins, dead, 1));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
-
             gameScene.AddGameObject(player);
 
             // Create game object for showing time limit
@@ -245,7 +254,7 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Starts the game Loop.
         /// </summary>
         public void Run()
         {

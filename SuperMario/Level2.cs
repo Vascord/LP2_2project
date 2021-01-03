@@ -5,7 +5,8 @@ using CoreGameEngine;
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Responsible for creating the Second level of the game and starting the
+    /// game loop.
     /// </summary>
     public class Level2
     {
@@ -18,7 +19,7 @@ namespace SuperMario
         private Scene gameScene;
 
         /// <summary>
-        /// This.
+        /// Class Constructor.
         /// </summary>
         public Level2()
         {
@@ -26,6 +27,9 @@ namespace SuperMario
             CreateLevel();
         }
 
+        /// <summary>
+        /// Creates the second Level GameObjects.
+        /// </summary>
         private void CreateLevel()
         {
             // Create scene
@@ -109,11 +113,11 @@ namespace SuperMario
                 occupied.Add(new Vector2(xdim - 1, y));
             }
 
-            BuildObstacles();
-
             walls.AddComponent(new ConsoleSprite(wallPixels));
             walls.AddComponent(new Position(0, 0, 1));
             gameScene.AddGameObject(walls);
+
+            BuildObstacles();
 
             // Create game object for showing score
             GameObject score = new GameObject("Score");
@@ -122,7 +126,7 @@ namespace SuperMario
             RenderableStringComponent visualScore = new RenderableStringComponent(
                 () => "Score: " + 3000.ToString(),
                 i => new Vector2(i, 0),
-                ConsoleColor.DarkMagenta, 
+                ConsoleColor.DarkMagenta,
                 ConsoleColor.White);
             score.AddComponent(visualScore);
             gameScene.AddGameObject(score);
@@ -149,7 +153,7 @@ namespace SuperMario
             gameScene.AddGameObject(coin2);
             coins.Add(coin2);
 
-            // Create Box 
+            // Box sprite
             char[,] boxSprite =
             {
                 { '█', '█', '█', '█' },
@@ -159,6 +163,8 @@ namespace SuperMario
                 { '█', '?', '?', '█' },
                 { '█', '█', '█', '█' },  
             };
+
+            // Create Box
             GameObject box = new GameObject("Box");
             box.AddComponent(new ConsoleSprite(
                 boxSprite, 
@@ -169,6 +175,7 @@ namespace SuperMario
             gameScene.AddGameObject(box);
             boxes.Add(box);
 
+            // Create dead text 
             GameObject dead = new GameObject("Dead");
             dead.AddComponent(new Position(70, 10, 10));
             RenderableStringComponent deadString = new RenderableStringComponent(
@@ -179,7 +186,7 @@ namespace SuperMario
             dead.AddComponent(deadString);
             gameScene.AddGameObject(dead);
 
-            // Create player object
+            // Create player sprite
             // ─▄████▄▄
             // ▄▀█▀▐└─┐
             // █▄▐▌▄█▄┘
@@ -195,6 +202,8 @@ namespace SuperMario
                 { '▄', '─', '▄', '┘' },
                 { '▄', '┐', '┘', ' ' },
             };
+
+            // Create player
             GameObject player = new GameObject("Player");
             KeyObserver playerKeyListener = new KeyObserver(
                 new ConsoleKey[] {
@@ -225,7 +234,7 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Starts the game loop.
         /// </summary>
         public void Run()
         {
@@ -233,7 +242,7 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Creates obstacles game  Objects.
         /// </summary>
         public void BuildObstacles()
         {
@@ -283,7 +292,7 @@ namespace SuperMario
 
             obstaclePixels[new Vector2(55, 20)] = obstaclePixel;
             occupied.Add(new Vector2(55, 20));
-            
+
             obstaclePixels[new Vector2(55, 21)] = obstaclePixel;
             occupied.Add(new Vector2(55, 21));
 
@@ -295,7 +304,7 @@ namespace SuperMario
 
             obstaclePixels[new Vector2(56, 20)] = obstaclePixel;
             occupied.Add(new Vector2(56, 20));
-            
+
             obstaclePixels[new Vector2(56, 21)] = obstaclePixel;
             occupied.Add(new Vector2(56, 21));
 
