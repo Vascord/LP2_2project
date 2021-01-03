@@ -19,17 +19,17 @@ namespace SuperMario
         {
             y = position.Pos.Y;
 
-            if(animation % 50 == 0 && animation <= 150)
+            if (animation % 50 == 0 && animation <= 150)
             {
                 y++;
                 animation++;
             }
-            else if(animation % 50 == 0 && animation <= 300)
+            else if (animation % 50 == 0 && animation <= 300)
             {
                 y--;
                 animation++;
             }
-            else if(animation == 301)
+            else if (animation == 301)
             {
                 animation = 1;
             }

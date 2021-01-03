@@ -5,7 +5,7 @@ namespace SuperMario
 {
     public class Time : Component
     {
-        public int time {get; private set;}
+        public int time { get; private set; }
         private int framesForTime;
         private Player player;
 
@@ -18,21 +18,22 @@ namespace SuperMario
 
         public override void Update()
         {
-            if(player.gameover == true){}
+            if (player.gameover == true){  }
             else
             {
                 framesForTime++;
 
-                if(framesForTime == 100)
+                if (framesForTime == 100)
                 {
                     time--;
 
                     framesForTime = 0;
 
                     ParentGameObject.GetComponent<RenderableStringComponent>().
-                        SwitchString(() => "Time: " + time.ToString());
+                        SwitchString(() => "Time: " + time.ToString());   
                 }
-                if(time == 0)
+
+                if (time == 0)
                 {
                     ParentScene.Terminate();
                     Menu menu = new Menu();

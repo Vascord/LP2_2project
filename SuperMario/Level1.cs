@@ -25,7 +25,8 @@ namespace SuperMario
         {
             // Create scene
             ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Escape};
-            gameScene = new Scene(xdim, ydim,
+            gameScene = new Scene(xdim, 
+                ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
@@ -74,7 +75,6 @@ namespace SuperMario
                     Occupied.Add(new Vector2(x, ydim - 6));
                     wallPixels[new Vector2(x, ydim - 7)] = wallPixel;
                     Occupied.Add(new Vector2(x, ydim - 7));
-
                 }
 
                 // Plataform
@@ -90,8 +90,7 @@ namespace SuperMario
                 wallPixels[new Vector2(0, y)] = wallPixel;
                 Occupied.Add(new Vector2(0, y));
                 wallPixels[new Vector2(xdim - 1, y)] = wallPixel;
-                Occupied.Add(new Vector2(xdim - 1, y));
-                
+                Occupied.Add(new Vector2(xdim - 1, y));     
             }
 
             obstaclePixels[new Vector2(49, 19)] = obstaclePixel;
@@ -141,14 +140,15 @@ namespace SuperMario
             RenderableStringComponent visualScore = new RenderableStringComponent(
                 () => "Score: " + 3000.ToString(),
                 i => new Vector2(i, 0),
-                ConsoleColor.DarkMagenta, ConsoleColor.White);
+                ConsoleColor.DarkMagenta, 
+                ConsoleColor.White);
             score.AddComponent(visualScore);
             gameScene.AddGameObject(score);
 
             // Create Coin Sprite
             char[,] coinSprite =
             {
-                {'█'}
+                {'█'},
             };
 
             //COin 1
@@ -168,17 +168,19 @@ namespace SuperMario
             coins.Add(coin2);
 
             // Create Box 
-            char[,] boxSprite=
+            char[,] boxSprite =
             {
                 { '█', '█', '█' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
                 { '█', '?', '?' , '█'},
-                { '█', '█', '█' , '█'}  
+                { '█', '█', '█' , '█'}, 
             };
             GameObject box = new GameObject("Box");
-            box.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
+            box.AddComponent(new ConsoleSprite(
+                boxSprite, 
+                ConsoleColor.Yellow, 
                 ConsoleColor.DarkGray));
             box.AddComponent(new Position(100, 8, 0f));
             box.AddComponent(new BoxConfirmation());
@@ -187,7 +189,9 @@ namespace SuperMario
 
             // Create Box2
             GameObject box2 = new GameObject("Box2");
-            box2.AddComponent(new ConsoleSprite(boxSprite, ConsoleColor.Yellow, 
+            box2.AddComponent(new ConsoleSprite(
+                boxSprite, 
+                ConsoleColor.Yellow, 
                 ConsoleColor.DarkGray));
             box2.AddComponent(new Position(150, 8, 0f));
             box2.AddComponent(new BoxConfirmation());
@@ -197,9 +201,10 @@ namespace SuperMario
             GameObject dead = new GameObject("Dead");
             dead.AddComponent(new Position(70, 10, 10));
             RenderableStringComponent deadString = new RenderableStringComponent(
-                () => "",
+                () => string.Empty,
                 i => new Vector2(i, 0),
-                ConsoleColor.Red, ConsoleColor.Gray);
+                ConsoleColor.Red, 
+                ConsoleColor.Gray);
             dead.AddComponent(deadString);
             gameScene.AddGameObject(dead);
 
@@ -217,14 +222,14 @@ namespace SuperMario
                 { '█', '▐', '▄' , '▄'},
                 { '█', '└', '█' , '▄'},
                 { '▄', '─', '▄' , '┘'},
-                { '▄', '┐', '┘' , ' '}
+                { '▄', '┐', '┘' , ' '},
             };
             GameObject player = new GameObject("Player");
             KeyObserver playerKeyListener = new KeyObserver(new ConsoleKey[] {
                 ConsoleKey.RightArrow,
                 ConsoleKey.Spacebar,
                 ConsoleKey.UpArrow,
-                ConsoleKey.LeftArrow});
+                ConsoleKey.LeftArrow,});
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
@@ -244,10 +249,10 @@ namespace SuperMario
             RenderableStringComponent visualTime = new RenderableStringComponent(
                 () => "Time: " + 200.ToString(),
                 i => new Vector2(i, 0),
-                ConsoleColor.DarkMagenta, ConsoleColor.White);
+                ConsoleColor.DarkMagenta, 
+                ConsoleColor.White);
             time.AddComponent(visualTime);
             gameScene.AddGameObject(time);
-
         }
 
         public void Run()
