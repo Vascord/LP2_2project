@@ -4,5 +4,133 @@
         <name>SuperMario</name>
     </assembly>
     <members>
+        <member name="T:SuperMario.Player">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.Player.Gameover">
+            <summary>
+            Gets or sets a value indicating whether.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.Player.#ctor(System.Collections.Generic.List{CoreGameEngine.Vector2},SuperMario.Score,System.Collections.Generic.List{CoreGameEngine.GameObject},System.Collections.Generic.List{CoreGameEngine.GameObject},CoreGameEngine.GameObject)">
+            <summary>
+            This.
+            </summary>
+            <param name="occupied">A.</param>
+            <param name="score">E.</param>
+            <param name="boxes">I.</param>
+            <param name="coins">O.</param>
+            <param name="dead">U.</param>
+        </member>
+        <member name="M:SuperMario.Player.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Player.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Program">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Program.Main">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Quitter">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Quitter.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Quitter.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.ReturnMenu">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.ReturnMenu.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.ReturnMenu.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Score">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.Score.Scoring">
+            <summary>
+            Gets or sets.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.Score.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Score.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Time">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="P:SuperMario.Time.Timing">
+            <summary>
+            Gets.
+            </summary>
+            <value>Name of the file.</value>
+        </member>
+        <member name="M:SuperMario.Time.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Time.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="T:SuperMario.Title">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Title.Start">
+            <summary>
+            This.
+            </summary>
+        </member>
+        <member name="M:SuperMario.Title.Update">
+            <summary>
+            This.
+            </summary>
+        </member>
     </members>
 </doc>
