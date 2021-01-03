@@ -252,11 +252,7 @@
         </member>
         <member name="M:SuperMario.Title.Start">
             <summary>
-<<<<<<< HEAD
             Public override method which initiates at the first frame.
-=======
-            Runs the code only once at the start.
->>>>>>> upstream/master
             </summary>
         </member>
         <member name="M:SuperMario.Title.Update">
