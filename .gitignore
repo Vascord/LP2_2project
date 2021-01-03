@@ -37,7 +37,7 @@ bld/
 TestResult.xml
 
 # XML of the errors and warnings of the project
-SuperMario.xml
+*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
