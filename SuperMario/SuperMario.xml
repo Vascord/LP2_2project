@@ -158,21 +158,6 @@
             This.
             </summary>
         </member>
-        <member name="T:SuperMario.Quitter">
-            <summary>
-            This.
-            </summary>
-        </member>
-        <member name="M:SuperMario.Quitter.Start">
-            <summary>
-            This.
-            </summary>
-        </member>
-        <member name="M:SuperMario.Quitter.Update">
-            <summary>
-            This.
-            </summary>
-        </member>
         <member name="T:SuperMario.ReturnMenu">
             <summary>
             This.
