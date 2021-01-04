@@ -1,4 +1,4 @@
-# 1º Projeto de Linguagens de Programação II
+# 2º Projeto de Linguagens de Programação II
 
 ## Autoria
 
