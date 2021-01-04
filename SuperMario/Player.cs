@@ -80,14 +80,14 @@ namespace SuperMario
 
             // Sets Gameover to true when the player reaches the end of the 
             // level.
-            if (ParentScene.xdim - 10 == position.Pos.X && !Gameover)
+            if (ParentScene.xdim - 9 == position.Pos.X && !Gameover)
                 Gameover = true;
 
             if (Gameover)
             {
                 // Sets the correct keys to observe
                 ParentGameObject.GetComponent<KeyObserver>().keysToObserve =
-                new ConsoleKey[] { ConsoleKey.Enter };
+                new ConsoleKey[] { ConsoleKey.Enter, ConsoleKey.Escape };
                 ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
                 ConsoleKey.Enter,
                 ConsoleKey.Escape, };
@@ -137,7 +137,7 @@ namespace SuperMario
                 }
 
                 // Runs if player reaches the end of the level.
-                else if (ParentScene.xdim - 10 == position.Pos.X)
+                else if (ParentScene.xdim - 9 == position.Pos.X)
                 {
                     // Outputs the ending level text
                     dead.GetComponent<RenderableStringComponent>()
@@ -229,6 +229,10 @@ namespace SuperMario
 
                                 if (!colide)
                                     x++;
+
+                                // Map limits.
+                                x = Math.Clamp(x, 0, ParentScene.xdim - 9);
+                                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                                 position.Pos = new Vector3(
                                     x,
                                     y,
@@ -255,6 +259,10 @@ namespace SuperMario
 
                                 if (!colide)
                                     x--;
+
+                                // Map limits.
+                                x = Math.Clamp(x, 0, ParentScene.xdim - 9);
+                                y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                                 position.Pos = new Vector3(
                                     x,
                                     y,
@@ -277,8 +285,8 @@ namespace SuperMario
                     }
 
                     // Map limits.
-                    x = Math.Clamp(x, 0, ParentScene.xdim - 8);
-                    y = Math.Clamp(y, 0, ParentScene.ydim - 3);
+                    x = Math.Clamp(x, 0, ParentScene.xdim - 9);
+                    y = Math.Clamp(y, 0, ParentScene.ydim - 3); 
                 }
 
                 // Player Jump.
@@ -307,7 +315,8 @@ namespace SuperMario
                         inAir = false;
                     }
 
-                    x = Math.Clamp(x, 0, ParentScene.xdim - 8);
+                    // Map limits.
+                    x = Math.Clamp(x, 0, ParentScene.xdim - 9);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                     position.Pos = new Vector3(x, y, position.Pos.Z);
                     Thread.Sleep(80);
