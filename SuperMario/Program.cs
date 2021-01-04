@@ -1,12 +1,14 @@
 ﻿namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Main public static class initiated at the beginning of the program.
     /// </summary>
     public static class Program
     {
         /// <summary>
-        /// This.
+        /// Public static void which is the first method to be used. It's
+        /// purpose is to lunch the Menu Scene at the begining of the program.
+        /// It reads no arguments given by the player.
         /// </summary>
         public static void Main()
         {

@@ -23,9 +23,10 @@ namespace SuperMario
         private bool boxHit = false;
 
         /// <summary>
-        /// Gets or sets a value indicating whether.
+        /// Gets or sets a value indicating whether the game is over, by dying
+        /// or by completing a level.
         /// </summary>
-        /// <value>Name of the file.</value>
+        /// <value>Bool value to confirm if it's over or not.</value>
         public bool Gameover { get; set; } = false;
         private bool doesNotHaveKeyObserver = false;
         private int jumpFrames = 0;
@@ -84,7 +85,7 @@ namespace SuperMario
 
             if (Gameover)
             {
-                // Sets the correct kes to observe for the player
+                // Sets the correct keys to observe
                 ParentGameObject.GetComponent<KeyObserver>().keysToObserve =
                 new ConsoleKey[] { ConsoleKey.Enter };
                 ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
@@ -99,8 +100,12 @@ namespace SuperMario
                 // Runs if player falls of the map.
                 if (ParentScene.ydim - 4 == position.Pos.Y)
                 {
+                    // Outputs the dead text
                     dead.GetComponent<RenderableStringComponent>()
                     .SwitchString(() => "Press Enter to restart");
+
+                    // Waits for player input to go to the next level or 
+                    // back to the main menu.
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
@@ -134,11 +139,12 @@ namespace SuperMario
                 // Runs if player reaches the end of the level.
                 else if (ParentScene.xdim - 10 == position.Pos.X)
                 {
-                    // Outputs the dead text.
+                    // Outputs the ending level text
                     dead.GetComponent<RenderableStringComponent>()
                     .SwitchString(() => $"Press Enter to go to the next level, your score is : {actualScore.Scoring}");
 
-                    // Waits for player input to go to the next level or back to the main menu.
+                    // Waits for player input to go to the next level or back 
+                    // to the main menu.
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
@@ -171,7 +177,11 @@ namespace SuperMario
             }
             else
             {
+                // Checks if the player is on the ground
                 ground = CheckGround();
+
+                // If he is not jumping and not in the ground, the player
+                // will then starts to fall
                 if (!inAir && !ground)
                 {
                     while (!ground)
@@ -187,6 +197,8 @@ namespace SuperMario
                         ground = true;
                     }
                 }
+
+                // If he is in the ground, then he can walk and jump as normal
                 else if (!inAir)
                 {
                     if (doesNotHaveKeyObserver)
@@ -216,29 +228,44 @@ namespace SuperMario
 
                                 if (!colide)
                                     x++;
-                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                position.Pos = new Vector3(
+                                    x,
+                                    y,
+                                    position.Pos.Z);
                                 TurnSprite(true);
                                 break;
                             case ConsoleKey.UpArrow:
                                 lastkey = ConsoleKey.UpArrow;
-                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                position.Pos = new Vector3(
+                                    x,
+                                    y,
+                                    position.Pos.Z);
                                 break;
                             case ConsoleKey.LeftArrow:
                                 lastkey = ConsoleKey.LeftArrow;
                                 foreach (Vector2 v in occupied)
                                 {
-                                    if (position.Pos.X - 1 == v.X && position.Pos.Y == v.Y)
+                                    if (position.Pos.X - 1 == v.X &&
+                                        position.Pos.Y == v.Y)
+                                    {
                                         colide = true;
+                                    }
                                 }
 
                                 if (!colide)
-                                    x -= 1;
-                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                    x--;
+                                position.Pos = new Vector3(
+                                    x,
+                                    y,
+                                    position.Pos.Z);
                                 TurnSprite(false);
                                 break;
                             case ConsoleKey.Spacebar:
                                 inAir = true;
-                                position.Pos = new Vector3(x, y, position.Pos.Z);
+                                position.Pos = new Vector3(
+                                    x,
+                                    y,
+                                    position.Pos.Z);
                                 break;
                             case ConsoleKey.Escape:
                                 ParentScene.Terminate();
@@ -257,7 +284,8 @@ namespace SuperMario
                 else if (inAir)
                 {
                     actualScore.Scoring -= 5;
-                    ParentScene.inputHandler.RemoveObserver(ParentGameObject.GetComponent<KeyObserver>());
+                    ParentScene.inputHandler.RemoveObserver(
+                        ParentGameObject.GetComponent<KeyObserver>());
                     if (jumpFrames <= 2)
                     {
                         y -= 2;
@@ -315,8 +343,10 @@ namespace SuperMario
             // Checks if player hits a box.
             foreach (GameObject box in boxes)
             {
-                if (position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
-                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 && box.GetComponent<BoxConfirmation>().BoxUsed == 0)
+                if (position.Pos.X  >= box.GetComponent<Position>().Pos.X &&
+                    position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
+                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 &&
+                    box.GetComponent<BoxConfirmation>().BoxUsed == 0)
                 {
                     boxHit = true;
                     box.GetComponent<BoxConfirmation>().BoxUsed = 1;
@@ -325,7 +355,10 @@ namespace SuperMario
                     actualScore.Scoring += 1000;
 
                     // Switches the box sprite.
-                    box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
+                    box.GetComponent<ConsoleSprite>().SwitchSprite(
+                        emptyBoxSprite,
+                        ConsoleColor.Yellow,
+                        ConsoleColor.DarkGray);
                 }
             }
 
@@ -344,7 +377,8 @@ namespace SuperMario
             // check if there is ground beneth the player 
             foreach (Vector2 v in occupied)
             {
-                if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) || (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
+                if ((position.Pos.X + 1 == v.X && position.Pos.Y + 4 == v.Y) ||
+                    (position.Pos.X + 5 == v.X && position.Pos.Y + 4 == v.Y))
                 {
                     ground = true;
                 }
@@ -375,15 +409,19 @@ namespace SuperMario
                 { ' ' },
             };
 
-            // check if there is a coin in the player position.
+            // Check if there is a coin in the player position.
             foreach (GameObject coin in coins)
             {
-                if (position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y && 
+                if (position.Pos.X  == coin.GetComponent<Position>().Pos.X &&
+                    position.Pos.Y == coin.GetComponent<Position>().Pos.Y &&
                     coin.GetComponent<CoinConfirmation>().CoinUsed == 0)
                 {
                     coinScore = true;
                     coin.GetComponent<CoinConfirmation>().CoinUsed = 1;
-                    coin.GetComponent<ConsoleSprite>().SwitchSprite(noMoreCoinSprite, ConsoleColor.Gray, ConsoleColor.Gray);
+                    coin.GetComponent<ConsoleSprite>().SwitchSprite(
+                        noMoreCoinSprite,
+                        ConsoleColor.Gray,
+                        ConsoleColor.Gray);
                 }
             }
 
@@ -449,8 +487,8 @@ namespace SuperMario
                 ParentGameObject
                 .GetComponent<ConsoleSprite>()
                 .SwitchSprite(
-                    playerSpriteLeft, 
-                    ConsoleColor.Red, 
+                    playerSpriteLeft,
+                    ConsoleColor.Red,
                     ConsoleColor.Gray);
             }
             else

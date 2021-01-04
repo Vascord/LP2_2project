@@ -25,7 +25,7 @@ namespace SuperMario
         public override void Update()
         {
             /* Sees what key is pressed and depending of the keys pressed
-            the indicator initiate the menu scene*/
+            the indicator initiate the menu scene */
             foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
             {
                 if (key == ConsoleKey.Enter)
