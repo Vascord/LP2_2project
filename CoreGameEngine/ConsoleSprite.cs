@@ -82,7 +82,8 @@ namespace CoreGameEngine
         }
 
         // Class made by us to switch a game object Sprite 
-        public void SwitchSprite(char[,] pixels, ConsoleColor fgColor, ConsoleColor bgColor)
+        public void SwitchSprite(char[,] pixels, ConsoleColor fgColor,
+        ConsoleColor bgColor)
         {
             this.pixels = new Dictionary<Vector2, ConsolePixel>();
             for (int x = 0; x < pixels.GetLength(0); x++)

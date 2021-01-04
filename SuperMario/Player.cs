@@ -141,7 +141,8 @@ namespace SuperMario
                 {
                     // Outputs the ending level text
                     dead.GetComponent<RenderableStringComponent>()
-                    .SwitchString(() => $"Press Enter to go to the next level, your score is : {actualScore.Scoring}");
+                    .SwitchString(() =>
+                    $"Press Enter to go to the next level, your score is : {actualScore.Scoring}");
 
                     // Waits for player input to go to the next level or back 
                     // to the main menu.
@@ -343,10 +344,14 @@ namespace SuperMario
             // Checks if player hits a box.
             foreach (GameObject box in boxes)
             {
-                if (position.Pos.X  >= box.GetComponent<Position>().Pos.X &&
-                    position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
-                    position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 &&
-                    box.GetComponent<BoxConfirmation>().BoxUsed == 0)
+                if ((position.Pos.X  >= box.GetComponent<Position>().Pos.X &&
+                position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
+                position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 &&
+                box.GetComponent<BoxConfirmation>().BoxUsed == 0) ||
+                (position.Pos.X + 6 >= box.GetComponent<Position>().Pos.X &&
+                position.Pos.X + 6 <= box.GetComponent<Position>().Pos.X + 4 &&
+                position.Pos.Y == box.GetComponent<Position>().Pos.Y + 7 &&
+                box.GetComponent<BoxConfirmation>().BoxUsed == 0))
                 {
                     boxHit = true;
                     box.GetComponent<BoxConfirmation>().BoxUsed = 1;
@@ -412,9 +417,12 @@ namespace SuperMario
             // Check if there is a coin in the player position.
             foreach (GameObject coin in coins)
             {
-                if (position.Pos.X  == coin.GetComponent<Position>().Pos.X &&
+                if ((position.Pos.X  == coin.GetComponent<Position>().Pos.X &&
                     position.Pos.Y == coin.GetComponent<Position>().Pos.Y &&
-                    coin.GetComponent<CoinConfirmation>().CoinUsed == 0)
+                    coin.GetComponent<CoinConfirmation>().CoinUsed == 0) ||
+                    (position.Pos.X + 7 == coin.GetComponent<Position>().Pos.X &&
+                    position.Pos.Y == coin.GetComponent<Position>().Pos.Y &&
+                    coin.GetComponent<CoinConfirmation>().CoinUsed == 0))
                 {
                     coinScore = true;
                     coin.GetComponent<CoinConfirmation>().CoinUsed = 1;
