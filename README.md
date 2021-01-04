@@ -69,3 +69,5 @@ Nelson Salvador 21904295 | Vasco Duarte 21905658
  Utilizamos a API do C# muito raramente para tirarmos umas pequenas dúvidas, de
  resto não usamos mais nada para código.
  A Sprite do jogador foi é uma sprite da net de autor desconhecido.
+ Tambem discutimos com o Francisco Pires sobre como meter colições. Mas au
+ final, depois da conversa, optamos por uma otra maneira de fazer as colições.
