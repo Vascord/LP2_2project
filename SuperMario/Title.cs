@@ -4,7 +4,7 @@ using CoreGameEngine;
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Public class to do the title animation.
     /// </summary>
     public class Title : Component
     {
@@ -14,7 +14,7 @@ namespace SuperMario
         private float y;
 
         /// <summary>
-        /// Runs the code only once at the start.
+        /// Public override method which initiates at the first frame.
         /// </summary>
         public override void Start()
         {
@@ -23,34 +23,42 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Public override method which is launched at each frame.
         /// </summary>
         public override void Update()
         {
+            // Gets the position in Y of the title
             y = position.Pos.Y;
 
+            /* The title goes down if the animation is at frame is at 
+            50, 100 or 150 */
             if (animation % 50 == 0 && animation <= 150)
             {
                 y++;
                 animation++;
             }
-            else if (animation % 50 == 0 && animation <= 300)
+
+            /* The title goes up if the animation is at frame is at 
+            200, 250 or 300 */
+            else if (animation % 50 == 0 && animation > 150)
             {
                 y--;
                 animation++;
             }
+
+            // The animation frame resets to 1
             else if (animation == 301)
             {
                 animation = 1;
             }
+
+            // If none of that happens, the animation frame goes up by one
             else
             {
                 animation++;
             }
 
-            x = Math.Clamp(x, 0, ParentScene.xdim - 3);
-            y = Math.Clamp(y, 0, ParentScene.ydim - 3);
-
+            // The position of the gameobject actualizes with the new values
             position.Pos = new Vector3(x, y, position.Pos.Z);
         }
     }

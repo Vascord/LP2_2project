@@ -1,21 +1,21 @@
 using System;
-using System.Collections.Generic;
 using CoreGameEngine;
+
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Class which generates the scene menu with the inputs and game objects
+    /// of the menu.
     /// </summary>
     public class Menu
     {
         private readonly int xdim = 150;
         private readonly int ydim = 30;
-        private readonly int frameLenght = 10;
-
+        private readonly int frameLength = 10;
         private Scene gameScene;
 
         /// <summary>
-        /// This.
+        /// Public constructor of the menu.
         /// </summary>
         public Menu()
         {
@@ -23,20 +23,23 @@ namespace SuperMario
             CreateMenu();
         }
 
+        /// <summary>
+        /// Private method which makes the scene and put the following
+        /// game objects on it for the menu.
+        /// </summary>
         private void CreateMenu()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] { 
-                ConsoleKey.Enter, };
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Enter };
             gameScene = new Scene(
-                xdim, 
+                xdim,
                 ydim,
                 new InputHandler(quitKeys),
                 new ConsoleRenderer(xdim, ydim, new ConsolePixel(' ')),
                 new CollisionHandler(xdim, ydim));
 
             // Creates title
-            char[,] titleSprite = 
+            char[,] titleSprite =
             {
                 { '█', '█', '█', ' ', '█', ' ', '█', '█', '█', '█', '█' },
                 { '█', ' ', '█', ' ', '█', ' ', ' ', '█', ' ', ' ', ' ' },
@@ -66,7 +69,7 @@ namespace SuperMario
                 titleSprite, ConsoleColor.Red, ConsoleColor.Gray));
             gameScene.AddGameObject(title);
 
-            // Creates button and indicator
+            // Creates buttons
             char[,] buttonSprite1 = 
             {
                 { 'L' },
@@ -99,7 +102,33 @@ namespace SuperMario
                 { 'i' },
                 { 't' },
             };
-            char[,] indicatorSprite = 
+            GameObject button1 = new GameObject("Button1");
+            GameObject button2 = new GameObject("Button2");
+            GameObject button3 = new GameObject("Button3");
+            GameObject button4 = new GameObject("Button4");
+            Position buttonPos1 = new Position(72f, 19f, 1f);
+            Position buttonPos2 = new Position(72f, 21f, 1f);
+            Position buttonPos3 = new Position(73f, 23f, 1f);
+            Position buttonPos4 = new Position(73f, 25f, 1f);
+            button1.AddComponent(buttonPos1);
+            button2.AddComponent(buttonPos2);
+            button3.AddComponent(buttonPos3);
+            button4.AddComponent(buttonPos4);
+            button1.AddComponent(new ConsoleSprite(
+                buttonSprite1, ConsoleColor.Red, ConsoleColor.Blue));
+            button2.AddComponent(new ConsoleSprite(
+                buttonSprite2, ConsoleColor.Red, ConsoleColor.Blue));
+            button3.AddComponent(new ConsoleSprite(
+                buttonSprite3, ConsoleColor.Red, ConsoleColor.Blue));
+            button4.AddComponent(new ConsoleSprite(
+                buttonSprite4, ConsoleColor.Red, ConsoleColor.Blue));
+            gameScene.AddGameObject(button1);
+            gameScene.AddGameObject(button2);
+            gameScene.AddGameObject(button3);
+            gameScene.AddGameObject(button4);
+
+            // Creates indicator
+            char[,] indicatorSprite =
             {
                 { '>' },
                 { ' ' },
@@ -114,46 +143,23 @@ namespace SuperMario
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
                 { ConsoleKey.UpArrow, ConsoleKey.DownArrow, ConsoleKey.Enter });
-            GameObject button1 = new GameObject("Button1");
-            GameObject button2 = new GameObject("Button2");
-            GameObject button3 = new GameObject("Button3");
-            GameObject button4 = new GameObject("Button4");
             GameObject indicator = new GameObject("Indicator");
-            Position buttonPos1 = new Position(72f, 19f, 1f);
-            Position buttonPos2 = new Position(72f, 21f, 1f);
-            Position buttonPos3 = new Position(73f, 23f, 1f);
-            Position buttonPos4 = new Position(73f, 25f, 1f);
             Position indicatorPos = new Position(70f, 19f, 0f);
             indicator.AddComponent(indicatorKeyListener);
             indicator.AddComponent(new Indicator());
             indicator.AddComponent(indicatorPos);
-            button1.AddComponent(buttonPos1);
-            button2.AddComponent(buttonPos2);
-            button3.AddComponent(buttonPos3);
-            button4.AddComponent(buttonPos4);
-            button1.AddComponent(new ConsoleSprite(
-                buttonSprite1, ConsoleColor.Red, ConsoleColor.Blue));
-            button2.AddComponent(new ConsoleSprite(
-                buttonSprite2, ConsoleColor.Red, ConsoleColor.Blue));
-            button3.AddComponent(new ConsoleSprite(
-                buttonSprite3, ConsoleColor.Red, ConsoleColor.Blue));
-            button4.AddComponent(new ConsoleSprite(
-                buttonSprite4, ConsoleColor.Red, ConsoleColor.Blue));
             indicator.AddComponent(new ConsoleSprite(
                 indicatorSprite, ConsoleColor.Red, ConsoleColor.DarkBlue));
-            gameScene.AddGameObject(button1);
-            gameScene.AddGameObject(button2);
-            gameScene.AddGameObject(button3);
-            gameScene.AddGameObject(button4);
             gameScene.AddGameObject(indicator);
         }
 
         /// <summary>
-        /// This.
+        /// Public method that makes the scene run with the predefined
+        /// frame length.
         /// </summary>
         public void Run()
         {
-            gameScene.GameLoop(frameLenght);
+            gameScene.GameLoop(frameLength);
         }
     }
 }

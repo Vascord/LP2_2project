@@ -1,23 +1,21 @@
 using System;
-using System.Collections.Generic;
 using CoreGameEngine;
 
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Class which generates the scene help with the inputs and game objects 
+    /// of the help menu.
     /// </summary>
     public class Help
     {
-        private readonly int  xdim = 150;
+        private readonly int xdim = 150;
         private readonly int ydim = 30;
-
-        private readonly int frameLenght = 10;
-
+        private readonly int frameLength = 10;
         private Scene gameScene;
 
         /// <summary>
-        /// This.
+        /// Public constructor of the help menu.
         /// </summary>
         public Help()
         {
@@ -25,12 +23,14 @@ namespace SuperMario
             CreateHelp();
         }
 
+        /// <summary>
+        /// Private method which makes the scene and put the following
+        /// game objects on it for the help menu.
+        /// </summary>
         private void CreateHelp()
         {
             // Create scene
-            ConsoleKey[] quitKeys = new ConsoleKey[] {
-                ConsoleKey.Enter,
-            };
+            ConsoleKey[] quitKeys = new ConsoleKey[] { ConsoleKey.Enter };
             gameScene = new Scene(
                 xdim,
                 ydim,
@@ -82,7 +82,7 @@ namespace SuperMario
                 instructionsSprite, ConsoleColor.Red, ConsoleColor.Gray));
             gameScene.AddGameObject(instructions);
 
-            // Creates button and indicator
+            // Creates the button to return to the menu
             char[,] buttonSprite =
             {
                 { 'B' },
@@ -90,7 +90,15 @@ namespace SuperMario
                 { 'c' },
                 { 'k' },
             };
-            char[,] indicatorSprite = 
+            GameObject button = new GameObject("Button");
+            Position buttonPos = new Position(73f, 23f, 1f);
+            button.AddComponent(buttonPos);
+            button.AddComponent(new ConsoleSprite(
+                buttonSprite, ConsoleColor.Red, ConsoleColor.Blue));
+            gameScene.AddGameObject(button);
+
+            // Creates the indicator to press the buttons
+            char[,] indicatorSprite =
             {
                 { '>' },
                 { ' ' },
@@ -101,28 +109,23 @@ namespace SuperMario
             };
             KeyObserver indicatorKeyListener = new KeyObserver(new ConsoleKey[]
                 { ConsoleKey.W, ConsoleKey.S, ConsoleKey.Enter });
-            GameObject button = new GameObject("Button");
             GameObject indicator = new GameObject("Indicator");
-            Position buttonPos = new Position(73f, 23f, 1f);
             Position indicatorPos = new Position(72f, 23f, 0f);
             indicator.AddComponent(indicatorKeyListener);
             indicator.AddComponent(new ReturnMenu());
             indicator.AddComponent(indicatorPos);
-            button.AddComponent(buttonPos);
-            button.AddComponent(new ConsoleSprite(
-                buttonSprite, ConsoleColor.Red, ConsoleColor.Blue));
             indicator.AddComponent(new ConsoleSprite(
                 indicatorSprite, ConsoleColor.Red, ConsoleColor.DarkBlue));
-            gameScene.AddGameObject(button);
             gameScene.AddGameObject(indicator);
         }
 
         /// <summary>
-        /// This.
+        /// Public method that makes the scene run with the predefined
+        /// frame length.
         /// </summary>
         public void Run()
         {
-            gameScene.GameLoop(frameLenght);
+            gameScene.GameLoop(frameLength);
         }
     }
 }

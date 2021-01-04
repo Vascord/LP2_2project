@@ -50,7 +50,9 @@ namespace SuperMario
             for (int x = 0; x < xdim; x++)
             {
                 // Ground and walls
-                if ((x > 0 && x < 25) || (x > 30 && x < 127) || (x > 135 && x < xdim))
+                if ((x > 0 && x < 25) ||
+                    (x > 30 && x < 127) ||
+                    (x > 135 && x < xdim))
                 {
                     wallPixels[new Vector2(x, ydim - 1)] = wallPixel;
                     occupied.Add(new Vector2(x, ydim - 1));
@@ -68,7 +70,7 @@ namespace SuperMario
                     occupied.Add(new Vector2(x, ydim - 7));
                 }
 
-                // Plataform
+                // Platform
                 if (x > 30 && x < 45)
                 {
                     wallPixels[new Vector2(x, ydim - 18)] = wallPixel;
@@ -162,7 +164,7 @@ namespace SuperMario
             gameScene.AddGameObject(coin2);
             coins.Add(coin2);
 
-            // Box sprite. 
+            // Box sprite
             char[,] boxSprite =
             {
                 { '█', '█', '█', '█' },
@@ -235,7 +237,13 @@ namespace SuperMario
             player.AddComponent(playerKeyListener);
             Position playerPos = new Position(1f, 19f, 0f);
             player.AddComponent(playerPos);
-            player.AddComponent(new Player(occupied, score.GetComponent<Score>(), boxes, coins, dead, 1));
+            player.AddComponent(new Player(
+                occupied,
+                score.GetComponent<Score>(),
+                boxes,
+                coins,
+                dead,
+                1));
             player.AddComponent(new ConsoleSprite(
                 playerSprite, ConsoleColor.Red, ConsoleColor.Gray));
             gameScene.AddGameObject(player);
