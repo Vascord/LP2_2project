@@ -6,7 +6,7 @@ using CoreGameEngine;
 namespace SuperMario
 {
     /// <summary>
-    /// This.
+    /// Manages the player movement and interactions. 
     /// </summary>
     public class Player : Component
     {
@@ -34,14 +34,14 @@ namespace SuperMario
         private ConsoleKey lastkey = ConsoleKey.LeftArrow;
 
         /// <summary>
-        /// This.
+        /// The class construct which initializes the variables.
         /// </summary>
-        /// <param name="occupied">A.</param>
-        /// <param name="score">E.</param>
-        /// <param name="boxes">I.</param>
-        /// <param name="coins">O.</param>
-        /// <param name="dead">U.</param>
-        /// <param name="level">Bababoi.</param>
+        /// <param name="occupied">List of occupied pixels.</param>
+        /// <param name="score">The current Score.</param>
+        /// <param name="boxes">List of GameObject boxes.</param>
+        /// <param name="coins">List of GameObject coins.</param>
+        /// <param name="dead">GameObject that contains the dead text.</param>
+        /// <param name="level">The current Level.</param>
         public Player (
             List<Vector2> occupied,
             Score score,
@@ -59,7 +59,7 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Public override method which initiates at the first frame.
         /// </summary>
         public override void Start()
         {
@@ -68,7 +68,7 @@ namespace SuperMario
         }
 
         /// <summary>
-        /// This.
+        /// Public override method which is launched at each frame.
         /// </summary>
         public override void Update()
         {
@@ -77,13 +77,14 @@ namespace SuperMario
             y = position.Pos.Y;
             bool colide = false;
 
+            // Sets Gameover to true when the player reaches the end of the 
+            // level.
             if (ParentScene.xdim - 10 == position.Pos.X && !Gameover)
-            {
                 Gameover = true;
-            }
 
             if (Gameover)
             {
+                // Sets the correct kes to observe for the player
                 ParentGameObject.GetComponent<KeyObserver>().keysToObserve =
                 new ConsoleKey[] { ConsoleKey.Enter };
                 ParentScene.inputHandler.quitKeys = new ConsoleKey[] {
@@ -95,6 +96,7 @@ namespace SuperMario
                     .keysToObserve, ParentGameObject
                     .GetComponent<KeyObserver>());
 
+                // Runs if player falls of the map.
                 if (ParentScene.ydim - 4 == position.Pos.Y)
                 {
                     dead.GetComponent<RenderableStringComponent>()
@@ -128,10 +130,15 @@ namespace SuperMario
                         }
                     }
                 }
+
+                // Runs if player reaches the end of the level.
                 else if (ParentScene.xdim - 10 == position.Pos.X)
                 {
+                    // Outputs the dead text.
                     dead.GetComponent<RenderableStringComponent>()
                     .SwitchString(() => $"Press Enter to go to the next level, your score is : {actualScore.Scoring}");
+
+                    // Waits for player input to go to the next level or back to the main menu.
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         if (key == ConsoleKey.Enter)
@@ -151,6 +158,14 @@ namespace SuperMario
                                 break;
                             }
                         }
+
+                        if (key == ConsoleKey.Escape)
+                        {
+                            ParentScene.Terminate();
+                            Menu menu = new Menu();
+                            menu.Run();
+                            break;
+                        }
                     }
                 }
             }
@@ -162,9 +177,12 @@ namespace SuperMario
                     while (!ground)
                     {
                         Falling();
+
+                        // Removes the keyObserver from the player.
                         ParentScene.inputHandler
                             .RemoveObserver(ParentGameObject
                             .GetComponent<KeyObserver>());
+
                         doesNotHaveKeyObserver = true;
                         ground = true;
                     }
@@ -173,12 +191,14 @@ namespace SuperMario
                 {
                     if (doesNotHaveKeyObserver)
                     {
+                        // Adds the keyObserver to the player.
                         ParentScene.inputHandler
                             .AddObserver(ParentGameObject
                             .GetComponent<KeyObserver>());
                         doesNotHaveKeyObserver = false;
                     }
 
+                    // Controls the movement of the player.
                     foreach (ConsoleKey key in keyObserver.GetCurrentKeys())
                     {
                         switch (key)
@@ -228,9 +248,12 @@ namespace SuperMario
                         }
                     }
 
+                    // Map limits.
                     x = Math.Clamp(x, 0, ParentScene.xdim - 8);
                     y = Math.Clamp(y, 0, ParentScene.ydim - 3);
                 }
+
+                // Player Jump.
                 else if (inAir)
                 {
                     actualScore.Scoring -= 5;
@@ -271,8 +294,13 @@ namespace SuperMario
             }
         }
 
+        /// <summary>
+        /// Method that checks if player hits a box.
+        /// </summary>
+        /// <returns>True if player hits a box.</returns>
         private bool CheckBox()
         {
+            // Empty Box sprite.
             char[,] emptyBoxSprite =
                 {
                     { '█', '█', '█', '█' },
@@ -283,6 +311,8 @@ namespace SuperMario
                     { '█', '█', '█', '█' },
                 };
             boxHit = false;
+
+            // Checks if player hits a box.
             foreach (GameObject box in boxes)
             {
                 if (position.Pos.X  >= box.GetComponent<Position>().Pos.X && position.Pos.X <= box.GetComponent<Position>().Pos.X + 4 &&
@@ -290,16 +320,23 @@ namespace SuperMario
                 {
                     boxHit = true;
                     box.GetComponent<BoxConfirmation>().BoxUsed = 1;
+
+                    // Updates the score.
                     actualScore.Scoring += 1000;
+
+                    // Switches the box sprite.
                     box.GetComponent<ConsoleSprite>().SwitchSprite(emptyBoxSprite, ConsoleColor.Yellow, ConsoleColor.DarkGray);
                 }
             }
 
-            if (!boxHit)
-                return false;
-            return true;
+            // Returns the correct bool.
+            return !boxHit;
         }
 
+        /// <summary>
+        /// Method that checks if there is ground beneth the player.
+        /// </summary>
+        /// <returns>True if there is ground benthe the player.</returns>
         private bool CheckGround()
         {
             bool ground = false;
@@ -313,32 +350,35 @@ namespace SuperMario
                 }
             }
 
+            // Checks if player has fallen of the map.
             if (ParentScene.ydim - 4 == position.Pos.Y)
             {
                 ground = true;
                 Gameover = true;
             }
 
-            if (!ground)
-            {
-                return false;
-            }
-
-            return true;
+            // Returns the correct bool.
+            return ground;
         }
 
+        /// <summary>
+        /// Method that checks if there is a coin in the player position.
+        /// </summary>
+        /// <returns>True if there is a coin in the player position.</returns>
         private bool CheckCoin()
         {
             coinScore = false;
+
+            // Sprite of empty coin.
             char[,] noMoreCoinSprite =
             {
                 { ' ' },
             };
 
-            // check if there is ground beneth the player
+            // check if there is a coin in the player position.
             foreach (GameObject coin in coins)
             {
-                if ((position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y) && 
+                if (position.Pos.X  == coin.GetComponent<Position>().Pos.X && position.Pos.Y == coin.GetComponent<Position>().Pos.Y && 
                     coin.GetComponent<CoinConfirmation>().CoinUsed == 0)
                 {
                     coinScore = true;
@@ -347,12 +387,13 @@ namespace SuperMario
                 }
             }
 
-            if (!coinScore)
-                return false;
-                
-            return true;
+            // Returns the correct bool.
+            return coinScore;
         }
 
+        /// <summary>
+        /// Method that makes the player fall.
+        /// </summary>
         private void Falling()
         {
             if (boxes != null)
@@ -371,9 +412,14 @@ namespace SuperMario
             Thread.Sleep(50);
         }
 
+        /// <summary>
+        /// Turns the player sprite.
+        /// </summary>
+        /// <param name="right">True if player is facing right.</param>
         private void TurnSprite(bool right)
         {
-            char[,] playerSprite =
+            // Sprite for player facing right.
+            char[,] playerSpriteRight =
             {
                 { '─', '▄', '█', '└' },
                 { '▄', '▀', '▄', '▄' },
@@ -384,7 +430,9 @@ namespace SuperMario
                 { '▄', '─', '▄', '┘' },
                 { '▄', '┐', '┘', ' ' },
             };
-            char[,] playerSpriteT =
+
+            // Sprite for player facing left.
+            char[,] playerSpriteLeft =
             {
                 { '▄', '┌', '└', ' ' },
                 { '▄', '─', '▄', '└' },
@@ -401,7 +449,7 @@ namespace SuperMario
                 ParentGameObject
                 .GetComponent<ConsoleSprite>()
                 .SwitchSprite(
-                    playerSpriteT, 
+                    playerSpriteLeft, 
                     ConsoleColor.Red, 
                     ConsoleColor.Gray);
             }
@@ -410,8 +458,8 @@ namespace SuperMario
                 ParentGameObject
                 .GetComponent<ConsoleSprite>()
                 .SwitchSprite(
-                    playerSprite, 
-                    ConsoleColor.Red, 
+                    playerSpriteRight,
+                    ConsoleColor.Red,
                     ConsoleColor.Gray);
             }
         }
