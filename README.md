@@ -30,7 +30,7 @@ Nelson Salvador 21904295 | Vasco Duarte 21905658
 - Diagrama UML
 - Fluxograma
 
-### [Link GitHub](...)
+### [Link GitHub](https://github.com/Vascord/LP2_2project)
 
 ## Arquitetura da Solução
 
